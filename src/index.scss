@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,700&display=swap');
+@import './helpers.scss';
+
+* {
+  color: $primary-text;
+  font-family: $font-family;
+  letter-spacing: 0.05em;
+}
+
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+body {
+  background: $primary-background;
+  position: relative;
+  width: 100%;
+}
+
+.page {
+  width: 90%;
+  max-width: $max-width;
+  margin: 0 auto;
+  padding-top: calc(#{$nav-height} + 2rem);
+}
