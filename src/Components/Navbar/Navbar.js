@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './Navbar.scss'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
   return (
     <nav className='nav'>
       <div className='nav-header'>
-        <NavLink
-          to='/'
-          className={({ isActive }) => {
-            return isActive ? 'nav-link active' : 'nav-link'
-          }}
-        >
+        <NavLink to='/' className='nav-link'>
           <div className='nav-logo'>Prepify</div>
         </NavLink>
       </div>

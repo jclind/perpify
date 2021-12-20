@@ -5,6 +5,7 @@ nav {
   top: 0;
   left: 0;
   right: 0;
+  z-index: 10;
 
   display: flex;
   align-items: center;
@@ -17,10 +18,14 @@ nav {
   max-width: $max-width;
 
   .nav-header {
+    .nav-link {
+      text-decoration: none;
+    }
     .nav-logo {
       font-size: toRem(36);
       font-weight: 700;
       font-style: italic;
+      color: $primary;
     }
   }
   .nav-content {
@@ -35,6 +40,7 @@ nav {
         text-decoration: none;
         font-size: toRem(18);
         font-weight: 700;
+        color: $primary-background;
       }
     }
   }

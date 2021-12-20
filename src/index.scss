@@ -5,6 +5,8 @@
   color: $primary-text;
   font-family: $font-family;
   letter-spacing: 0.05em;
+  margin: 0;
+  padding: 0;
 }
 
 html,
@@ -16,6 +18,31 @@ body {
   background: $primary-background;
   position: relative;
   width: 100%;
+}
+
+h3 {
+  font-weight: 500;
+  font-size: toRem(24);
+}
+
+.btn {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: toRem(24);
+  font-weight: 500;
+}
+.action-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid $primary-text;
+  border-radius: $border-radius;
+  transition: all 0.1s linear;
+
+  &:hover {
+    border: 2px solid $primary;
+    background: $primary;
+  }
 }
 
 .page {
