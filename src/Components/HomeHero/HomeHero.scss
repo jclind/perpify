@@ -1,17 +1,23 @@
+@import '../../helpers.scss';
+
 .home-hero {
+  display: flex;
+  justify-content: center;
+  height: $home-hero-height;
   img,
   .hero-overlay {
     top: 0;
     // transform: translateY(20%);
-    left: 0;
-    right: 0;
     position: absolute;
     width: 100%;
+    height: 500px;
     max-height: 500px;
   }
 
   img {
     object-fit: cover;
+    min-width: 1600px;
+    margin: 0 auto;
   }
   .hero-overlay {
     z-index: 10;
@@ -29,6 +35,7 @@
     );
   }
   .text {
-    margin-bottom: 2rem;
+    margin-top: calc(#{$nav-height} / 4);
+    margin-bottom: 2.5rem;
   }
 }

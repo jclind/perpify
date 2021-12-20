@@ -2,7 +2,6 @@
 @import './helpers.scss';
 
 * {
-  color: $primary-text;
   font-family: $font-family;
   letter-spacing: 0.05em;
   margin: 0;
@@ -15,14 +14,23 @@ body {
   overflow-x: hidden;
 }
 body {
-  background: $primary-background;
+  color: $primary-text;
   position: relative;
   width: 100%;
+  background: $primary-background;
 }
 
+h2 {
+  font-weight: 600;
+  font-size: toRem(24);
+}
 h3 {
   font-weight: 500;
   font-size: toRem(24);
+}
+h4 {
+  font-weight: 500;
+  font-size: toRem(18);
 }
 
 .btn {
@@ -32,6 +40,7 @@ h3 {
   cursor: pointer;
   font-size: toRem(24);
   font-weight: 500;
+  color: $primary-text;
 }
 .action-btn {
   padding: 0.75rem 1.5rem;
@@ -49,5 +58,5 @@ h3 {
   width: 90%;
   max-width: $max-width;
   margin: 0 auto;
-  padding-top: calc(#{$nav-height} + 2rem);
+  padding-top: $page-top-padding;
 }

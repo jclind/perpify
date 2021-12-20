@@ -1,0 +1,52 @@
+@import '../../helpers.scss';
+
+.trending-recipes {
+  padding-top: 2rem;
+  cursor: pointer;
+  .title {
+    text-align: center;
+  }
+  .recipes {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 2rem;
+    .recipe {
+      border: 1px solid $tertiary-text;
+      border-radius: $border-radius;
+      padding-bottom: 0.5rem;
+      .img-container {
+        width: 300px;
+        overflow: hidden;
+        img {
+          border-radius: $border-radius;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          object-fit: cover;
+          width: 100%;
+          height: 200px;
+        }
+      }
+      .title {
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+      }
+      .info {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+
+        .single-info {
+          display: flex;
+          align-items: center;
+          gap: toRem(10);
+          font-weight: 600;
+          .icon {
+            height: toRem(22);
+            width: toRem(22);
+          }
+        }
+      }
+    }
+  }
+}

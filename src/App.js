@@ -3,6 +3,7 @@ import Home from './Components/Home/Home'
 import Recipes from './Components/Recipes/Recipes'
 import About from './Components/About/About'
 import Navbar from './Components/Navbar/Navbar'
+import Footer from './Components/Footer/Footer'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route exact path='/about' element={<About />} />
         </Routes>
         <Navbar />
+        <Footer />
       </Router>
     </>
   )

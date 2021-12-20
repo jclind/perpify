@@ -3,15 +3,23 @@
   @return $remValue;
 }
 
-$primary: #ff5722;
+$primary: #ff5722; // Also located in TrendingRecipes.js
 $secondary: #00adb5;
 
 $primary-text: #303841;
+$secondary-text: #595f66;
+$tertiary-text: #979ba0;
 
 $primary-background: #eeeeee;
 
 // Navbar
-$nav-height: toRem(80);
+$nav-height: toRem(100);
+
+$footer-height: toRem(150);
+
+$page-top-padding: calc(#{$nav-height} + 2rem);
+
+$home-hero-height: calc(500px - #{$page-top-padding});
 
 $border-radius: 5px;
 
