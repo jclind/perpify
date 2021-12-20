@@ -38,4 +38,27 @@
     margin-top: calc(#{$nav-height} / 4);
     margin-bottom: 2.5rem;
   }
+  .search-recipes-input-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 80%;
+    max-width: 800px;
+    .icon {
+      position: absolute;
+      left: 0.75rem;
+      height: 24px;
+      width: 24px;
+    }
+    input {
+      background: $primary-background;
+      outline: none;
+      border: none;
+      border-radius: $border-radius;
+      height: 50px;
+      width: 100%;
+      font-size: toRem(18);
+      padding: 0.1rem 2.75rem;
+    }
+  }
 }
