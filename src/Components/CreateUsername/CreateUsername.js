@@ -1,36 +1,45 @@
 import React, { useState, useEffect } from 'react'
 import '../Form/FormStyles.scss'
+import './CreateUsername.scss'
 import FormInput from '../Form/FormInput'
 import { AiOutlineUser } from 'react-icons/ai'
 import { useAuth } from '../../context/AuthContext'
+import { TailSpin } from 'react-loader-spinner'
 
 const CreateUsername = () => {
-  const [username, setUsername] = useState('')
+  const [currUsername, setCurrUsername] = useState('')
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(null)
 
-  const [loading, setLoading] = useState('')
+  const [loadingAvailability, setLoadingAvailability] = useState('')
+  const [loadingCreateUsername, setLoadingCreateUsername] = useState(false)
 
   const [error, setError] = useState('')
 
-  const { checkUsernameAvailability } = useAuth()
+  const { checkUsernameAvailability, setUsername } = useAuth()
 
   // on username change, check username availability against firestore 'usernames' collection
   useEffect(() => {
     setError('')
-    if (/\s/g.test(username))
+    if (/\s/g.test(currUsername))
       return setError('Cannot have white space in username')
-    if (!username || username.length < 3) return setIsUsernameAvailable(null)
+    if (!currUsername || currUsername.length < 3)
+      return setIsUsernameAvailable(null)
 
-    checkUsernameAvailability(username, setLoading).then(val => {
-      setIsUsernameAvailable(val)
-      setLoading(false)
-      console.log(val)
-    })
-  }, [username])
+    checkUsernameAvailability(currUsername, setLoadingAvailability).then(
+      val => {
+        setIsUsernameAvailable(val)
+        setLoadingAvailability(false)
+        console.log(val)
+      }
+    )
+  }, [currUsername])
 
   const handleCreateUsernameForm = e => {
     e.preventDefault()
     setError('')
+    setUsername(currUsername, setLoadingCreateUsername).then(() => {
+      setLoadingCreateUsername(false)
+    })
   }
 
   return (
@@ -47,13 +56,13 @@ const CreateUsername = () => {
               icon={<AiOutlineUser className='icon' />}
               type='username'
               name='username'
-              val={username}
-              setVal={setUsername}
+              val={currUsername}
+              setVal={setCurrUsername}
               placeholder='johnsmith'
             />
             {isUsernameAvailable === null ? null : (
               <>
-                {loading ? (
+                {loadingAvailability ? (
                   'loading...'
                 ) : (
                   <p>{isUsernameAvailable ? 'Available' : 'Not Available'}</p>
@@ -61,7 +70,19 @@ const CreateUsername = () => {
               </>
             )}
           </div>
-          <button className='form-action-btn btn'>Create Username</button>
+          <button className='form-action-btn btn'>
+            {loadingCreateUsername ? (
+              <TailSpin
+                heigth='30'
+                width='30'
+                color='white'
+                arialLabel='loading'
+                className='spinner'
+              />
+            ) : (
+              'Create Username'
+            )}
+          </button>
         </form>
       </div>
     </div>

@@ -128,7 +128,9 @@ const AuthProvider = ({ children }) => {
   }
 
   const checkUsernameAvailability = async (username, setLoading) => {
-    setLoading(true)
+    if (setLoading) {
+      setLoading(true)
+    }
 
     const usernamesRef = collection(db, 'username')
     const q = query(usernamesRef, where('username', '==', username))
@@ -140,7 +142,17 @@ const AuthProvider = ({ children }) => {
     return false
   }
 
-  const setUsername = async (uid, username, setLoading) => {}
+  const setUsername = async (username, setLoading) => {
+    const uid = user.uid
+    setLoading(true)
+    const isAvailable = await checkUsernameAvailability(username)
+    if (!isAvailable) return console.log('username not available')
+
+    const usernameData = { username }
+
+    const usernamesRef = doc(db, 'username', uid)
+    return await setDoc(usernamesRef, usernameData)
+  }
 
   // Check for auth status on page load
   useEffect(() => {
@@ -166,6 +178,7 @@ const AuthProvider = ({ children }) => {
     signUp,
     forgotPassword,
     checkUsernameAvailability,
+    setUsername,
   }
 
   return (
