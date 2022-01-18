@@ -5,40 +5,51 @@ import FormInput from '../Form/FormInput'
 import { AiOutlineUser } from 'react-icons/ai'
 import { useAuth } from '../../context/AuthContext'
 import { TailSpin } from 'react-loader-spinner'
+import { useNavigate } from 'react-router-dom'
 
 const CreateUsername = () => {
   const [currUsername, setCurrUsername] = useState('')
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(null)
 
-  const [loadingAvailability, setLoadingAvailability] = useState('')
   const [loadingCreateUsername, setLoadingCreateUsername] = useState(false)
 
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+
+  const navigate = useNavigate()
 
   const { checkUsernameAvailability, setUsername } = useAuth()
 
   // on username change, check username availability against firestore 'usernames' collection
   useEffect(() => {
     setError('')
+    setSuccess('')
+
     if (/\s/g.test(currUsername))
       return setError('Cannot have white space in username')
     if (!currUsername || currUsername.length < 3)
       return setIsUsernameAvailable(null)
 
-    checkUsernameAvailability(currUsername, setLoadingAvailability).then(
-      val => {
-        setIsUsernameAvailable(val)
-        setLoadingAvailability(false)
-        console.log(val)
-      }
-    )
+    checkUsernameAvailability(currUsername).then(val => {
+      setIsUsernameAvailable(val)
+      console.log(val)
+    })
   }, [currUsername])
 
   const handleCreateUsernameForm = e => {
     e.preventDefault()
+
     setError('')
-    setUsername(currUsername, setLoadingCreateUsername).then(() => {
+    setSuccess('')
+
+    setUsername(
+      currUsername,
+      setLoadingCreateUsername,
+      setSuccess,
+      setError
+    ).then(() => {
       setLoadingCreateUsername(false)
+      navigate('/')
     })
   }
 
@@ -50,6 +61,7 @@ const CreateUsername = () => {
           <p className='prompt'>
             Create a unique username to identify yourself with.
           </p>
+          {success ? <div className='success'>{success}</div> : null}
           {error ? <div className='error'>{error}</div> : null}
           <div className='input-fields'>
             <FormInput
@@ -62,10 +74,12 @@ const CreateUsername = () => {
             />
             {isUsernameAvailable === null ? null : (
               <>
-                {loadingAvailability ? (
-                  'loading...'
+                {isUsernameAvailable ? (
+                  <p className='available'>{currUsername} is available</p>
                 ) : (
-                  <p>{isUsernameAvailable ? 'Available' : 'Not Available'}</p>
+                  <p className='not-available'>
+                    {currUsername} has already been taken
+                  </p>
                 )}
               </>
             )}

@@ -123,7 +123,7 @@ const AuthProvider = ({ children }) => {
       const currUsername = usernamesSnap.data().username
       return currUsername
     } else {
-      console.log('username doesnt exist for this user')
+      navigate('/create-username')
     }
   }
 
@@ -142,16 +142,21 @@ const AuthProvider = ({ children }) => {
     return false
   }
 
-  const setUsername = async (username, setLoading) => {
+  const setUsername = async (username, setLoading, setSuccess, setError) => {
+    if (setLoading) setLoading(true)
+
     const uid = user.uid
-    setLoading(true)
     const isAvailable = await checkUsernameAvailability(username)
-    if (!isAvailable) return console.log('username not available')
+    if (!isAvailable) {
+      if (setError) return setError(`${username} has already been taken`)
+    }
 
     const usernameData = { username }
 
     const usernamesRef = doc(db, 'username', uid)
-    return await setDoc(usernamesRef, usernameData)
+    await setDoc(usernamesRef, usernameData)
+    // If setSuccess exists, set it's message
+    return setSuccess ? setSuccess('Username successfully created!') : null
   }
 
   // Check for auth status on page load

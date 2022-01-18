@@ -31,14 +31,14 @@
       border-radius: $border-radius;
     }
     .error {
-      background: $error-red;
-      color: $error-red-text;
-      border: 1px solid $error-red-border;
+      background: $alert-error-red;
+      color: $alert-error-red-text;
+      border: 1px solid $alert-error-red-border;
     }
     .success {
-      background: $success-green;
-      color: $success-green-text;
-      border: 1px solid $success-green-text;
+      background: $alert-success-green;
+      color: $alert-success-green-text;
+      border: 1px solid $alert-success-green-text;
     }
     .input-fields {
       width: 100%;
