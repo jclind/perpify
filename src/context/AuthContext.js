@@ -91,11 +91,13 @@ const AuthProvider = ({ children }) => {
 
   // Check for auth status on page load
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
+    const unsubscribe = auth.onAuthStateChanged(userInstance => {
+      if (userInstance) {
         console.log('logged in')
+        setUser(userInstance)
       } else {
         console.log('logged out')
+        setUser(null)
       }
     })
 
@@ -103,6 +105,7 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   const value = {
+    user,
     logout,
     signInWithGoogle,
     signInDefault,
