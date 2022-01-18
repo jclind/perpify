@@ -30,10 +30,12 @@ const CreateUsername = () => {
     if (!currUsername || currUsername.length < 3)
       return setIsUsernameAvailable(null)
 
-    checkUsernameAvailability(currUsername).then(val => {
-      setIsUsernameAvailable(val)
-      console.log(val)
-    })
+    checkUsernameAvailability(currUsername)
+      .then(val => {
+        setIsUsernameAvailable(val)
+        console.log(val)
+      })
+      .catch(err => setError(err.code))
   }, [currUsername])
 
   const handleCreateUsernameForm = e => {
