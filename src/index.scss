@@ -33,6 +33,12 @@ h4 {
   font-size: toRem(18);
 }
 
+input {
+  &::placeholder {
+    color: $tertiary-text;
+  }
+}
+
 .btn {
   background: none;
   outline: none;

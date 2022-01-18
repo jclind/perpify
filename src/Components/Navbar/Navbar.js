@@ -28,6 +28,22 @@ const Navbar = () => {
           >
             about
           </NavLink>
+          <NavLink
+            to='/login'
+            className={({ isActive }) => {
+              return isActive ? 'nav-link active' : 'nav-link'
+            }}
+          >
+            login
+          </NavLink>
+          <NavLink
+            to='/register'
+            className={({ isActive }) => {
+              return isActive ? 'nav-link active' : 'nav-link'
+            }}
+          >
+            register
+          </NavLink>
         </div>
       </div>
     </nav>
