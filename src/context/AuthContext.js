@@ -8,6 +8,8 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
 } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
+
 const AuthContext = React.createContext()
 const auth = getAuth()
 
@@ -19,21 +21,29 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
 
+  const navigate = useNavigate()
+
   const logout = () => {
     signOut(auth)
       .then(() => {
         console.log('sign out success')
+        navigate('/')
       })
       .catch(err => {
         console.log('sign out NOT success,', err)
       })
   }
-  const signInWithGoogle = () => {
+  const signInWithGoogle = setError => {
     const provider = new GoogleAuthProvider()
 
-    signInWithPopup(auth, provider).then(result => {
-      console.log(result, result.user)
-    })
+    signInWithPopup(auth, provider)
+      .then(result => {
+        console.log(result, result.user)
+        navigate('/')
+      })
+      .catch(err => {
+        setError(err.code)
+      })
   }
   const signInDefault = (email, password, setError) => {
     if (!email) {
@@ -45,6 +55,7 @@ const AuthProvider = ({ children }) => {
       .then(userCredential => {
         setUser(userCredential.user)
         console.log('Login Success')
+        navigate('/')
       })
       .catch(err => {
         const errCode = err.code
@@ -71,6 +82,7 @@ const AuthProvider = ({ children }) => {
       .then(userCredential => {
         setUser(userCredential.user)
         console.log('Sign Up Success')
+        navigate('/')
       })
       .catch(err => {
         const errCode = err.code

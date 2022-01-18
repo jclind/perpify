@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Home from './Components/Home/Home'
 import Recipes from './Components/Recipes/Recipes'
 import About from './Components/About/About'
@@ -12,46 +12,44 @@ import AuthProvider from './context/AuthContext'
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route
-            exact
-            path='/'
-            element={
-              <>
-                <Home />
-                <Navbar />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            exact
-            path='/recipes'
-            element={
-              <>
-                <Recipes />
-                <Navbar />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            exact
-            path='/about'
-            element={
-              <>
-                <About />
-                <Navbar />
-                <Footer />
-              </>
-            }
-          />
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/signup' element={<Signup />} />
-          <Route exact path='/forgot-password' element={<ForgotPassword />} />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route
+          exact
+          path='/'
+          element={
+            <>
+              <Home />
+              <Navbar />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          exact
+          path='/recipes'
+          element={
+            <>
+              <Recipes />
+              <Navbar />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          exact
+          path='/about'
+          element={
+            <>
+              <About />
+              <Navbar />
+              <Footer />
+            </>
+          }
+        />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/signup' element={<Signup />} />
+        <Route exact path='/forgot-password' element={<ForgotPassword />} />
+      </Routes>
     </AuthProvider>
   )
 }

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import './Navbar.scss'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import PrepifyLogo from './PrepifyLogo'
 
 const Navbar = () => {
   const { user, logout } = useAuth()
@@ -38,12 +39,12 @@ const Navbar = () => {
         login
       </NavLink>
       <NavLink
-        to='/register'
+        to='/signup'
         className={({ isActive }) => {
           return isActive ? 'nav-link active' : 'nav-link'
         }}
       >
-        register
+        Signup
       </NavLink>
     </>
   )
@@ -74,46 +75,10 @@ const Navbar = () => {
   return (
     <nav className='nav'>
       <div className='nav-header'>
-        <NavLink to='/' className='nav-link'>
-          <div className='nav-logo'>Prepify</div>
-        </NavLink>
+        <PrepifyLogo />
       </div>
       <div className='nav-content'>
-        <div className='nav-links'>
-          {user ? loggedInLinks : loggedOutLinks}
-          {/* <NavLink
-            to='/recipes'
-            className={({ isActive }) => {
-              return isActive ? 'nav-link active' : 'nav-link'
-            }}
-          >
-            recipes
-          </NavLink>
-          <NavLink
-            to='/about'
-            className={({ isActive }) => {
-              return isActive ? 'nav-link active' : 'nav-link'
-            }}
-          >
-            about
-          </NavLink>
-          <NavLink
-            to='/login'
-            className={({ isActive }) => {
-              return isActive ? 'nav-link active' : 'nav-link'
-            }}
-          >
-            login
-          </NavLink>
-          <NavLink
-            to='/register'
-            className={({ isActive }) => {
-              return isActive ? 'nav-link active' : 'nav-link'
-            }}
-          >
-            register
-          </NavLink> */}
-        </div>
+        <div className='nav-links'>{user ? loggedInLinks : loggedOutLinks}</div>
       </div>
     </nav>
   )
