@@ -8,6 +8,8 @@ import Login from './Components/Login/Login'
 import Signup from './Components/Signup/Signup'
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword'
 import AuthProvider from './context/AuthContext'
+import Account from './Components/Account/Account'
+import PrivateRoute from './Components/PrivateRoute'
 
 function App() {
   return (
@@ -46,6 +48,19 @@ function App() {
             </>
           }
         />
+        <Route exact path='/' element={<PrivateRoute />}>
+          <Route
+            exact
+            path='/account'
+            element={
+              <>
+                <Account />
+                <Navbar />
+                <Footer />
+              </>
+            }
+          />
+        </Route>
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/signup' element={<Signup />} />
         <Route exact path='/forgot-password' element={<ForgotPassword />} />

@@ -7,8 +7,10 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signInWithRedirect,
 } from 'firebase/auth'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { db } from '../client/db'
+
 import { useNavigate } from 'react-router-dom'
 
 const AuthContext = React.createContext()
@@ -34,12 +36,12 @@ const AuthProvider = ({ children }) => {
         console.log('sign out NOT success,', err)
       })
   }
+
   const signInWithGoogle = setError => {
     const provider = new GoogleAuthProvider()
 
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, provider)
       .then(result => {
-        console.log(result, result.user)
         navigate('/')
       })
       .catch(err => {
@@ -108,6 +110,7 @@ const AuthProvider = ({ children }) => {
       if (userInstance) {
         console.log('logged in')
         setUser(userInstance)
+        console.log(userInstance.displayName)
       } else {
         console.log('logged out')
         setUser(null)

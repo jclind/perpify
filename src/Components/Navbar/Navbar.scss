@@ -26,10 +26,24 @@ nav {
       width: 100%;
       .nav-link {
         text-transform: capitalize;
-        text-decoration: none;
         font-size: toRem(18);
         font-weight: 700;
         color: $primary-background;
+        text-decoration: none;
+      }
+      .account-link {
+        background: $primary-text;
+        border-radius: 50%;
+        border: 1px solid $primary-background;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        text-decoration: none;
+        justify-content: center;
+        align-items: center;
+        font-size: toRem(30);
+        color: $primary;
+        font-weight: 500;
       }
     }
   }

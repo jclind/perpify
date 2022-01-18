@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import './Signup.scss'
-import '../Form/FormStyles.scss'
-import FormInput from '../Form/FormInput'
 import { AiOutlineUser, AiOutlineGoogle } from 'react-icons/ai'
 import { MdOutlineEmail, MdOutlineLock } from 'react-icons/md'
 import { useAuth } from '../../context/AuthContext'
+
+import './Signup.scss'
+import '../Form/FormStyles.scss'
+
 import PrepifyLogo from '../Navbar/PrepifyLogo'
+import FormInput from '../Form/FormInput'
 
 const Signup = () => {
   const [username, setUsername] = useState('')

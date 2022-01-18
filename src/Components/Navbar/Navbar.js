@@ -6,11 +6,8 @@ import PrepifyLogo from './PrepifyLogo'
 
 const Navbar = () => {
   const { user, logout } = useAuth()
-  console.log(user)
-
-  useEffect(() => {
-    console.log('changed', user)
-  }, [user])
+  const nameInitial = user ? user.displayName.charAt(0) : null
+  console.log(nameInitial)
 
   const loggedOutLinks = (
     <>
@@ -69,6 +66,9 @@ const Navbar = () => {
       <button className='nav-link btn' onClick={logout}>
         logout
       </button>
+      <NavLink to='/account' className='account-link'>
+        {nameInitial}
+      </NavLink>
     </>
   )
 
