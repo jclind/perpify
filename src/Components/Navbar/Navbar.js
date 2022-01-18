@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Navbar.scss'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
@@ -6,8 +6,18 @@ import PrepifyLogo from './PrepifyLogo'
 
 const Navbar = () => {
   const { user, logout } = useAuth()
-  const nameInitial = user ? user.displayName.charAt(0) : null
-  console.log(nameInitial)
+
+  const [nameInitial, setNameInitial] = useState('')
+
+  useEffect(() => {
+    console.log('called')
+    if (user && user.email && !nameInitial) {
+      const displayInitial = user.email.charAt(0).toUpperCase()
+      setNameInitial(displayInitial)
+    } else {
+      setNameInitial('')
+    }
+  }, [user])
 
   const loggedOutLinks = (
     <>

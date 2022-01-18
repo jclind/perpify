@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  updateProfile,
 } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { db } from '../client/db'
@@ -82,8 +83,7 @@ const AuthProvider = ({ children }) => {
       return setError('Must enter password')
     }
     createUserWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        setUser(userCredential.user)
+      .then(() => {
         console.log('Sign Up Success')
         navigate('/')
       })
