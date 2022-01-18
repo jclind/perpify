@@ -9,7 +9,15 @@ import {
   sendPasswordResetEmail,
   updateProfile,
 } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import {
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore'
 import { db } from '../client/db'
 
 import { useNavigate } from 'react-router-dom'
@@ -104,13 +112,43 @@ const AuthProvider = ({ children }) => {
       })
   }
 
+  const getUsername = async uid => {
+    console.log('in getUsername()', uid)
+
+    // Get reference to username collection document with property of the passed uid
+    const usernamesRef = doc(db, 'username', uid)
+    const usernamesSnap = await getDoc(usernamesRef)
+
+    if (usernamesSnap.exists()) {
+      const currUsername = usernamesSnap.data().username
+      return currUsername
+    } else {
+      console.log('username doesnt exist for this user')
+    }
+  }
+
+  const checkUsernameAvailability = async (username, setLoading) => {
+    setLoading(true)
+
+    const usernamesRef = collection(db, 'username')
+    const q = query(usernamesRef, where('username', '==', username))
+
+    const usernamesQuerySnapshot = await getDocs(q)
+    if (usernamesQuerySnapshot.empty) {
+      return true
+    }
+    return false
+  }
+
+  const setUsername = async (uid, username, setLoading) => {}
+
   // Check for auth status on page load
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(userInstance => {
       if (userInstance) {
         console.log('logged in')
         setUser(userInstance)
-        console.log(userInstance.displayName)
+        getUsername(userInstance.uid)
       } else {
         console.log('logged out')
         setUser(null)
@@ -127,6 +165,7 @@ const AuthProvider = ({ children }) => {
     signInDefault,
     signUp,
     forgotPassword,
+    checkUsernameAvailability,
   }
 
   return (

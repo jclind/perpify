@@ -10,7 +10,6 @@ const Navbar = () => {
   const [nameInitial, setNameInitial] = useState('')
 
   useEffect(() => {
-    console.log('called')
     if (user && user.email && !nameInitial) {
       const displayInitial = user.email.charAt(0).toUpperCase()
       setNameInitial(displayInitial)

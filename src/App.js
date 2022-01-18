@@ -10,6 +10,7 @@ import ForgotPassword from './Components/ForgotPassword/ForgotPassword'
 import AuthProvider from './context/AuthContext'
 import Account from './Components/Account/Account'
 import PrivateRoute from './Components/PrivateRoute'
+import CreateUsername from './Components/CreateUsername/CreateUsername'
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
         </Route>
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/signup' element={<Signup />} />
+        <Route exact path='/create-username' element={<CreateUsername />} />
         <Route exact path='/forgot-password' element={<ForgotPassword />} />
       </Routes>
     </AuthProvider>
