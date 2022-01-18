@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  signInWithRedirect,
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
@@ -36,7 +37,7 @@ const AuthProvider = ({ children }) => {
   const signInWithGoogle = setError => {
     const provider = new GoogleAuthProvider()
 
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
       .then(result => {
         console.log(result, result.user)
         navigate('/')

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import './Login.scss'
 import '../Form/FormStyles.scss'
 import FormInput from '../Form/FormInput'
@@ -14,7 +14,7 @@ const Login = () => {
 
   const [error, setError] = useState('')
 
-  const { signInWithGoogle, signInDefault } = useAuth()
+  const { signInWithGoogle, signInDefault, user } = useAuth()
 
   const handleEmailAndPasswordFormSubmit = e => {
     e.preventDefault()
@@ -22,7 +22,9 @@ const Login = () => {
     signInDefault(email, password, setError)
   }
 
-  return (
+  return user ? (
+    <Navigate to='/' />
+  ) : (
     <>
       <div className='abs-logo'>
         <PrepifyLogo className='abs-logo' />

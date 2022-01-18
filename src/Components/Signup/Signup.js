@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import './Signup.scss'
 import '../Form/FormStyles.scss'
 import FormInput from '../Form/FormInput'
@@ -15,14 +15,16 @@ const Signup = () => {
 
   const [error, setError] = useState('')
 
-  const { signInWithGoogle, signUp } = useAuth()
+  const { signInWithGoogle, signUp, user } = useAuth()
 
   const handleEmailAndPasswordFormSubmit = e => {
     e.preventDefault()
     signUp(email, password, username, setError)
   }
 
-  return (
+  return user ? (
+    <Navigate to='/' />
+  ) : (
     <>
       <div className='abs-logo'>
         <PrepifyLogo className='abs-logo' />
