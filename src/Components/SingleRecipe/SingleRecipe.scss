@@ -1,8 +1,64 @@
+@import '../../helpers.scss';
+
 .single-recipe-page {
   .loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+  }
+  .recipe-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    .header-content {
+      display: flex;
+      gap: 2rem;
+      .recipe-image-container {
+        max-width: 550px;
+        img {
+          width: 100%;
+          object-fit: contain;
+        }
+      }
+      .description-content {
+        flex: 1;
+        // background: red;
+        .title {
+          margin-bottom: 2rem;
+        }
+        .description {
+          font-size: toRem(18);
+          max-width: 600px;
+          // background: red;
+        }
+        .recipe-data {
+          display: flex;
+          width: 100%;
+          justify-content: space-around;
+          margin-top: 2rem;
+
+          .data-element {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            .icon {
+              height: 30px;
+              width: 30px;
+            }
+            h3 {
+              font-size: toRem(16);
+              font-weight: 700;
+            }
+            .data {
+              font-size: toRem(16);
+              color: $secondary-text;
+            }
+          }
+        }
+      }
+    }
   }
 }

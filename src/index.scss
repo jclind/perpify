@@ -32,6 +32,9 @@ h4 {
   font-weight: 500;
   font-size: toRem(18);
 }
+p {
+  line-height: 1.75;
+}
 
 input {
   &::placeholder {
