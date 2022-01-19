@@ -17,6 +17,7 @@ import SavedRecipes from './Components/Account/SavedRecipes'
 import Ratings from './Components/Account/Ratings'
 import YourRecipes from './Components/Account/YourRecipes'
 import SingleRecipe from './Components/SingleRecipe/SingleRecipe'
+import AddRecipe from './Components/AddRecipe/AddRecipe'
 
 import Layout from './Components/Layout/Layout'
 
@@ -75,6 +76,15 @@ function App() {
               <Route path='ratings' element={<Ratings />} />
               <Route path='your-recipes' element={<YourRecipes />} />
             </Route>
+            <Route
+              exact
+              path='/add-recipe'
+              element={
+                <Layout darkNavLinks={true}>
+                  <AddRecipe />
+                </Layout>
+              }
+            />
           </Route>
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Signup />} />
