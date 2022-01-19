@@ -5,16 +5,26 @@ import { useAuth } from '../../context/AuthContext'
 import PrepifyLogo from './PrepifyLogo'
 
 const Navbar = () => {
-  const { user, logout } = useAuth()
+  const { user, logout, getUsername } = useAuth()
 
   const [nameInitial, setNameInitial] = useState('')
 
   useEffect(() => {
-    if (user && user.email && !nameInitial) {
-      const displayInitial = user.email.charAt(0).toUpperCase()
-      setNameInitial(displayInitial)
-    } else {
-      setNameInitial('')
+    if (user) {
+      const uid = user.uid
+
+      getUsername(uid).then(val => {
+        if (!val) {
+          if (user.email) {
+            const displayInitial = user.email.charAt(0).toUpperCase()
+            return setNameInitial(displayInitial)
+          }
+          return setNameInitial('')
+        } else {
+          const displayInitial = val.charAt(0).toUpperCase()
+          setNameInitial(displayInitial)
+        }
+      })
     }
   }, [user])
 

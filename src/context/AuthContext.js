@@ -148,6 +148,7 @@ const AuthProvider = ({ children }) => {
     } else {
       console.log('2')
       navigate('/create-username')
+      return null
     }
   }
 
@@ -194,8 +195,10 @@ const AuthProvider = ({ children }) => {
       console.log(userInstance)
 
       if (userInstance) {
+        // Gets type of authentication, ie... password, google...
         const providerId = userInstance.providerData[0].providerId
 
+        // If the authentication is anything other than password, send getUsername to check if username exists for that user
         if (providerId !== 'password') {
           getUsername(userInstance.uid)
         }
@@ -217,6 +220,7 @@ const AuthProvider = ({ children }) => {
     signInWithGoogle,
     signInDefault,
     signUp,
+    getUsername,
     forgotPassword,
     checkUsernameAvailability,
     setUsername,

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Account.scss'
 
 const Account = () => {
-  return <div>Account</div>
+  return <div className='page account-page'>Account</div>
 }
 
 export default Account
