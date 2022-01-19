@@ -31,7 +31,7 @@ export function useAuth() {
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate()
 
@@ -209,6 +209,7 @@ const AuthProvider = ({ children }) => {
         console.log('logged out')
         setUser(null)
       }
+      setLoading(false)
     })
 
     return () => unsubscribe()

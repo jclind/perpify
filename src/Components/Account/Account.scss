@@ -1,0 +1,40 @@
+@import '../../helpers.scss';
+
+.account-page {
+  .account-header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    .info-container {
+      display: flex;
+      gap: 2rem;
+
+      .profile-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $primary;
+        font-weight: 500;
+        font-size: toRem(50);
+        border-radius: 50%;
+        background: $primary-text;
+        height: 100px;
+        width: 100px;
+      }
+      .content {
+        display: flex;
+        flex-direction: column;
+        font-size: toRem(30);
+        font-weight: 700;
+        justify-content: space-around;
+
+        .edit-profile-btn {
+          font-size: toRem(18);
+          border: 1px solid $primary-text;
+          border-radius: $border-radius;
+          padding: 0.5rem 1rem;
+        }
+      }
+    }
+  }
+}
