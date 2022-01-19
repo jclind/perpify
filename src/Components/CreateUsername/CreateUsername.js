@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import '../Form/FormStyles.scss'
 import './CreateUsername.scss'
-import FormInput from '../Form/FormInput'
-import { AiOutlineUser } from 'react-icons/ai'
 import { useAuth } from '../../context/AuthContext'
 import { TailSpin } from 'react-loader-spinner'
 import { useNavigate } from 'react-router-dom'
+import UsernameInput from '../Form/UsernameInput'
 
 const CreateUsername = () => {
   const [currUsername, setCurrUsername] = useState('')
-  const [isUsernameAvailable, setIsUsernameAvailable] = useState(null)
 
   const [loadingCreateUsername, setLoadingCreateUsername] = useState(false)
 
@@ -18,25 +16,9 @@ const CreateUsername = () => {
 
   const navigate = useNavigate()
 
-  const { checkUsernameAvailability, setUsername } = useAuth()
+  const { setUsername, user } = useAuth()
 
-  // on username change, check username availability against firestore 'usernames' collection
-  useEffect(() => {
-    setError('')
-    setSuccess('')
-
-    if (/\s/g.test(currUsername))
-      return setError('Cannot have white space in username')
-    if (!currUsername || currUsername.length < 3)
-      return setIsUsernameAvailable(null)
-
-    checkUsernameAvailability(currUsername)
-      .then(val => {
-        setIsUsernameAvailable(val)
-        console.log(val)
-      })
-      .catch(err => setError(err.code))
-  }, [currUsername])
+  const uid = user ? user.uid : null
 
   const handleCreateUsernameForm = e => {
     e.preventDefault()
@@ -45,6 +27,7 @@ const CreateUsername = () => {
     setSuccess('')
 
     setUsername(
+      uid,
       currUsername,
       setLoadingCreateUsername,
       setSuccess,
@@ -66,25 +49,12 @@ const CreateUsername = () => {
           {success ? <div className='success'>{success}</div> : null}
           {error ? <div className='error'>{error}</div> : null}
           <div className='input-fields'>
-            <FormInput
-              icon={<AiOutlineUser className='icon' />}
-              type='username'
-              name='username'
-              val={currUsername}
-              setVal={setCurrUsername}
-              placeholder='johnsmith'
+            <UsernameInput
+              username={currUsername}
+              setUsername={setCurrUsername}
+              setSuccess={setSuccess}
+              setError={setError}
             />
-            {isUsernameAvailable === null ? null : (
-              <>
-                {isUsernameAvailable ? (
-                  <p className='available'>{currUsername} is available</p>
-                ) : (
-                  <p className='not-available'>
-                    {currUsername} has already been taken
-                  </p>
-                )}
-              </>
-            )}
           </div>
           <button className='form-action-btn btn'>
             {loadingCreateUsername ? (

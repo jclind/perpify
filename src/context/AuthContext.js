@@ -82,7 +82,15 @@ const AuthProvider = ({ children }) => {
         }
       })
   }
-  const signUp = (email, password, username, setError) => {
+  const signUp = (
+    email,
+    password,
+    username,
+    setLoading,
+    setSuccess,
+    setError
+  ) => {
+    setLoading(true)
     if (!username) {
       return setError('Must enter username')
     } else if (!email) {
@@ -90,15 +98,29 @@ const AuthProvider = ({ children }) => {
     } else if (!password) {
       return setError('Must enter password')
     }
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        console.log('Sign Up Success')
-        navigate('/')
-      })
-      .catch(err => {
-        const errCode = err.code
-        setError(errCode)
-      })
+
+    checkUsernameAvailability(username).then(isAvailable => {
+      console.log(isAvailable)
+      if (!isAvailable) {
+        return setError(`${username} has already been taken`)
+      }
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(cred => {
+          const uid = cred.user.uid
+          console.log('signed up')
+          setUsername(uid, username, setLoading, setSuccess, setError).then(
+            () => {
+              setLoading(false)
+              return navigate('/')
+            }
+          )
+        })
+        .catch(err => {
+          const errCode = err.code
+          setError(errCode)
+          setLoading(false)
+        })
+    })
   }
   const forgotPassword = (email, setSuccess, setError) => {
     sendPasswordResetEmail(auth, email)
@@ -120,9 +142,11 @@ const AuthProvider = ({ children }) => {
     const usernamesSnap = await getDoc(usernamesRef)
 
     if (usernamesSnap.exists()) {
+      console.log('1')
       const currUsername = usernamesSnap.data().username
       return currUsername
     } else {
+      console.log('2')
       navigate('/create-username')
     }
   }
@@ -142,10 +166,15 @@ const AuthProvider = ({ children }) => {
     return false
   }
 
-  const setUsername = async (username, setLoading, setSuccess, setError) => {
+  const setUsername = async (
+    uid,
+    username,
+    setLoading,
+    setSuccess,
+    setError
+  ) => {
     if (setLoading) setLoading(true)
 
-    const uid = user.uid
     const isAvailable = await checkUsernameAvailability(username)
     if (!isAvailable) {
       if (setError) return setError(`${username} has already been taken`)
@@ -162,10 +191,19 @@ const AuthProvider = ({ children }) => {
   // Check for auth status on page load
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(userInstance => {
+      console.log(userInstance)
+
       if (userInstance) {
+        const metadata = userInstance.metadata
+        const createdAt = metadata.createdAt
+        const lastLoginAt = metadata.lastLoginAt
+
+        // If the time the account was created and the time of last login are the same, the account was just made
+        if (createdAt === lastLoginAt) {
+          getUsername(userInstance.uid)
+        }
         console.log('logged in')
         setUser(userInstance)
-        getUsername(userInstance.uid)
       } else {
         console.log('logged out')
         setUser(null)

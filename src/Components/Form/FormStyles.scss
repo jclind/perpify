@@ -64,9 +64,24 @@
   }
 
   .form-action-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 3rem;
+
     color: $primary-background;
     background: $secondary;
+  }
+  .available,
+  .not-available {
+    font-weight: 600;
+    font-size: toRem(16);
+  }
+  .available {
+    color: $success-green;
+  }
+  .not-available {
+    color: $error-red;
   }
   .google-btn {
     margin-top: 1rem;

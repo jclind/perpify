@@ -3,6 +3,9 @@ import { Link, Navigate } from 'react-router-dom'
 import { AiOutlineUser, AiOutlineGoogle } from 'react-icons/ai'
 import { MdOutlineEmail, MdOutlineLock } from 'react-icons/md'
 import { useAuth } from '../../context/AuthContext'
+import { TailSpin } from 'react-loader-spinner'
+
+import UsernameInput from '../Form/UsernameInput'
 
 import './Signup.scss'
 import '../Form/FormStyles.scss'
@@ -15,13 +18,19 @@ const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
+
+  const [loading, setLoading] = useState(false)
 
   const { signInWithGoogle, signUp, user } = useAuth()
 
-  const handleEmailAndPasswordFormSubmit = e => {
+  const handleEmailAndPasswordFormSubmit = async e => {
+    setError('')
+    setSuccess('')
     e.preventDefault()
-    signUp(email, password, username, setError)
+
+    signUp(email, password, username, setLoading, setSuccess, setError)
   }
 
   return user ? (
@@ -41,15 +50,14 @@ const Signup = () => {
                 Login
               </Link>{' '}
             </p>
+            {success ? <div className='success'>{success}</div> : null}
             {error ? <div className='error'>{error}</div> : null}
             <div className='input-fields'>
-              <FormInput
-                icon={<AiOutlineUser className='icon' />}
-                type='text'
-                name='username'
-                val={username}
-                setVal={setUsername}
-                placeholder='example_username'
+              <UsernameInput
+                username={username}
+                setUsername={setUsername}
+                setSuccess={setSuccess}
+                setError={setError}
               />
               <FormInput
                 icon={<MdOutlineEmail className='icon' />}
@@ -68,7 +76,19 @@ const Signup = () => {
                 placeholder='6+ Characters'
               />
             </div>
-            <button className='form-action-btn btn'>Sign Up</button>
+            <button className='form-action-btn btn'>
+              {loading ? (
+                <TailSpin
+                  heigth='30'
+                  width='30'
+                  color='white'
+                  arialLabel='loading'
+                  className='spinner'
+                />
+              ) : (
+                'Create Username'
+              )}
+            </button>
           </form>
           <button
             className='google-btn btn'

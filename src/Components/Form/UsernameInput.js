@@ -8,6 +8,7 @@ const UsernameInput = ({ username, setUsername, setSuccess, setError }) => {
 
   const { checkUsernameAvailability } = useAuth()
 
+  // on username change, check username availability against firestore 'usernames' collection
   useEffect(() => {
     setError('')
     setSuccess('')
