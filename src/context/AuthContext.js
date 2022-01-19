@@ -194,14 +194,12 @@ const AuthProvider = ({ children }) => {
       console.log(userInstance)
 
       if (userInstance) {
-        const metadata = userInstance.metadata
-        const createdAt = metadata.createdAt
-        const lastLoginAt = metadata.lastLoginAt
+        const providerId = userInstance.providerData[0].providerId
 
-        // If the time the account was created and the time of last login are the same, the account was just made
-        if (createdAt === lastLoginAt) {
+        if (providerId !== 'password') {
           getUsername(userInstance.uid)
         }
+
         console.log('logged in')
         setUser(userInstance)
       } else {
