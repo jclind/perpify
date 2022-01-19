@@ -18,7 +18,7 @@ nav {
   max-width: $max-width;
 
   .nav-content {
-    width: 30%;
+    width: 60%;
     .nav-links {
       display: flex;
       align-items: center;
@@ -52,8 +52,12 @@ nav {
         color: $primary-text !important;
       }
     }
+    @media screen and (min-width: 700px) {
+      width: 400px;
+    }
   }
 }
+
 .prepify-logo.nav-link {
   text-decoration: none;
   text-transform: capitalize;

@@ -14,6 +14,7 @@ import CreateUsername from './Components/CreateUsername/CreateUsername'
 import SavedRecipes from './Components/Account/SavedRecipes'
 import Ratings from './Components/Account/Ratings'
 import YourRecipes from './Components/Account/YourRecipes'
+import SingleRecipe from './Components/SingleRecipe/SingleRecipe'
 
 import Layout from './Components/Layout/Layout'
 
@@ -38,7 +39,9 @@ function App() {
               <Recipes />
             </Layout>
           }
-        />
+        >
+          <Route path=':recipeId' element={<SingleRecipe />} />
+        </Route>
         <Route
           exact
           path='/about'

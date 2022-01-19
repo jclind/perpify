@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Routes, Route, Link, Outlet } from 'react-router-dom'
+import { useLocation, Link, Outlet } from 'react-router-dom'
 import './Account.scss'
 import { useAuth } from '../../context/AuthContext'
 
 const Account = () => {
   const [nameInitial, setNameInitial] = useState('')
   const [username, setUsername] = useState('')
+  const [currPath, setCurrPath] = useState('')
 
   const { getUsername, user } = useAuth()
+
+  const location = useLocation()
 
   useEffect(() => {
     if (user) {
@@ -24,6 +27,10 @@ const Account = () => {
     }
   }, [])
 
+  useEffect(() => {
+    setCurrPath(location.pathname)
+  }, [location.pathname])
+
   return (
     <div className='page account-page'>
       <section className='account-header'>
@@ -39,13 +46,32 @@ const Account = () => {
       </section>
       <div className='account-body'>
         <div className='options-bar'>
-          <Link to='/account/saved-recipes' className='selection'>
+          <Link
+            to='/account/saved-recipes'
+            className={
+              currPath === '/account/saved-recipes'
+                ? 'active selection'
+                : 'selection'
+            }
+          >
             Saved Recipes
           </Link>
-          <Link to='/account/ratings' className='selection'>
+          <Link
+            to='/account/ratings'
+            className={
+              currPath === '/account/ratings' ? 'active selection' : 'selection'
+            }
+          >
             Ratings
           </Link>
-          <Link to='/account/your-recipes' className='selection'>
+          <Link
+            to='/account/your-recipes'
+            className={
+              currPath === '/account/your-recipes'
+                ? 'active selection'
+                : 'selection'
+            }
+          >
             Your Recipes
           </Link>
         </div>

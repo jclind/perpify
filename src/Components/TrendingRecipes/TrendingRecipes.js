@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './TrendingRecipes.scss'
 // import { recipes } from '../../assets/data/recipes'
 import { CgTimer } from 'react-icons/cg'
@@ -36,9 +37,9 @@ const TrendingRecipes = () => {
       <div className='recipes'>
         {recipes ? (
           recipes.map((recipe, idx) => {
-            const { title, url, servings, rating, totalTime } = recipe
+            const { title, url, recipeId, rating, totalTime } = recipe
             return (
-              <div key={idx} className='recipe'>
+              <Link to={`/recipes/${recipeId}`} key={idx} className='recipe'>
                 <div className='img-container'>
                   <img src={url} alt={title} />
                 </div>
@@ -53,7 +54,7 @@ const TrendingRecipes = () => {
                     {rating}
                   </div>
                 </div>
-              </div>
+              </Link>
             )
           })
         ) : (
