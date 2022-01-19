@@ -5,7 +5,7 @@ nav {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 100;
 
   display: flex;
   align-items: center;
@@ -31,6 +31,7 @@ nav {
         color: $primary-background;
         text-decoration: none;
       }
+
       .account-link {
         background: $primary-text;
         border-radius: 50%;
@@ -44,6 +45,11 @@ nav {
         font-size: toRem(30);
         color: $primary;
         font-weight: 500;
+      }
+    }
+    .nav-links.dark-nav-links {
+      .nav-link {
+        color: $primary-text !important;
       }
     }
   }

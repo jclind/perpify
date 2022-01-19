@@ -11,6 +11,11 @@ import AuthProvider from './context/AuthContext'
 import Account from './Components/Account/Account'
 import PrivateRoute from './Components/PrivateRoute'
 import CreateUsername from './Components/CreateUsername/CreateUsername'
+import SavedRecipes from './Components/Account/SavedRecipes'
+import Ratings from './Components/Account/Ratings'
+import YourRecipes from './Components/Account/YourRecipes'
+
+import Layout from './Components/Layout/Layout'
 
 function App() {
   return (
@@ -20,33 +25,27 @@ function App() {
           exact
           path='/'
           element={
-            <>
+            <Layout>
               <Home />
-              <Navbar />
-              <Footer />
-            </>
+            </Layout>
           }
         />
         <Route
           exact
           path='/recipes'
           element={
-            <>
+            <Layout darkNavLinks={true}>
               <Recipes />
-              <Navbar />
-              <Footer />
-            </>
+            </Layout>
           }
         />
         <Route
           exact
           path='/about'
           element={
-            <>
+            <Layout darkNavLinks={true}>
               <About />
-              <Navbar />
-              <Footer />
-            </>
+            </Layout>
           }
         />
         <Route exact path='/' element={<PrivateRoute />}>
@@ -54,13 +53,15 @@ function App() {
             exact
             path='/account'
             element={
-              <>
+              <Layout darkNavLinks={true}>
                 <Account />
-                <Navbar />
-                <Footer />
-              </>
+              </Layout>
             }
-          />
+          >
+            <Route path='saved-recipes' element={<SavedRecipes />} />
+            <Route path='ratings' element={<Ratings />} />
+            <Route path='your-recipes' element={<YourRecipes />} />
+          </Route>
         </Route>
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/signup' element={<Signup />} />

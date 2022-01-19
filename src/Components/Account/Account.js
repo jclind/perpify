@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Routes, Route, Link, Outlet } from 'react-router-dom'
 import './Account.scss'
 import { useAuth } from '../../context/AuthContext'
 
@@ -36,6 +37,20 @@ const Account = () => {
           </div>
         </div>
       </section>
+      <div className='account-body'>
+        <div className='options-bar'>
+          <Link to='/account/saved-recipes' className='selection'>
+            Saved Recipes
+          </Link>
+          <Link to='/account/ratings' className='selection'>
+            Ratings
+          </Link>
+          <Link to='/account/your-recipes' className='selection'>
+            Your Recipes
+          </Link>
+        </div>
+        <Outlet />
+      </div>
     </div>
   )
 }

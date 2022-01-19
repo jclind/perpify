@@ -5,6 +5,8 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    padding-bottom: 2rem;
+
     .info-container {
       display: flex;
       gap: 2rem;
@@ -35,6 +37,13 @@
           padding: 0.5rem 1rem;
         }
       }
+    }
+  }
+  .account-body {
+    // margin-top: 2rem;
+    .options-bar {
+      display: flex;
+      gap: 2rem;
     }
   }
 }

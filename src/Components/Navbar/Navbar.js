@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import PrepifyLogo from './PrepifyLogo'
 
-const Navbar = () => {
+const Navbar = ({ darkNavLinks }) => {
   const { user, logout, getUsername } = useAuth()
 
   const [nameInitial, setNameInitial] = useState('')
@@ -97,7 +97,11 @@ const Navbar = () => {
         <PrepifyLogo />
       </div>
       <div className='nav-content'>
-        <div className='nav-links'>{user ? loggedInLinks : loggedOutLinks}</div>
+        <div
+          className={darkNavLinks ? 'nav-links dark-nav-links' : 'nav-links'}
+        >
+          {user ? loggedInLinks : loggedOutLinks}
+        </div>
       </div>
     </nav>
   )
