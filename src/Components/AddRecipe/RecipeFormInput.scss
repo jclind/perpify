@@ -1,12 +1,13 @@
 @import '../../helpers.scss';
 
-.recipe-form-input {
+.recipe-form-input,
+.recipe-form-textarea {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 70px;
   width: 100%;
+  height: fit-content;
 
   .label-title {
     padding-bottom: 0.5rem;
@@ -20,7 +21,6 @@
     display: flex;
     align-items: center;
     width: 100%;
-    height: 55px;
 
     .icon {
       display: flex;
@@ -32,18 +32,31 @@
       color: $primary-text;
       left: 0.75rem;
     }
-    input {
-      outline: none;
-      border: none;
+    input,
+    textarea {
       background: none;
-      padding: 0 1rem;
-      width: 100%;
-      height: 100%;
-      font-size: toRem(16);
-      font-weight: 500;
-      // background: $primary-background;
+      border: none;
+      outline: none;
       border: 1px solid $tertiary-text;
       border-radius: $border-radius;
+      width: 100%;
+      height: 100%;
+      padding: 0 1rem;
+      font-size: toRem(16);
+      font-weight: 500;
+    }
+    textarea {
+      resize: none;
+      height: 10ch;
+      padding: 1rem;
     }
   }
+}
+.recipe-form-input {
+  .input-container {
+    height: 45px;
+  }
+}
+.recipe-form-textarea {
+  // height: 10ch;
 }
