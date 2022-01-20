@@ -26,6 +26,20 @@ const IngredientsList = () => {
   const deleteItem = id => {
     setIngredientsList(ingredientsList.filter(item => item.id !== id))
   }
+  const updateItem = (updatedItem, id) => {
+    console.log(ingredientsList)
+    console.log(id)
+    const tempIngredientIndex = ingredientsList.findIndex(item => {
+      console.log(item.id, id)
+      return item.id === id
+    })
+    console.log(tempIngredientIndex)
+    setIngredientsList([
+      ...ingredientsList.slice(0, tempIngredientIndex),
+      { ...updatedItem },
+      ...ingredientsList.slice(tempIngredientIndex + 1),
+    ])
+  }
 
   useEffect(() => {
     console.log(ingredientsList)
@@ -64,6 +78,7 @@ const IngredientsList = () => {
               <IngredientsItem
                 ingredient={ingredient}
                 deleteItem={deleteItem}
+                updateItem={updateItem}
                 key={idx}
               />
             )
