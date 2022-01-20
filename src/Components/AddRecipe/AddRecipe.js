@@ -13,7 +13,7 @@ const AddRecipe = () => {
   const [recipeFreezerLife, setRecipeFreezerLife] = useState(null)
   const [recipeDescription, setRecipeDescription] = useState('')
 
-  const [ingredients, setIngredients] = useState('')
+  const [ingredientsList, setIngredientsList] = useState([])
 
   return (
     <div className='add-recipe-page page'>
@@ -71,7 +71,10 @@ const AddRecipe = () => {
             setVal={setRecipeDescription}
             placeholder='Description of recipe...'
           />
-          <IngredientsList />
+          <IngredientsList
+            ingredientsList={ingredientsList}
+            setIngredientsList={setIngredientsList}
+          />
         </form>
       </div>
     </div>

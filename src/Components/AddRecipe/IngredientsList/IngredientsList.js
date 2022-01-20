@@ -2,13 +2,16 @@ import React, { useState, useEffect, useRef } from 'react'
 import './IngredientsList.scss'
 import IngredientsItem from './IngredientsItem'
 import { v4 as uuidv4 } from 'uuid'
+import { capitalize } from '../../../util/capitalize'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-const IngredientsList = () => {
-  const [ingredientsList, setIngredientsList] = useState([])
+const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState('')
 
   const [error, setError] = useState('')
+
+  const ingredientNameRef = useRef()
 
   const handleAddIngredient = e => {
     e.preventDefault()
@@ -18,8 +21,9 @@ const IngredientsList = () => {
 
     setIngredientsList(prevState => [
       ...prevState,
-      { name, quantity, id: uuidv4() },
+      { name: capitalize(name), quantity, id: uuidv4() },
     ])
+    ingredientNameRef.current.focus()
     setName('')
     setQuantity('')
   }
@@ -27,13 +31,9 @@ const IngredientsList = () => {
     setIngredientsList(ingredientsList.filter(item => item.id !== id))
   }
   const updateItem = (updatedItem, id) => {
-    console.log(ingredientsList)
-    console.log(id)
-    const tempIngredientIndex = ingredientsList.findIndex(item => {
-      console.log(item.id, id)
-      return item.id === id
-    })
-    console.log(tempIngredientIndex)
+    const tempIngredientIndex = ingredientsList.findIndex(
+      item => item.id === id
+    )
     setIngredientsList([
       ...ingredientsList.slice(0, tempIngredientIndex),
       { ...updatedItem },
@@ -56,6 +56,7 @@ const IngredientsList = () => {
           placeholder='Ingredient name'
           value={name}
           onChange={e => setName(e.target.value)}
+          ref={ingredientNameRef}
         />
         <input
           type='text'
@@ -71,19 +72,35 @@ const IngredientsList = () => {
           Add Ingredient
         </button>
       </div>
-      <div className='list'>
-        {ingredientsList &&
-          ingredientsList.map((ingredient, idx) => {
-            return (
-              <IngredientsItem
-                ingredient={ingredient}
-                deleteItem={deleteItem}
-                updateItem={updateItem}
-                key={idx}
-              />
-            )
-          })}
-      </div>
+      <DragDropContext
+        onDrapEnd={(...props) => {
+          console.log(props)
+        }}
+      >
+        <Droppable droppableId='droppable-1'>
+          {(provided, _) => (
+            <div
+              className='list'
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {ingredientsList &&
+                ingredientsList.map((ingredient, idx) => {
+                  return (
+                    <IngredientsItem
+                      ingredient={ingredient}
+                      deleteItem={deleteItem}
+                      updateItem={updateItem}
+                      key={ingredient.id}
+                      index={idx}
+                    />
+                  )
+                })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   )
 }

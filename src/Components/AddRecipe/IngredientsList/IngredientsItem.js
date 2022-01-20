@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react'
 
-import { AiOutlineClose } from 'react-icons/ai'
+import { AiOutlineClose, AiOutlineHolder } from 'react-icons/ai'
 
-const IngredientsItem = ({ ingredient, deleteItem, updateItem }) => {
+import { Draggable } from 'react-beautiful-dnd'
+
+const IngredientsItem = ({ ingredient, deleteItem, updateItem, index }) => {
   const [name, setName] = useState(ingredient.name)
   const [quantity, setQuantity] = useState(ingredient.quantity)
 
@@ -38,33 +40,50 @@ const IngredientsItem = ({ ingredient, deleteItem, updateItem }) => {
   }
 
   return (
-    <div className='ingredient-item'>
-      <div className='content'>
+    <Draggable
+      key={id}
+      draggableId={`draggable-${ingredient.id}`}
+      index={index}
+    >
+      {(provided, snapshot) => (
         <div
-          className='quantity'
-          contentEditable
-          suppressContentEditableWarning={true}
-          ref={quantityRef}
-          onBlur={handleQuantityChange}
-          onKeyPress={handleKeyPress}
+          className='ingredient-item'
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          style={{
+            ...provided.draggableProps.style,
+            boxShadow: snapshot.isDragging ? '0 0 0.4rem #979ba0' : 'none',
+          }}
         >
-          {quantity}
+          <div className='drag-icon-container' {...provided.dragHandleProps}>
+            <AiOutlineHolder className='drag-icon' />
+          </div>
+          <div className='content'>
+            <div
+              className='quantity'
+              contentEditable
+              suppressContentEditableWarning={true}
+              ref={quantityRef}
+              onBlur={handleQuantityChange}
+              onKeyPress={handleKeyPress}
+            >
+              {quantity}
+            </div>
+            <div
+              className='name'
+              contentEditable
+              suppressContentEditableWarning={true}
+              ref={nameRef}
+              onBlur={handleNameChange}
+              onKeyPress={handleKeyPress}
+            >
+              {name}
+            </div>
+          </div>
+          <AiOutlineClose className='remove' onClick={() => deleteItem(id)} />
         </div>
-        <div
-          className='name'
-          contentEditable
-          suppressContentEditableWarning={true}
-          ref={nameRef}
-          onBlur={handleNameChange}
-          onKeyPress={handleKeyPress}
-        >
-          {name}
-        </div>
-
-        {/* {quantity} {name} */}
-      </div>
-      <AiOutlineClose className='remove' onClick={() => deleteItem(id)} />
-    </div>
+      )}
+    </Draggable>
   )
 }
 

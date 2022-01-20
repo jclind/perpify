@@ -40,20 +40,36 @@
   .list {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
     margin-top: 1rem;
+
     .ingredient-item {
       position: relative;
       display: flex;
       align-items: center;
-      background: $secondary-background;
+      border-bottom: 1px solid $secondary-background;
       height: 45px;
-      padding: 0 1rem;
       font-size: toRem(16);
       font-weight: 600;
+
+      .drag-icon-container {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding-right: 1rem;
+
+        .drag-icon {
+          height: 22px;
+          width: 22px;
+        }
+      }
+
       .content {
         display: flex;
         align-items: center;
         height: 100%;
+
         div {
           display: flex;
           align-items: center;
@@ -63,6 +79,7 @@
           border: none;
           outline: none;
           width: fit-content;
+
           &:hover {
             border: 1px solid $secondary-text;
           }
