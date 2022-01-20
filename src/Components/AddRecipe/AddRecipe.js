@@ -2,13 +2,18 @@ import React, { useState } from 'react'
 import './AddRecipe.scss'
 import RecipeFormInput from './RecipeFormInput'
 import RecipeFormTextArea from './RecipeFormTextArea'
+import IngredientsList from './IngredientsList/IngredientsList'
 
 const AddRecipe = () => {
   const [recipeTitle, setRecipeTitle] = useState('')
   const [recipePrepTime, setRecipePrepTime] = useState(null)
   const [recipeCookTime, setRecipeCookTime] = useState(null)
   const [recipeServingSize, setRecipeServingSize] = useState(null)
+  const [recipeFridgeLife, setRecipeFridgeLife] = useState(null)
+  const [recipeFreezerLife, setRecipeFreezerLife] = useState(null)
   const [recipeDescription, setRecipeDescription] = useState('')
+
+  const [ingredients, setIngredients] = useState('')
 
   return (
     <div className='add-recipe-page page'>
@@ -44,12 +49,29 @@ const AddRecipe = () => {
               placeholder={'6'}
             />
           </div>
+          <div className='recipe-data'>
+            <RecipeFormInput
+              name={'Fridge Life (days)'}
+              type={'number'}
+              val={recipeFridgeLife}
+              setVal={setRecipeFridgeLife}
+              placeholder={'3'}
+            />
+            <RecipeFormInput
+              name={'Freezer Life (days)'}
+              type={'number'}
+              val={recipeFreezerLife}
+              setVal={setRecipePrepTime}
+              placeholder={'40'}
+            />
+          </div>
           <RecipeFormTextArea
             name='Recipe Description'
             val={recipeDescription}
             setVal={setRecipeDescription}
-            placeholder
+            placeholder='Description of recipe...'
           />
+          <IngredientsList />
         </form>
       </div>
     </div>

@@ -23,23 +23,6 @@
         font-weight: 700;
       }
     }
-    .error,
-    .success {
-      margin-bottom: 2rem;
-      padding: 0.5rem 1rem;
-      font-weight: 600;
-      border-radius: $border-radius;
-    }
-    .error {
-      background: $alert-error-red;
-      color: $alert-error-red-text;
-      border: 1px solid $alert-error-red-border;
-    }
-    .success {
-      background: $alert-success-green;
-      color: $alert-success-green-text;
-      border: 1px solid $alert-success-green-text;
-    }
     .input-fields {
       width: 100%;
       display: flex;
