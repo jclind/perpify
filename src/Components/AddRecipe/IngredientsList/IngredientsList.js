@@ -4,6 +4,7 @@ import IngredientsItem from './IngredientsItem'
 import { v4 as uuidv4 } from 'uuid'
 import { capitalize } from '../../../util/capitalize'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import QuantityInput from './QuantityInput'
 
 const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
   const [name, setName] = useState('')
@@ -75,13 +76,8 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
           onChange={e => setName(e.target.value)}
           ref={ingredientNameRef}
         />
-        <input
-          type='text'
-          className='quantity'
-          placeholder='Quantity ie. 2 tbs'
-          value={quantity}
-          onChange={e => setQuantity(e.target.value)}
-        />
+        <QuantityInput val={quantity} setVal={setQuantity} />
+
         <button
           className='add-ingredient-btn btn'
           onClick={handleAddIngredient}
