@@ -41,6 +41,23 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
     ])
   }
 
+  const handleOnDragEnd = param => {
+    const srcIdx = param.source.index
+    const desIdx = param.destination.index
+
+    if (desIdx !== null) {
+      console.log(srcIdx, desIdx)
+
+      const tempIngredientsList = JSON.parse(JSON.stringify(ingredientsList))
+
+      const movedIngredient = tempIngredientsList.splice(srcIdx, 1)[0]
+
+      tempIngredientsList.splice(desIdx, 0, movedIngredient)
+
+      setIngredientsList(tempIngredientsList)
+    }
+  }
+
   useEffect(() => {
     console.log(ingredientsList)
   }, [ingredientsList])
@@ -72,11 +89,7 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
           Add Ingredient
         </button>
       </div>
-      <DragDropContext
-        onDrapEnd={(...props) => {
-          console.log(props)
-        }}
-      >
+      <DragDropContext onDragEnd={param => handleOnDragEnd(param)}>
         <Droppable droppableId='droppable-1'>
           {(provided, _) => (
             <div
