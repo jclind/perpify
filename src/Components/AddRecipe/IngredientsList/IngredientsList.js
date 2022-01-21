@@ -70,7 +70,7 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
       <div className='inputs'>
         <input
           type='text'
-          className='ingredient'
+          className='ingredient input'
           placeholder='Ingredient name'
           value={name}
           onChange={e => setName(e.target.value)}

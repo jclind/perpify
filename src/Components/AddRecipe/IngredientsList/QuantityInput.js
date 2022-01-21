@@ -5,21 +5,28 @@ import { validateIngredientQuantityStr } from '../../../util/validateIngredientQ
 const QuantityInput = ({ val, setVal }) => {
   const [tempQuantity, setTempQuantity] = useState(val)
 
+  const [error, setError] = useState('')
+
   const handleInputChange = e => {
     const newVal = e.target.value
 
     setTempQuantity(newVal)
 
-    validateIngredientQuantityStr(newVal)
+    const ingredientData = validateIngredientQuantityStr(newVal)
+    if (ingredientData.err) {
+      console.log(ingredientData.err)
+    }
   }
   return (
-    <input
-      type='text'
-      className='quantity'
-      placeholder='Qty: 1 1/2 cups, to taste'
-      value={tempQuantity}
-      onChange={handleInputChange}
-    />
+    <>
+      <input
+        type='text'
+        className='quantity'
+        placeholder='Qty: 1 1/2 cups, to taste'
+        value={tempQuantity}
+        onChange={handleInputChange}
+      />
+    </>
   )
 }
 

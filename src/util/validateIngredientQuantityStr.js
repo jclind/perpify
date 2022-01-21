@@ -174,12 +174,28 @@ const validateQuantityandMeasurements = str => {
         err: 'ERROR, PLEASE ENTER MIXED NUMBER RATHER THAN A DECIMAL. IE: 1 1/2',
       }
     }
-    return { quantity: num, measurement: singleNumberQuantityTypeStr }
+
+    // Hold html that will be rendered in quantityInput
+    const contentHTML = `${num} <span className="valid-measurement">${singleNumberQuantityTypeStr}</span>`
+
+    return {
+      quantity: num,
+      measurement: singleNumberQuantityTypeStr,
+      contentHTML,
+    }
   }
   // If first value is a fraction, convert fraction to decimal and return data object
   if (isFraction(splitVal[0])) {
     const num = eval(splitVal[0])
-    return { quantity: num, measurement: singleNumberQuantityTypeStr }
+
+    // Hold html that will be rendered in quantityInput
+    const contentHTML = `${splitVal[0]} <span className="valid-measurement">${singleNumberQuantityTypeStr}</span>`
+
+    return {
+      quantity: num,
+      measurement: singleNumberQuantityTypeStr,
+      contentHTML,
+    }
   }
 
   // If first value is a number and second value is a fraction, convert fraction to decimal
@@ -194,9 +210,14 @@ const validateQuantityandMeasurements = str => {
       err: 'ERROR, PLEASE ENTER MIXED NUMBER RATHER THAN A DECIMAL. IE: 1 1/2',
     }
   }
+
+  // Hold html that will be rendered in quantityInput
+  const contentHTML = `${wholeNum} ${splitVal[1]} <span className="valid-measurement">${singleNumberQuantityTypeStr}</span>`
+
   return {
     quantity: wholeNum + decimalNum,
     measurement: mixedNumberQuantityTypeStr,
+    contentHTML,
   }
 }
 
@@ -207,7 +228,7 @@ const validateAdditionalInstructions = str => {
     }
   }
 
-  return { content: str }
+  return { additionalInstructions: str.trim() }
 }
 
 export const validateIngredientQuantityStr = str => {
@@ -215,16 +236,25 @@ export const validateIngredientQuantityStr = str => {
   // and measurements at index 0 and additional instructions at index 1
   const splitStr = str.split(',')
 
-  const quantityandMeasurements = validateQuantityandMeasurements(splitStr[0])
-  if (quantityandMeasurements.err) {
-    return quantityandMeasurements.err
+  const quantityAndMeasurements = validateQuantityandMeasurements(splitStr[0])
+  if (quantityAndMeasurements.err) {
+    return quantityAndMeasurements
   }
 
   const additionalInstructions = splitStr[1]
     ? validateAdditionalInstructions(splitStr[1])
     : null
   if (additionalInstructions && additionalInstructions.err) {
-    return additionalInstructions.err
+    return additionalInstructions
   }
-  console.log(quantityandMeasurements, additionalInstructions)
+
+  const ingredientData = additionalInstructions
+    ? { ...quantityAndMeasurements, ...additionalInstructions }
+    : { ...quantityAndMeasurements }
+
+  if (additionalInstructions) {
+    ingredientData.contentHTML = `${ingredientData.contentHTML}, ${additionalInstructions.additionalInstructions}`
+  }
+
+  return ingredientData
 }

@@ -32,6 +32,7 @@
       color: $primary-text;
       left: 0.75rem;
     }
+    .input,
     input,
     textarea {
       background: none;
@@ -49,6 +50,9 @@
       resize: none;
       height: 10ch;
       padding: 1rem;
+    }
+    [contentEditable='true']:empty:not(:focus):before {
+      content: attr(data-text);
     }
   }
 }
