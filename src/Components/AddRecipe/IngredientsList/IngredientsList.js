@@ -4,7 +4,7 @@ import IngredientsItem from './IngredientsItem'
 import { v4 as uuidv4 } from 'uuid'
 import { capitalize } from '../../../util/capitalize'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import QuantityInput from './QuantityInput'
+import { validateIngredientQuantityStr } from '../../../util/validateIngredientQuantityStr'
 
 const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
   const [name, setName] = useState('')
@@ -20,6 +20,11 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
 
     if (!name || !quantity) return setError('Please fill out both fields')
 
+    const quantityValidation = validateIngredientQuantityStr(quantity)
+    if (quantityValidation.err) {
+      const err = quantityValidation.err
+      return setError(err)
+    }
     setIngredientsList(prevState => [
       ...prevState,
       { name: capitalize(name), quantity, id: uuidv4() },
@@ -32,14 +37,27 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
     setIngredientsList(ingredientsList.filter(item => item.id !== id))
   }
   const updateItem = (updatedItem, id) => {
+    setError('')
+
     const tempIngredientIndex = ingredientsList.findIndex(
       item => item.id === id
     )
+
+    const quantityValidation = validateIngredientQuantityStr(
+      updatedItem.quantity
+    )
+    if (quantityValidation.err) {
+      const err = quantityValidation.err
+      setError(err)
+      return false
+    }
+
     setIngredientsList([
       ...ingredientsList.slice(0, tempIngredientIndex),
       { ...updatedItem },
       ...ingredientsList.slice(tempIngredientIndex + 1),
     ])
+    return true
   }
 
   const handleOnDragEnd = param => {
@@ -76,7 +94,13 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
           onChange={e => setName(e.target.value)}
           ref={ingredientNameRef}
         />
-        <QuantityInput val={quantity} setVal={setQuantity} />
+        <input
+          type='text'
+          className='quantity'
+          placeholder='Qty: 1 1/2 cups, to taste'
+          value={quantity}
+          onChange={e => setQuantity(e.target.value)}
+        />
 
         <button
           className='add-ingredient-btn btn'

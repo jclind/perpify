@@ -4,22 +4,30 @@ import { AiOutlineClose, AiOutlineHolder } from 'react-icons/ai'
 
 import { Draggable } from 'react-beautiful-dnd'
 
+import { capitalize } from '../../../util/capitalize'
+
 const IngredientsItem = ({ ingredient, deleteItem, updateItem, index }) => {
   const [name, setName] = useState(ingredient.name)
   const [quantity, setQuantity] = useState(ingredient.quantity)
 
   const { id } = ingredient
+  const quantityElId = `quantity-${id}`
 
   const quantityRef = useRef()
   const nameRef = useRef()
 
   const handleQuantityChange = () => {
     const newQuantity = quantityRef.current.innerText
-    if (newQuantity && newQuantity !== ingredient.quantity) {
-      setQuantity(newQuantity)
 
+    if (newQuantity && newQuantity !== ingredient.quantity) {
       const updatedIngredient = { ...ingredient, quantity: newQuantity }
-      updateItem(updatedIngredient, id)
+      const updateItemRes = updateItem(updatedIngredient, id)
+
+      if (updateItemRes) {
+        setQuantity(newQuantity)
+      } else {
+        document.getElementById(quantityElId).innerText = quantity
+      }
     }
   }
   const handleNameChange = () => {
@@ -27,7 +35,7 @@ const IngredientsItem = ({ ingredient, deleteItem, updateItem, index }) => {
     if (newName && newName !== ingredient.name) {
       setName(newName)
 
-      const updatedIngredient = { ...ingredient, name: newName }
+      const updatedIngredient = { ...ingredient, name: capitalize(newName) }
       updateItem(updatedIngredient, id)
     }
   }
@@ -60,6 +68,7 @@ const IngredientsItem = ({ ingredient, deleteItem, updateItem, index }) => {
           </div>
           <div className='content'>
             <div
+              id={quantityElId}
               className='quantity'
               contentEditable
               suppressContentEditableWarning={true}
