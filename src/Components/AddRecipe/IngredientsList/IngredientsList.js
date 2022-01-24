@@ -6,7 +6,7 @@ import { capitalize } from '../../../util/capitalize'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { validateIngredientQuantityStr } from '../../../util/validateIngredientQuantityStr'
 
-const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
+const IngredientsList = ({ recipeIngredients, setRecipeIngredients }) => {
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState('')
 
@@ -25,7 +25,7 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
       const err = quantityValidation.err
       return setError(err)
     }
-    setIngredientsList(prevState => [
+    setRecipeIngredients(prevState => [
       ...prevState,
       { name: capitalize(name), quantity, id: uuidv4() },
     ])
@@ -34,12 +34,12 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
     setQuantity('')
   }
   const deleteIngredient = id => {
-    setIngredientsList(ingredientsList.filter(item => item.id !== id))
+    setRecipeIngredients(recipeIngredients.filter(item => item.id !== id))
   }
   const updateIngredient = (updatedItem, id) => {
     setError('')
 
-    const tempIngredientIndex = ingredientsList.findIndex(
+    const tempIngredientIndex = recipeIngredients.findIndex(
       item => item.id === id
     )
 
@@ -52,10 +52,10 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
       return false
     }
 
-    setIngredientsList([
-      ...ingredientsList.slice(0, tempIngredientIndex),
+    setRecipeIngredients([
+      ...recipeIngredients.slice(0, tempIngredientIndex),
       { ...updatedItem },
-      ...ingredientsList.slice(tempIngredientIndex + 1),
+      ...recipeIngredients.slice(tempIngredientIndex + 1),
     ])
     return true
   }
@@ -67,19 +67,15 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
     if (desIdx !== null) {
       console.log(srcIdx, desIdx)
 
-      const tempIngredientsList = JSON.parse(JSON.stringify(ingredientsList))
+      const tempIngredientsList = JSON.parse(JSON.stringify(recipeIngredients))
 
       const movedIngredient = tempIngredientsList.splice(srcIdx, 1)[0]
 
       tempIngredientsList.splice(desIdx, 0, movedIngredient)
 
-      setIngredientsList(tempIngredientsList)
+      setRecipeIngredients(tempIngredientsList)
     }
   }
-
-  useEffect(() => {
-    console.log(JSON.stringify(ingredientsList))
-  }, [ingredientsList])
 
   return (
     <div className='ingredients-list'>
@@ -117,8 +113,8 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {ingredientsList &&
-                ingredientsList.map((ingredient, idx) => {
+              {recipeIngredients &&
+                recipeIngredients.map((ingredient, idx) => {
                   return (
                     <IngredientsItem
                       ingredient={ingredient}

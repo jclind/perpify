@@ -15,7 +15,7 @@ const AddRecipe = () => {
   const [recipeDescription, setRecipeDescription] = useState('')
 
   const [recipeInstructions, setRecipeInstructions] = useState([])
-  const [ingredientsList, setIngredientsList] = useState([
+  const [recipeIngredients, setRecipeIngredients] = useState([
     {
       name: 'Flour',
       quantity: '2 cups',
@@ -34,8 +34,92 @@ const AddRecipe = () => {
   ])
 
   useEffect(() => {
-    const addRecipeFormData = localStorage.getItem('addRecipeFormData')
+    const addRecipeFormData = JSON.parse(
+      localStorage.getItem('addRecipeFormData')
+    )
+    console.log(addRecipeFormData)
+
+    const title = addRecipeFormData?.recipeTitle
+      ? addRecipeFormData.recipeTitle
+      : ''
+    setRecipeTitle(title)
+
+    const prepTime = addRecipeFormData?.recipePrepTime
+      ? addRecipeFormData.recipePrepTime
+      : ''
+    setRecipePrepTime(prepTime)
+
+    const cookTime = addRecipeFormData?.recipeCookTime
+      ? addRecipeFormData.recipeCookTime
+      : ''
+    setRecipeCookTime(cookTime)
+
+    const servingSize = addRecipeFormData?.recipeServingSize
+      ? addRecipeFormData.recipeServingSize
+      : ''
+    setRecipeServingSize(servingSize)
+
+    const fridgeLife = addRecipeFormData?.recipeFridgeLife
+      ? addRecipeFormData.recipeFridgeLife
+      : ''
+    setRecipeFridgeLife(fridgeLife)
+
+    const freezerLife = addRecipeFormData?.recipeFreezerLife
+      ? addRecipeFormData.recipeFreezerLife
+      : ''
+    setRecipeFreezerLife(freezerLife)
+
+    const description = addRecipeFormData?.recipeDescription
+      ? addRecipeFormData.recipeDescription
+      : ''
+    setRecipeDescription(description)
+
+    const instructions = addRecipeFormData?.recipeInstructions
+      ? addRecipeFormData.recipeInstructions
+      : []
+    setRecipeInstructions(instructions)
+
+    const ingredients = addRecipeFormData?.ingredientsList
+      ? addRecipeFormData.ingredientsList
+      : []
+    setRecipeIngredients(ingredients)
   }, [])
+
+  useEffect(() => {
+    const saveLocalRecipeData = () => {
+      const addRecipeFormData = {
+        recipeTitle,
+        recipePrepTime,
+        recipeCookTime,
+        recipeServingSize,
+        recipeFridgeLife,
+        recipeFreezerLife,
+        recipeDescription,
+        recipeInstructions,
+        recipeIngredients,
+      }
+      localStorage.setItem(
+        'addRecipeFormData',
+        JSON.stringify(addRecipeFormData)
+      )
+    }
+
+    window.addEventListener('beforeunload', saveLocalRecipeData)
+
+    return () => {
+      window.removeEventListener('beforeunload', saveLocalRecipeData)
+    }
+  }, [
+    recipeTitle,
+    recipePrepTime,
+    recipeCookTime,
+    recipeServingSize,
+    recipeFridgeLife,
+    recipeFreezerLife,
+    recipeDescription,
+    recipeInstructions,
+    recipeIngredients,
+  ])
 
   const handleAddRecipeFormSubmit = e => {
     e.preventDefault()
@@ -106,8 +190,8 @@ const AddRecipe = () => {
             setRecipeInstructions={setRecipeInstructions}
           />
           <IngredientsList
-            ingredientsList={ingredientsList}
-            setIngredientsList={setIngredientsList}
+            recipeIngredients={recipeIngredients}
+            setRecipeIngredients={setRecipeIngredients}
           />
         </form>
       </div>

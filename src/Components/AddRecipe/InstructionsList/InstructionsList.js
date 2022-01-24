@@ -48,10 +48,6 @@ const InstructionsList = ({ recipeInstructions, setRecipeInstructions }) => {
     setRecipeInstructions(recipeInstructions.filter(item => item.id !== id))
   }
 
-  useEffect(() => {
-    console.log(recipeInstructions)
-  }, [recipeInstructions])
-
   return (
     <div className='instructions-list'>
       <div className='instruction-list-textarea-container'>
