@@ -15,23 +15,7 @@ const AddRecipe = () => {
   const [recipeDescription, setRecipeDescription] = useState('')
 
   const [recipeInstructions, setRecipeInstructions] = useState([])
-  const [recipeIngredients, setRecipeIngredients] = useState([
-    {
-      name: 'Flour',
-      quantity: '2 cups',
-      id: '01027528-81ab-447b-9946-0d312b7b76bf',
-    },
-    {
-      name: 'Sugar',
-      quantity: '1/2 cup',
-      id: '35a6f4a6-5b99-4ece-b5f2-22c4b4d3f1d2',
-    },
-    {
-      name: 'Salt',
-      quantity: '1 tsp, or to taste',
-      id: 'b0af1d47-1b89-4544-828b-3cb11d21ba65',
-    },
-  ])
+  const [recipeIngredients, setRecipeIngredients] = useState([])
 
   useEffect(() => {
     const addRecipeFormData = JSON.parse(
@@ -79,8 +63,8 @@ const AddRecipe = () => {
       : []
     setRecipeInstructions(instructions)
 
-    const ingredients = addRecipeFormData?.ingredientsList
-      ? addRecipeFormData.ingredientsList
+    const ingredients = addRecipeFormData?.recipeIngredients
+      ? addRecipeFormData.recipeIngredients
       : []
     setRecipeIngredients(ingredients)
   }, [])

@@ -13,6 +13,11 @@ const InstructionsList = ({ recipeInstructions, setRecipeInstructions }) => {
 
   const handleAddInstruction = e => {
     e.preventDefault()
+
+    if (instructionText.length <= 5) {
+      return setError('ERROR, MUST HAVE 5 OR MORE CHARACTERS PER INSTRUCTION')
+    }
+
     setRecipeInstructions([
       ...recipeInstructions,
       {
@@ -48,8 +53,13 @@ const InstructionsList = ({ recipeInstructions, setRecipeInstructions }) => {
     setRecipeInstructions(recipeInstructions.filter(item => item.id !== id))
   }
 
+  useEffect(() => {
+    setError('')
+  }, [instructionText])
+
   return (
     <div className='instructions-list'>
+      {error && <div className='error'>{error}</div>}
       <div className='instruction-list-textarea-container'>
         <RecipeFormTextArea
           name='Instruction Steps'

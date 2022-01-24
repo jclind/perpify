@@ -77,6 +77,12 @@ const IngredientsList = ({ recipeIngredients, setRecipeIngredients }) => {
     }
   }
 
+  const handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      handleAddIngredient(e)
+    }
+  }
+
   return (
     <div className='ingredients-list'>
       <label className='label-title'>Ingredients</label>
@@ -95,6 +101,7 @@ const IngredientsList = ({ recipeIngredients, setRecipeIngredients }) => {
           className='quantity'
           placeholder='Qty: 1 1/2 cups, to taste'
           value={quantity}
+          onKeyPress={handleKeyPress}
           onChange={e => setQuantity(e.target.value)}
         />
 
