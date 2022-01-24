@@ -18,6 +18,8 @@ const AddRecipe = () => {
   const [recipeInstructions, setRecipeInstructions] = useState([])
   const [recipeIngredients, setRecipeIngredients] = useState([])
 
+  const [recipeImage, setRecipeImage] = useState('')
+
   const [undoClearForm, setUndoClearForm] = useState(false)
 
   const setStatesToLocalData = () => {
@@ -70,6 +72,11 @@ const AddRecipe = () => {
       ? addRecipeFormData.recipeIngredients
       : []
     setRecipeIngredients(ingredients)
+
+    const image = addRecipeFormData?.recipeImage
+      ? addRecipeFormData.recipeImage
+      : ''
+    setRecipeImage(image)
   }
 
   useEffect(() => {
@@ -88,6 +95,7 @@ const AddRecipe = () => {
         recipeDescription,
         recipeInstructions,
         recipeIngredients,
+        recipeImage,
       }
       localStorage.setItem(
         'addRecipeFormData',
@@ -110,6 +118,7 @@ const AddRecipe = () => {
     recipeDescription,
     recipeInstructions,
     recipeIngredients,
+    recipeImage,
   ])
 
   const handleAddRecipeFormSubmit = e => {
@@ -131,6 +140,7 @@ const AddRecipe = () => {
     setRecipeDescription('')
     setRecipeInstructions([])
     setRecipeIngredients([])
+    setRecipeImage('')
     setUndoClearForm(true)
   }
 
@@ -202,7 +212,10 @@ const AddRecipe = () => {
             recipeIngredients={recipeIngredients}
             setRecipeIngredients={setRecipeIngredients}
           />
-          <RecipeImage />
+          <RecipeImage
+            recipeImage={recipeImage}
+            setRecipeImage={setRecipeImage}
+          />
         </form>
       </div>
       <button className='clear-form' onClick={clearForm}>
