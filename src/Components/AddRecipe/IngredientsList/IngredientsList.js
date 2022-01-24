@@ -3,7 +3,7 @@ import './IngredientsList.scss'
 import IngredientsItem from './IngredientsItem'
 import { v4 as uuidv4 } from 'uuid'
 import { capitalize } from '../../../util/capitalize'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { validateIngredientQuantityStr } from '../../../util/validateIngredientQuantityStr'
 
 const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
@@ -33,10 +33,10 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
     setName('')
     setQuantity('')
   }
-  const deleteItem = id => {
+  const deleteIngredient = id => {
     setIngredientsList(ingredientsList.filter(item => item.id !== id))
   }
-  const updateItem = (updatedItem, id) => {
+  const updateIngredient = (updatedItem, id) => {
     setError('')
 
     const tempIngredientIndex = ingredientsList.findIndex(
@@ -78,7 +78,7 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
   }
 
   useEffect(() => {
-    console.log(ingredientsList)
+    console.log(JSON.stringify(ingredientsList))
   }, [ingredientsList])
 
   return (
@@ -122,8 +122,8 @@ const IngredientsList = ({ ingredientsList, setIngredientsList }) => {
                   return (
                     <IngredientsItem
                       ingredient={ingredient}
-                      deleteItem={deleteItem}
-                      updateItem={updateItem}
+                      deleteItem={deleteIngredient}
+                      updateItem={updateIngredient}
                       key={ingredient.id}
                       index={idx}
                     />

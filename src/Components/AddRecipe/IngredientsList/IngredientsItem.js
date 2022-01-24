@@ -6,7 +6,12 @@ import { Draggable } from 'react-beautiful-dnd'
 
 import { capitalize } from '../../../util/capitalize'
 
-const IngredientsItem = ({ ingredient, deleteItem, updateItem, index }) => {
+const IngredientsItem = ({
+  ingredient,
+  deleteIngredient,
+  updateIngredient,
+  index,
+}) => {
   const [name, setName] = useState(ingredient.name)
   const [quantity, setQuantity] = useState(ingredient.quantity)
 
@@ -21,13 +26,15 @@ const IngredientsItem = ({ ingredient, deleteItem, updateItem, index }) => {
 
     if (newQuantity && newQuantity !== ingredient.quantity) {
       const updatedIngredient = { ...ingredient, quantity: newQuantity }
-      const updateItemRes = updateItem(updatedIngredient, id)
+      const updateItemRes = updateIngredient(updatedIngredient, id)
 
       if (updateItemRes) {
         setQuantity(newQuantity)
       } else {
         document.getElementById(quantityElId).innerText = quantity
       }
+    } else {
+      quantityRef.current.innerText = ingredient.quantity
     }
   }
   const handleNameChange = () => {
@@ -36,7 +43,9 @@ const IngredientsItem = ({ ingredient, deleteItem, updateItem, index }) => {
       setName(newName)
 
       const updatedIngredient = { ...ingredient, name: capitalize(newName) }
-      updateItem(updatedIngredient, id)
+      updateIngredient(updatedIngredient, id)
+    } else {
+      nameRef.current.innerText = ingredient.name
     }
   }
 
@@ -89,7 +98,10 @@ const IngredientsItem = ({ ingredient, deleteItem, updateItem, index }) => {
               {name}
             </div>
           </div>
-          <AiOutlineClose className='remove' onClick={() => deleteItem(id)} />
+          <AiOutlineClose
+            className='remove'
+            onClick={() => deleteIngredient(id)}
+          />
         </div>
       )}
     </Draggable>

@@ -51,6 +51,10 @@
       height: 10ch;
       padding: 1rem;
     }
+    .small-textarea {
+      height: 5ch !important;
+    }
+
     [contentEditable='true']:empty:not(:focus):before {
       content: attr(data-text);
     }
