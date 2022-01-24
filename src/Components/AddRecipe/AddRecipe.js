@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './AddRecipe.scss'
 import RecipeFormInput from './RecipeFormInput'
 import RecipeFormTextArea from './RecipeFormTextArea'
 import IngredientsList from './IngredientsList/IngredientsList'
 import InstructionsList from './InstructionsList/InstructionsList'
+import RecipeImage from './RecipeImage/RecipeImage'
 
 const AddRecipe = () => {
   const [recipeTitle, setRecipeTitle] = useState('')
@@ -17,7 +18,9 @@ const AddRecipe = () => {
   const [recipeInstructions, setRecipeInstructions] = useState([])
   const [recipeIngredients, setRecipeIngredients] = useState([])
 
-  useEffect(() => {
+  const [undoClearForm, setUndoClearForm] = useState(false)
+
+  const setStatesToLocalData = () => {
     const addRecipeFormData = JSON.parse(
       localStorage.getItem('addRecipeFormData')
     )
@@ -67,6 +70,10 @@ const AddRecipe = () => {
       ? addRecipeFormData.recipeIngredients
       : []
     setRecipeIngredients(ingredients)
+  }
+
+  useEffect(() => {
+    setStatesToLocalData()
   }, [])
 
   useEffect(() => {
@@ -107,6 +114,24 @@ const AddRecipe = () => {
 
   const handleAddRecipeFormSubmit = e => {
     e.preventDefault()
+  }
+
+  const clearForm = () => {
+    if (undoClearForm) {
+      setUndoClearForm(false)
+      return setStatesToLocalData()
+    }
+
+    setRecipeTitle('')
+    setRecipePrepTime('')
+    setRecipeCookTime('')
+    setRecipeServingSize('')
+    setRecipeFridgeLife('')
+    setRecipeFreezerLife('')
+    setRecipeDescription('')
+    setRecipeInstructions([])
+    setRecipeIngredients([])
+    setUndoClearForm(true)
   }
 
   return (
@@ -177,8 +202,12 @@ const AddRecipe = () => {
             recipeIngredients={recipeIngredients}
             setRecipeIngredients={setRecipeIngredients}
           />
+          <RecipeImage />
         </form>
       </div>
+      <button className='clear-form' onClick={clearForm}>
+        {undoClearForm ? 'Undo' : 'Clear Form'}
+      </button>
     </div>
   )
 }
