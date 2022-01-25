@@ -5,6 +5,7 @@ import RecipeFormTextArea from './RecipeFormTextArea'
 import IngredientsList from './IngredientsList/IngredientsList'
 import InstructionsList from './InstructionsList/InstructionsList'
 import RecipeImage from './RecipeImage/RecipeImage'
+import { useRecipe } from '../../context/RecipeContext'
 
 const AddRecipe = () => {
   const [recipeTitle, setRecipeTitle] = useState('')
@@ -21,6 +22,11 @@ const AddRecipe = () => {
   const [recipeImage, setRecipeImage] = useState('')
 
   const [undoClearForm, setUndoClearForm] = useState(false)
+
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState('')
+
+  const { addRecipe } = useRecipe()
 
   const setStatesToLocalData = () => {
     const addRecipeFormData = JSON.parse(
@@ -72,11 +78,6 @@ const AddRecipe = () => {
       ? addRecipeFormData.recipeIngredients
       : []
     setRecipeIngredients(ingredients)
-
-    const image = addRecipeFormData?.recipeImage
-      ? addRecipeFormData.recipeImage
-      : ''
-    setRecipeImage(image)
   }
 
   useEffect(() => {
@@ -95,7 +96,6 @@ const AddRecipe = () => {
         recipeDescription,
         recipeInstructions,
         recipeIngredients,
-        recipeImage,
       }
       localStorage.setItem(
         'addRecipeFormData',
@@ -118,11 +118,34 @@ const AddRecipe = () => {
     recipeDescription,
     recipeInstructions,
     recipeIngredients,
-    recipeImage,
   ])
 
   const handleAddRecipeFormSubmit = e => {
     e.preventDefault()
+    setError('')
+
+    if (!recipeTitle) return setError('Please Enter Recipe Title')
+    if (!recipePrepTime) return setError('Please Enter Prep time')
+    if (!recipeCookTime) return setError('Please Enter Cook Time')
+    if (!recipeServingSize) return setError('Please Enter Serving Size')
+    if (recipeInstructions.length <= 0)
+      return setError('Please Enter Instructions')
+    if (recipeIngredients.length <= 0)
+      return setError('Please Enter Ingredients')
+    if (!recipeImage) return setError('Please Select Image')
+
+    const recipeData = {
+      recipeTitle,
+      recipePrepTime,
+      recipeCookTime,
+      recipeServingSize,
+      recipeFridgeLife,
+      recipeFreezerLife,
+      recipeDescription,
+      recipeInstructions,
+      recipeIngredients,
+      recipeImage,
+    }
   }
 
   const clearForm = () => {
@@ -140,42 +163,52 @@ const AddRecipe = () => {
     setRecipeDescription('')
     setRecipeInstructions([])
     setRecipeIngredients([])
-    setRecipeImage('')
     setUndoClearForm(true)
   }
 
+  useEffect(() => {
+    if (error) {
+      addRecipeTitleRef.current.scrollIntoView()
+    }
+  }, [error])
+
+  const addRecipeTitleRef = useRef()
+
   return (
     <div className='add-recipe-page page'>
-      <h1 className='title'>Create Your Own Recipe</h1>
+      <h1 className='title' ref={addRecipeTitleRef}>
+        Create Your Own Recipe
+      </h1>
       <div className='form-container'>
         <form
           action=''
           className='create-recipe-form'
           onSubmit={handleAddRecipeFormSubmit}
         >
+          {error && <div className='error'>{error}</div>}
           <RecipeFormInput
-            name={'Title'}
+            name={'Title *'}
             val={recipeTitle}
             setVal={setRecipeTitle}
             placeholder={'Mexican Chipotle Bowl...'}
           />
           <div className='recipe-data'>
             <RecipeFormInput
-              name={'Prep Time (min)'}
+              name={'Prep Time (min) *'}
               type={'number'}
               val={recipePrepTime}
               setVal={setRecipePrepTime}
               placeholder={'25'}
             />
             <RecipeFormInput
-              name={'Cook Time (min)'}
+              name={'Cook Time (min) *'}
               type={'number'}
               val={recipeCookTime}
               setVal={setRecipeCookTime}
               placeholder={'35'}
             />
             <RecipeFormInput
-              name={'Serving Size'}
+              name={'Serving Size *'}
               type={'number'}
               val={recipeServingSize}
               setVal={setRecipeServingSize}
@@ -216,6 +249,7 @@ const AddRecipe = () => {
             recipeImage={recipeImage}
             setRecipeImage={setRecipeImage}
           />
+          <button className='btn add-recipe-btn'>Create Recipe</button>
         </form>
       </div>
       <button className='clear-form' onClick={clearForm}>

@@ -62,7 +62,7 @@ const InstructionsList = ({ recipeInstructions, setRecipeInstructions }) => {
       {error && <div className='error'>{error}</div>}
       <div className='instruction-list-textarea-container'>
         <RecipeFormTextArea
-          name='Instruction Steps'
+          name='Instruction Steps *'
           smallTextArea={true}
           val={instructionText}
           setVal={setInstructionText}

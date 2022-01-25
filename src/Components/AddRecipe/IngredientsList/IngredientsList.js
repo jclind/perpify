@@ -85,7 +85,7 @@ const IngredientsList = ({ recipeIngredients, setRecipeIngredients }) => {
 
   return (
     <div className='ingredients-list'>
-      <label className='label-title'>Ingredients</label>
+      <label className='label-title'>Ingredients *</label>
       {error && <div className='error'>{error}</div>}
       <div className='inputs'>
         <input

@@ -31,8 +31,11 @@ const RecipeProvider = ({ children }) => {
     }
     return null
   }
+  const addRecipe = async (recipeData, setLoading, setError) => {
+    console.log(recipeData)
+  }
 
-  const value = { getRecipe }
+  const value = { getRecipe, addRecipe }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
   )
