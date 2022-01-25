@@ -125,6 +125,16 @@ const isFraction = str => {
 const validateQuantityandMeasurements = str => {
   const splitVal = str.split(' ')
 
+  if (splitVal.length === 1 && !isNaN(splitVal[0].trim())) {
+    const num = Number(splitVal[0].trim())
+    const contentHTML = `${num}`
+    return {
+      quantity: num,
+      measurement: null,
+      contentHTML,
+    }
+  }
+
   if (splitVal.length <= 1) {
     return { err: 'ERROR, PLEASE ENTER BOTH QUANTITY AND MEASUREMENT' }
   }

@@ -6,6 +6,8 @@ import IngredientsList from './IngredientsList/IngredientsList'
 import InstructionsList from './InstructionsList/InstructionsList'
 import RecipeImage from './RecipeImage/RecipeImage'
 import { useRecipe } from '../../context/RecipeContext'
+import { TailSpin } from 'react-loader-spinner'
+import LoadingBar from 'react-top-loading-bar'
 
 const AddRecipe = () => {
   const [recipeTitle, setRecipeTitle] = useState('')
@@ -25,6 +27,7 @@ const AddRecipe = () => {
 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState('')
+  const [loadingProgress, setLoadingProgress] = useState(0)
 
   const { addRecipe } = useRecipe()
 
@@ -121,18 +124,23 @@ const AddRecipe = () => {
   ])
 
   const handleAddRecipeFormSubmit = e => {
+    const returnError = msg => {
+      setLoading(false)
+      setError(msg)
+    }
     e.preventDefault()
     setError('')
+    setLoading(true)
 
-    if (!recipeTitle) return setError('Please Enter Recipe Title')
-    if (!recipePrepTime) return setError('Please Enter Prep time')
-    if (!recipeCookTime) return setError('Please Enter Cook Time')
-    if (!recipeServingSize) return setError('Please Enter Serving Size')
+    if (!recipeTitle) return returnError('Please Enter Recipe Title')
+    if (!recipePrepTime) return returnError('Please Enter Prep time')
+    if (!recipeCookTime) return returnError('Please Enter Cook Time')
+    if (!recipeServingSize) return returnError('Please Enter Serving Size')
     if (recipeInstructions.length <= 0)
-      return setError('Please Enter Instructions')
+      return returnError('Please Enter Instructions')
     if (recipeIngredients.length <= 0)
-      return setError('Please Enter Ingredients')
-    if (!recipeImage) return setError('Please Select Image')
+      return returnError('Please Enter Ingredients')
+    if (!recipeImage) return returnError('Please Select Image')
 
     const recipeData = {
       recipeTitle,
@@ -146,6 +154,23 @@ const AddRecipe = () => {
       recipeIngredients,
       recipeImage,
     }
+
+    addRecipe(
+      recipeData,
+      setLoading,
+      loadingProgress,
+      setLoadingProgress,
+      setError
+    )
+      .then(() => {
+        setLoading(false)
+        setLoadingProgress(100)
+        clearForm()
+      })
+      .catch(err => {
+        setLoading(false)
+        setError(err)
+      })
   }
 
   const clearForm = () => {
@@ -176,6 +201,11 @@ const AddRecipe = () => {
 
   return (
     <div className='add-recipe-page page'>
+      <LoadingBar
+        color='#ff5722'
+        progress={loadingProgress}
+        onLoaderFinished={() => setLoadingProgress(0)}
+      />
       <h1 className='title' ref={addRecipeTitleRef}>
         Create Your Own Recipe
       </h1>
@@ -249,7 +279,19 @@ const AddRecipe = () => {
             recipeImage={recipeImage}
             setRecipeImage={setRecipeImage}
           />
-          <button className='btn add-recipe-btn'>Create Recipe</button>
+          <button className='btn add-recipe-btn'>
+            {loading ? (
+              <TailSpin
+                heigth='30'
+                width='30'
+                color='white'
+                arialLabel='loading'
+                className='spinner'
+              />
+            ) : (
+              'Create Recipe'
+            )}
+          </button>
         </form>
       </div>
       <button className='clear-form' onClick={clearForm}>

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 const RecipeImage = ({ recipeImage, setRecipeImage }) => {
   // const recipeImageRef = useRef()
@@ -34,20 +33,6 @@ const RecipeImage = ({ recipeImage, setRecipeImage }) => {
       URL.revokeObjectURL(recipeImage.preview)
     }
   }, [recipeImage])
-
-  const uploadImage = async () => {
-    if (recipeImage) {
-      const storage = getStorage()
-
-      const recipeImagesRef = ref(storage, `recipeImages/${recipeImage.name}`)
-
-      await uploadBytes(recipeImagesRef, recipeImage)
-      const fileUrl = await getDownloadURL(recipeImagesRef)
-      // Just got fileUrl to be used in firestore after image was uploaded to firebase storage
-    } else {
-      console.log('enter image')
-    }
-  }
 
   return (
     <>
