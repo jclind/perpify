@@ -14,7 +14,11 @@ const Recipes = () => {
   const [recipeList, setRecipeList] = useState([])
   const [selectVal, setSelectVal] = useState(selectOptions[0].value)
 
-  const [isMorePaginationData, setIsMorePaginationData] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const [isMorePaginationData, setIsMorePaginationData] = useState(true)
+  const [isLoadMoreRecipesBtnVisible, setIsLoadMoreRecipesBtnVisible] =
+    useState(true)
 
   const { getRecipes } = useRecipe()
 
@@ -31,7 +35,7 @@ const Recipes = () => {
     }
     getRecipes(recipeQuery).then(arr => {
       // set is more pagination data to true is arr is not empty
-      setIsMorePaginationData(arr.length)
+      setIsMorePaginationData(arr.length ? true : false)
       console.log(1)
       if (arr.length) {
         console.log(2)
@@ -41,17 +45,8 @@ const Recipes = () => {
   }
 
   const handleLoadMoreRecipes = () => {
-    // const moreRecipesQuery = {
-    //   order: selectVal,
-    //   limit: 4,
-    //   start: recipeList.length,
-    // }
     getRecipeList()
   }
-
-  useEffect(() => {
-    console.log(recipeList)
-  }, [recipeList])
 
   useEffect(() => {
     getRecipeList()
@@ -76,7 +71,7 @@ const Recipes = () => {
             {recipeList.map((recipe, idx) => {
               return <RecipeThumbnail key={idx} recipe={recipe} />
             })}
-            {isMorePaginationData ? (
+            {isMorePaginationData && isLoadMoreRecipesBtnVisible ? (
               <button
                 className='load-more-recipes-btn btn'
                 onClick={handleLoadMoreRecipes}
