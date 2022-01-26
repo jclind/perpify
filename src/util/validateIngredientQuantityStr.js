@@ -87,6 +87,12 @@ const measurementTypes = [
   'pt',
   'pts',
   'qt',
+  'pound',
+  'pounds',
+  'lb',
+  'lbs',
+  'container',
+  'containers',
   'qts',
   'pottle',
   'pottles',
@@ -96,6 +102,8 @@ const measurementTypes = [
   'gallons',
   'gal',
   'gals',
+  'slice',
+  'slices',
 ]
 
 // Takes String, returns boolean based on if given string exists in measurementTypes

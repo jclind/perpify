@@ -151,16 +151,17 @@ const AddRecipe = () => {
     if (!recipeImage) return returnError('Please Select Image')
 
     const recipeData = {
-      recipeTitle,
-      recipePrepTime,
-      recipeCookTime,
-      recipeServingSize,
-      recipeFridgeLife,
-      recipeFreezerLife,
-      recipeDescription,
-      recipeInstructions,
-      recipeIngredients,
-      recipeImage,
+      title: recipeTitle,
+      prepTime: recipePrepTime,
+      cookTime: recipeCookTime,
+      additionalTime: recipeAdditionalTime,
+      servingSize: recipeServingSize,
+      fridgeLife: recipeFridgeLife,
+      freezerLife: recipeFreezerLife,
+      description: recipeDescription,
+      instructions: recipeInstructions,
+      ingredients: recipeIngredients,
+      recipeImage: recipeImage,
     }
 
     addRecipe(

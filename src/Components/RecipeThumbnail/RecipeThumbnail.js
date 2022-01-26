@@ -6,20 +6,8 @@ import { AiOutlineStar } from 'react-icons/ai'
 import './RecipeThumbnail.scss'
 
 const RecipeThumbnail = ({ recipe }) => {
-  const {
-    recipeId,
-    recipeImage,
-    title,
-    prepTime,
-    cookTime,
-    totalTime,
-    rating,
-  } = recipe
-
-  const currPrepTime = prepTime ? prepTime : 0
-  const currCookTime = cookTime ? cookTime : 0
-  const currTotalTime = totalTime ? totalTime : currPrepTime + currCookTime
-
+  const { recipeId, recipeImage, title, totalTime, rating } = recipe
+  // console.log(recipe, recipeId)
   return (
     <Link to={`/recipes/${recipeId}`} className='recipe-thumbnail'>
       <div className='img-container'>
@@ -29,7 +17,7 @@ const RecipeThumbnail = ({ recipe }) => {
       <div className='info'>
         <div className='total-time single-info'>
           <CgTimer className='icon' />
-          {currTotalTime > 1 ? `${currTotalTime} mins` : `${currTotalTime} min`}
+          {totalTime > 1 ? `${totalTime} mins` : `${totalTime} min`}
         </div>
         <div className='rating single-info'>
           <AiOutlineStar className='icon' />

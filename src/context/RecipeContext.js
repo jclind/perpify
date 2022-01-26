@@ -5,6 +5,9 @@ import {
   getDoc,
   collection,
   query,
+  limit,
+  orderBy,
+  startAfter,
   where,
   getDocs,
 } from 'firebase/firestore'
@@ -34,6 +37,28 @@ const RecipeProvider = ({ children }) => {
       return tempRecipeData[0]
     }
     return null
+  }
+
+  let latestRecipeDoc = null
+
+  const getRecipes = async recipeQuery => {
+    console.log(recipeQuery, recipeQuery.start)
+    const q = query(
+      collection(db, 'recipes'),
+      orderBy(recipeQuery.order, 'desc'),
+      startAfter(latestRecipeDoc || ''),
+      limit(recipeQuery.limit)
+    )
+    const docSnaps = await getDocs(q)
+
+    latestRecipeDoc = docSnaps.docs[docSnaps.docs.length - 1]
+
+    let tempRecipesArr = []
+    docSnaps.forEach(doc => {
+      tempRecipesArr.push(doc.data())
+    })
+
+    return tempRecipesArr
   }
 
   const uploadImageToStorage = async image => {
@@ -68,16 +93,25 @@ const RecipeProvider = ({ children }) => {
     const recipeId = `recipe-${uuidv4()}`
     const userUID = user.uid
 
+    const { prepTime, cookTime, additionalTime } = recipeData
+    const tempPrepTime = prepTime ? prepTime : 0
+    const tempCookTime = cookTime ? cookTime : 0
+    const tempAdditionalTime = additionalTime ? additionalTime : 0
+    const totalTime =
+      Number(tempPrepTime) + Number(tempCookTime) + Number(tempAdditionalTime)
+
     const fullRecipeData = {
       ...recipeData,
+      totalTime,
       recipeImage: recipeImageUrl,
       authorId: userUID,
-      rating: null,
+      rating: 0,
+      recipeId,
       dateCreated: new Date(),
     }
 
     const recipesRef = doc(db, 'recipes', recipeId)
-    await setDoc(recipesRef, { fullRecipeData }).catch(err => {
+    await setDoc(recipesRef, { ...fullRecipeData }).catch(err => {
       setLoading(false)
       setLoadingProgress(0)
       setError(err)
@@ -89,7 +123,7 @@ const RecipeProvider = ({ children }) => {
     console.log(recipeData)
   }
 
-  const value = { getRecipe, addRecipe }
+  const value = { getRecipe, getRecipes, addRecipe }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
   )
