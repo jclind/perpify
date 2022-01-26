@@ -30,6 +30,7 @@ nav {
         font-weight: 700;
         color: $primary-background;
         text-decoration: none;
+        white-space: nowrap;
       }
 
       .account-link {
@@ -53,7 +54,7 @@ nav {
       }
     }
     @media screen and (min-width: 700px) {
-      width: 400px;
+      width: 550px;
     }
   }
 }

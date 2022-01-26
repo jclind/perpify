@@ -13,6 +13,7 @@ const AddRecipe = () => {
   const [recipeTitle, setRecipeTitle] = useState('')
   const [recipePrepTime, setRecipePrepTime] = useState('')
   const [recipeCookTime, setRecipeCookTime] = useState('')
+  const [recipeAdditionalTime, setRecipeAdditionalTime] = useState('')
   const [recipeServingSize, setRecipeServingSize] = useState('')
   const [recipeFridgeLife, setRecipeFridgeLife] = useState('')
   const [recipeFreezerLife, setRecipeFreezerLife] = useState('')
@@ -51,6 +52,11 @@ const AddRecipe = () => {
       ? addRecipeFormData.recipeCookTime
       : ''
     setRecipeCookTime(cookTime)
+
+    const additionalTime = addRecipeFormData?.recipeAdditionalTime
+      ? addRecipeFormData.recipeAdditionalTime
+      : ''
+    setRecipeAdditionalTime(additionalTime)
 
     const servingSize = addRecipeFormData?.recipeServingSize
       ? addRecipeFormData.recipeServingSize
@@ -93,6 +99,7 @@ const AddRecipe = () => {
         recipeTitle,
         recipePrepTime,
         recipeCookTime,
+        recipeAdditionalTime,
         recipeServingSize,
         recipeFridgeLife,
         recipeFreezerLife,
@@ -115,6 +122,7 @@ const AddRecipe = () => {
     recipeTitle,
     recipePrepTime,
     recipeCookTime,
+    recipeAdditionalTime,
     recipeServingSize,
     recipeFridgeLife,
     recipeFreezerLife,
@@ -188,6 +196,7 @@ const AddRecipe = () => {
     setRecipeDescription('')
     setRecipeInstructions([])
     setRecipeIngredients([])
+    setRecipeImage('')
     setUndoClearForm(true)
   }
 
@@ -238,14 +247,21 @@ const AddRecipe = () => {
               placeholder={'35'}
             />
             <RecipeFormInput
+              name={'Additional Time'}
+              type={'text'}
+              val={recipeAdditionalTime}
+              setVal={setRecipeAdditionalTime}
+              placeholder={'1 day'}
+            />
+          </div>
+          <div className='recipe-data'>
+            <RecipeFormInput
               name={'Serving Size *'}
               type={'number'}
               val={recipeServingSize}
               setVal={setRecipeServingSize}
               placeholder={'6'}
             />
-          </div>
-          <div className='recipe-data'>
             <RecipeFormInput
               name={'Fridge Life (days)'}
               type={'number'}

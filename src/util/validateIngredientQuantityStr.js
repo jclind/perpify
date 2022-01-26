@@ -17,6 +17,10 @@ const measurementTypes = [
   'dashes',
   'ds',
   'dss',
+  'clove',
+  'package',
+  'packages',
+  'cloves',
   'saltspooon',
   'saltspooons',
   'scruple',
@@ -130,6 +134,25 @@ const validateQuantityandMeasurements = str => {
     const contentHTML = `${num}`
     return {
       quantity: num,
+      measurement: null,
+      contentHTML,
+    }
+  }
+  if (splitVal.length === 1 && isFraction(splitVal[0].trim())) {
+    const num = eval(splitVal[0].trim())
+    const contentHTML = `${num}`
+    return {
+      quantity: num,
+      measurement: null,
+      contentHTML,
+    }
+  }
+  if (splitVal.length === 2 && !isNaN(splitVal[0]) && isFraction(splitVal[1])) {
+    const wholeNum = Number(splitVal[0])
+    const decimalNum = eval(splitVal[1].trim())
+    const contentHTML = `${wholeNum} ${splitVal[1]}`
+    return {
+      quantity: wholeNum + decimalNum,
       measurement: null,
       contentHTML,
     }
