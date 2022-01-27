@@ -30,7 +30,7 @@ const Recipes = () => {
   const getRecipeList = () => {
     const recipeQuery = {
       order: selectVal,
-      limit: 4,
+      limit: 8,
       start: recipeList.length,
     }
     getRecipes(recipeQuery).then(arr => {

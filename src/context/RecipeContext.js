@@ -39,10 +39,28 @@ const RecipeProvider = ({ children }) => {
     return null
   }
 
+  let latestsSearchRecipesDoc = null
+  const searchRecipes = async recipeQuery => {
+    const q = query(
+      collection(db, 'recipes'),
+      limit(8),
+      where('title', '==', recipeQuery)
+    )
+    const docSnaps = await getDocs(q)
+
+    latestsSearchRecipesDoc = docSnaps.docs[docSnaps.docs.length - 1]
+
+    let tempRecipesArr = []
+    docSnaps.forEach(doc => {
+      tempRecipesArr.push(doc.data())
+    })
+
+    return tempRecipesArr
+  }
+
   let latestRecipeDoc = null
 
   const getRecipes = async recipeQuery => {
-    console.log(recipeQuery, recipeQuery.start)
     const q = query(
       collection(db, 'recipes'),
       orderBy(recipeQuery.order, 'desc'),
@@ -123,7 +141,7 @@ const RecipeProvider = ({ children }) => {
     console.log(recipeData)
   }
 
-  const value = { getRecipe, getRecipes, addRecipe }
+  const value = { getRecipe, searchRecipes, getRecipes, addRecipe }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
   )

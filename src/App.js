@@ -18,6 +18,7 @@ import Ratings from './Components/Account/Ratings'
 import YourRecipes from './Components/Account/YourRecipes'
 import SingleRecipe from './Components/SingleRecipe/SingleRecipe'
 import AddRecipe from './Components/AddRecipe/AddRecipe'
+import SearchRecipesPage from './Components/SearchRecipesPage/SearchRecipesPage'
 
 import Layout from './Components/Layout/Layout'
 
@@ -50,6 +51,14 @@ function App() {
             element={
               <Layout darkNavLinks={true}>
                 <SingleRecipe />
+              </Layout>
+            }
+          />
+          <Route
+            path='recipes/search/:searchQuery'
+            element={
+              <Layout darkNavLinks={true}>
+                <SearchRecipesPage />
               </Layout>
             }
           />
