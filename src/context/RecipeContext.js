@@ -144,24 +144,46 @@ const RecipeProvider = ({ children }) => {
   }
 
   // Tags
-  const searchTags = async str => {
+  const validateTag = (currTagText, tagsArr) => {
+    if (currTagText.length < 3) return false
+    if (currTagText.length > 20) return false
+    const tagExists = tagsArr.filter(tag => tag.text === currTagText)
+    console.log(tagExists, tagExists.length)
+    if (tagsArr.filter(tag => tag.text === currTagText).length !== 0)
+      return false
+
+    return true
+  }
+
+  const searchTags = async (str, tagsArr) => {
+    const tagsArrText = tagsArr.length > 0 ? tagsArr.map(tag => tag.text) : ['']
+
     const q = query(
       collection(db, 'tags'),
       limit(4),
       where('text', '>=', str),
-      where('text', '<=', str + '\uf8ff')
+      where('text', '<=', str + '\uf8ff'),
+      where('text', 'not-in', tagsArrText)
     )
 
     const docSnaps = await getDocs(q)
 
     let tempTagsArr = []
     docSnaps.forEach(doc => {
-      tempTagsArr.push(doc.data())
+      console.log(doc.data())
+      return tempTagsArr.push(doc.data())
     })
     return tempTagsArr
   }
 
-  const value = { getRecipe, searchRecipes, getRecipes, addRecipe, searchTags }
+  const value = {
+    getRecipe,
+    searchRecipes,
+    getRecipes,
+    addRecipe,
+    validateTag,
+    searchTags,
+  }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
   )

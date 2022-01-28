@@ -6,19 +6,28 @@ import { useRecipe } from '../../../context/RecipeContext'
 
 const RecipeTags = ({ tags, setTags }) => {
   const [tagsInputVal, setTagsInputVal] = useState('')
+  const [isTagsInputValid, setIsTagsInputValid] = useState(false)
+
   const [searchResults, setSearchResults] = useState([])
 
-  const { searchTags } = useRecipe()
+  const [error, setError] = useState('')
+
+  const { validateTag, searchTags } = useRecipe()
 
   const handleAddTag = e => {
     if (tagsInputVal.trim()) {
       e.preventDefault()
-      setTags([...tags, { text: tagsInputVal, tagId: `tag-${uuidv4()}` }])
+
+      if (tags.filter(tag => tag.text === tagsInputVal)) {
+        return setError(tagsInputVal + ' is already in use!')
+      }
+
+      setTags([...tags, { text: tagsInputVal }])
       setTagsInputVal('')
     }
   }
-  const handleDeleteTag = id => {
-    setTags(tags.filter(tag => tag.id !== id))
+  const handleDeleteTag = text => {
+    setTags(tags.filter(tag => tag.text !== text))
   }
 
   const handleKeyPress = e => {
@@ -35,9 +44,13 @@ const RecipeTags = ({ tags, setTags }) => {
 
   // Search through tags collection to show matching tags to user input
   useEffect(() => {
+    setError('')
+
+    setIsTagsInputValid(validateTag(tagsInputVal, tags))
+
     setSearchResults([])
     if (tagsInputVal.length >= 3) {
-      searchTags(tagsInputVal).then(res => {
+      searchTags(tagsInputVal, tags).then(res => {
         setSearchResults(res)
       })
     }
@@ -46,14 +59,15 @@ const RecipeTags = ({ tags, setTags }) => {
   return (
     <label className='recipe-tags-input'>
       <div className='label-title'>Recipe Tags</div>
+      {error && <div className='error'>{error}</div>}
       <div className='tags-list'>
         {tags.length > 0 &&
           tags.map(tag => {
             return (
-              <div className='selected-tag' key={tag.tagId}>
+              <div className='selected-tag' key={tag.text}>
                 <AiOutlineClose
                   className='delete-tag'
-                  onClick={() => handleDeleteTag(tag.tagId)}
+                  onClick={() => handleDeleteTag(tag.text)}
                 />
                 {tag.text}
               </div>
@@ -68,7 +82,7 @@ const RecipeTags = ({ tags, setTags }) => {
           onChange={e => setTagsInputVal(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        {tags.length >= 0 && (
+        {tagsInputVal && isTagsInputValid ? (
           <button
             type='button'
             className='add-tag-btn btn'
@@ -76,7 +90,7 @@ const RecipeTags = ({ tags, setTags }) => {
           >
             Add
           </button>
-        )}
+        ) : null}
 
         {searchResults.length > 0 && (
           <div className='search-results'>
@@ -88,7 +102,7 @@ const RecipeTags = ({ tags, setTags }) => {
               return (
                 <div
                   className='result'
-                  key={result.tagId}
+                  key={result.text}
                   onClick={() => handleClickSearchResult(result)}
                 >
                   <span className='matched-letters'>{matchedLetters}</span>

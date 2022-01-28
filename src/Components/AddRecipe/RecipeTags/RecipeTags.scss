@@ -4,6 +4,10 @@
   max-width: 350px;
   height: fit-content;
 
+  .error {
+    margin-bottom: 1rem;
+  }
+
   .tags-list {
     display: flex;
     flex-wrap: wrap;
