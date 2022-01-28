@@ -65,6 +65,10 @@
           background: $secondary-background;
           cursor: pointer;
         }
+        .matched-letters {
+          font-weight: 700;
+          font-size: toRem(17);
+        }
       }
     }
   }

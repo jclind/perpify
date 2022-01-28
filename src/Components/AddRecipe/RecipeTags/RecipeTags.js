@@ -29,12 +29,11 @@ const RecipeTags = ({ tags, setTags }) => {
 
   // Search through tags collection to show matching tags to user input
   useEffect(() => {
+    setSearchResults([])
     if (tagsInputVal.length >= 3) {
       searchTags(tagsInputVal).then(res => {
         setSearchResults(res)
       })
-    } else {
-      setSearchResults([])
     }
   }, [tagsInputVal])
 
@@ -77,10 +76,14 @@ const RecipeTags = ({ tags, setTags }) => {
           <div className='search-results'>
             <div className='search-results-title'>Popular Tags</div>
             {searchResults.map(result => {
+              const matchedLetters = tagsInputVal
+              const nonMatchedLetters = result.text.replace(matchedLetters, ``)
+              console.log(nonMatchedLetters, matchedLetters, tagsInputVal)
               console.log(result)
               return (
                 <div className='result' key={result.text}>
-                  {result.text}
+                  <span className='matched-letters'>{matchedLetters}</span>
+                  {nonMatchedLetters}
                 </div>
               )
             })}
