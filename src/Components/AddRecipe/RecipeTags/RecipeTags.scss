@@ -42,5 +42,30 @@
       color: $white;
       font-weight: 600;
     }
+    .search-results {
+      background: $primary-background;
+      border: 1px solid $tertiary-text;
+      padding-top: 1rem;
+      position: absolute;
+      top: 46px;
+      width: 100%;
+      left: 0;
+      right: 0;
+
+      .search-results-title {
+        font-weight: 600;
+        padding-left: 1rem;
+        padding-bottom: 1rem;
+      }
+      .result {
+        padding: 1rem;
+        border-top: 1px solid $tertiary-text;
+
+        &:hover {
+          background: $secondary-background;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }

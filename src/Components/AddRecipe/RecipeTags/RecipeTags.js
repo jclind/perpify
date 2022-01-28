@@ -6,13 +6,14 @@ import { useRecipe } from '../../../context/RecipeContext'
 
 const RecipeTags = ({ tags, setTags }) => {
   const [tagsInputVal, setTagsInputVal] = useState('')
+  const [searchResults, setSearchResults] = useState([])
 
   const { searchTags } = useRecipe()
 
   const handleAddTag = e => {
     if (tagsInputVal.trim()) {
       e.preventDefault()
-      setTags([...tags, { text: tagsInputVal, id: `tag-${uuidv4()}` }])
+      setTags([...tags, { text: tagsInputVal, tagId: `tag-${uuidv4()}` }])
       setTagsInputVal('')
     }
   }
@@ -30,8 +31,10 @@ const RecipeTags = ({ tags, setTags }) => {
   useEffect(() => {
     if (tagsInputVal.length >= 3) {
       searchTags(tagsInputVal).then(res => {
-        console.log(res)
+        setSearchResults(res)
       })
+    } else {
+      setSearchResults([])
     }
   }, [tagsInputVal])
 
@@ -42,10 +45,10 @@ const RecipeTags = ({ tags, setTags }) => {
         {tags.length > 0 &&
           tags.map(tag => {
             return (
-              <div className='selected-tag' key={tag.id}>
+              <div className='selected-tag' key={tag.tagId}>
                 <AiOutlineClose
                   className='delete-tag'
-                  onClick={() => handleDeleteTag(tag.id)}
+                  onClick={() => handleDeleteTag(tag.tagId)}
                 />
                 {tag.text}
               </div>
@@ -68,6 +71,20 @@ const RecipeTags = ({ tags, setTags }) => {
           >
             Add
           </button>
+        )}
+
+        {searchResults.length > 0 && (
+          <div className='search-results'>
+            <div className='search-results-title'>Popular Tags</div>
+            {searchResults.map(result => {
+              console.log(result)
+              return (
+                <div className='result' key={result.text}>
+                  {result.text}
+                </div>
+              )
+            })}
+          </div>
         )}
       </div>
     </label>
