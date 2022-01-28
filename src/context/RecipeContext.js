@@ -189,7 +189,7 @@ const RecipeProvider = ({ children }) => {
             ...tag,
             count: 1, // Amount of times the tag is used in recipes
           }
-          tagRef.setDoc(newTag).then(() => {
+          setDoc(tagRef, newTag).then(() => {
             console.log('tag-set')
           })
         } else {
