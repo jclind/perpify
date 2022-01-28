@@ -125,6 +125,7 @@ const RecipeProvider = ({ children }) => {
       recipeImage: recipeImageUrl,
       authorId: userUID,
       rating: 0,
+      tags: recipeData.tags.map(tag => tag.text),
       recipeId,
       dateCreated: new Date(),
     }

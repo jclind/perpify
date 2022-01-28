@@ -9,6 +9,7 @@ import { useRecipe } from '../../context/RecipeContext'
 import { TailSpin } from 'react-loader-spinner'
 import LoadingBar from 'react-top-loading-bar'
 import RecipeTags from './RecipeTags/RecipeTags'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const AddRecipe = () => {
   const [recipeTitle, setRecipeTitle] = useState('')
@@ -34,6 +35,7 @@ const AddRecipe = () => {
   const [loadingProgress, setLoadingProgress] = useState(0)
 
   const { addRecipe } = useRecipe()
+  const navigate = useNavigate()
 
   const setStatesToLocalData = () => {
     const addRecipeFormData = JSON.parse(
@@ -165,9 +167,7 @@ const AddRecipe = () => {
       instructions: recipeInstructions,
       ingredients: recipeIngredients,
       recipeImage: recipeImage,
-      tags: recipeTags.map(tag => {
-        return { text: tag.text }
-      }),
+      tags: recipeTags,
     }
 
     addRecipe(
@@ -181,6 +181,7 @@ const AddRecipe = () => {
         setLoading(false)
         setLoadingProgress(100)
         clearForm()
+        navigate('/')
       })
       .catch(err => {
         setLoading(false)
@@ -197,6 +198,7 @@ const AddRecipe = () => {
     setRecipeTitle('')
     setRecipePrepTime('')
     setRecipeCookTime('')
+    setRecipeAdditionalTime('')
     setRecipeServingSize('')
     setRecipeFridgeLife('')
     setRecipeFreezerLife('')
@@ -204,6 +206,7 @@ const AddRecipe = () => {
     setRecipeInstructions([])
     setRecipeIngredients([])
     setRecipeImage('')
+    setRecipeTags([])
     setUndoClearForm(true)
   }
 
