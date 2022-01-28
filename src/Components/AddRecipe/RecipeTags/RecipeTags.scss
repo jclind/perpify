@@ -51,7 +51,6 @@
     .search-results {
       background: $primary-background;
       border: 1px solid $tertiary-text;
-      padding-top: 1rem;
       position: absolute;
       top: 46px;
       width: 100%;
@@ -59,9 +58,9 @@
       right: 0;
 
       .search-results-title {
-        font-weight: 600;
+        font-weight: 400;
+        padding: 0.5rem 0;
         padding-left: 1rem;
-        padding-bottom: 1rem;
       }
       .result {
         padding: 1rem;

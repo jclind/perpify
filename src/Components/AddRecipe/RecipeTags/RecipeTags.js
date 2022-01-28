@@ -12,26 +12,31 @@ const RecipeTags = ({ tags, setTags }) => {
 
   const [error, setError] = useState('')
 
-  const { validateTag, searchTags } = useRecipe()
+  const { validateTag, searchTags, checkDatabaseForTagMatch } = useRecipe()
 
   const handleAddTag = e => {
+    if (!isTagsInputValid) {
+      return setError('Tag not valid, please try a different tag')
+    }
+
     if (tagsInputVal.trim()) {
       e.preventDefault()
 
-      if (tags.filter(tag => tag.text === tagsInputVal)) {
+      if (tags.filter(tag => tag.text === tagsInputVal).length !== 0) {
         return setError(tagsInputVal + ' is already in use!')
       }
 
-      setTags([...tags, { text: tagsInputVal }])
+      setTags([...tags, { text: tagsInputVal, tagId: `tag-${uuidv4()}` }])
       setTagsInputVal('')
     }
   }
-  const handleDeleteTag = text => {
-    setTags(tags.filter(tag => tag.text !== text))
+  const handleDeleteTag = tagId => {
+    setTags(tags.filter(tag => tag.tagId !== tagId))
   }
 
   const handleKeyPress = e => {
     if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault()
       handleAddTag(e)
     }
   }
@@ -64,10 +69,10 @@ const RecipeTags = ({ tags, setTags }) => {
         {tags.length > 0 &&
           tags.map(tag => {
             return (
-              <div className='selected-tag' key={tag.text}>
+              <div className='selected-tag' key={tag.tagId}>
                 <AiOutlineClose
                   className='delete-tag'
-                  onClick={() => handleDeleteTag(tag.text)}
+                  onClick={() => handleDeleteTag(tag.tagId)}
                 />
                 {tag.text}
               </div>
@@ -79,7 +84,7 @@ const RecipeTags = ({ tags, setTags }) => {
           type={'string'}
           placeholder={'Tag your recipe'}
           value={tagsInputVal}
-          onChange={e => setTagsInputVal(e.target.value)}
+          onChange={e => setTagsInputVal(e.target.value.toLowerCase())}
           onKeyPress={handleKeyPress}
         />
         {tagsInputVal && isTagsInputValid ? (
@@ -102,7 +107,7 @@ const RecipeTags = ({ tags, setTags }) => {
               return (
                 <div
                   className='result'
-                  key={result.text}
+                  key={result.tagId}
                   onClick={() => handleClickSearchResult(result)}
                 >
                   <span className='matched-letters'>{matchedLetters}</span>
@@ -113,6 +118,9 @@ const RecipeTags = ({ tags, setTags }) => {
           </div>
         )}
       </div>
+      <button type='button' onClick={() => checkDatabaseForTagMatch(tags)}>
+        Submit Tags
+      </button>
     </label>
   )
 }

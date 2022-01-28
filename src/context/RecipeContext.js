@@ -148,9 +148,7 @@ const RecipeProvider = ({ children }) => {
     if (currTagText.length < 3) return false
     if (currTagText.length > 20) return false
     const tagExists = tagsArr.filter(tag => tag.text === currTagText)
-    console.log(tagExists, tagExists.length)
-    if (tagsArr.filter(tag => tag.text === currTagText).length !== 0)
-      return false
+    if (tagExists.length !== 0) return false
 
     return true
   }
@@ -176,6 +174,31 @@ const RecipeProvider = ({ children }) => {
     return tempTagsArr
   }
 
+  // Checks firebase tags collection and sets any given tag in tagsArr that doesn't
+  // Exist in the database.
+  const checkDatabaseForTagMatch = tagsArr => {
+    // const promises = []
+
+    tagsArr.forEach(tag => {
+      const tagRef = doc(db, 'tags', tag.tagId)
+      // promises.push(getDoc(tagRef))
+      getDoc(tagRef).then(docSnap => {
+        // If the current tag doesn't exist in the 'tags' collection, add tag to collection
+        if (!docSnap.exists()) {
+          const newTag = {
+            ...tag,
+            count: 1, // Amount of times the tag is used in recipes
+          }
+          tagRef.setDoc(newTag).then(() => {
+            console.log('tag-set')
+          })
+        } else {
+          console.log('Tag already exists in DB')
+        }
+      })
+    })
+  }
+
   const value = {
     getRecipe,
     searchRecipes,
@@ -183,6 +206,7 @@ const RecipeProvider = ({ children }) => {
     addRecipe,
     validateTag,
     searchTags,
+    checkDatabaseForTagMatch,
   }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
