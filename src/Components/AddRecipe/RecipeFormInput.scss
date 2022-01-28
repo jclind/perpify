@@ -1,7 +1,8 @@
 @import '../../helpers.scss';
 
 .recipe-form-input,
-.recipe-form-textarea {
+.recipe-form-textarea,
+.recipe-tags-input {
   position: relative;
   display: flex;
   flex-direction: column;

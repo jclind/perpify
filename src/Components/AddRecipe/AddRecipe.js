@@ -8,6 +8,7 @@ import RecipeImage from './RecipeImage/RecipeImage'
 import { useRecipe } from '../../context/RecipeContext'
 import { TailSpin } from 'react-loader-spinner'
 import LoadingBar from 'react-top-loading-bar'
+import RecipeTags from './RecipeTags/RecipeTags'
 
 const AddRecipe = () => {
   const [recipeTitle, setRecipeTitle] = useState('')
@@ -21,6 +22,8 @@ const AddRecipe = () => {
 
   const [recipeInstructions, setRecipeInstructions] = useState([])
   const [recipeIngredients, setRecipeIngredients] = useState([])
+
+  const [recipeTags, setRecipeTags] = useState([])
 
   const [recipeImage, setRecipeImage] = useState('')
 
@@ -296,7 +299,8 @@ const AddRecipe = () => {
             recipeImage={recipeImage}
             setRecipeImage={setRecipeImage}
           />
-          <button className='btn add-recipe-btn'>
+          <RecipeTags tags={recipeTags} setTags={setRecipeTags} />
+          <button type='submit' className='btn add-recipe-btn'>
             {loading ? (
               <TailSpin
                 heigth='30'

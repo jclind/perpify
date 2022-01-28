@@ -44,7 +44,8 @@ const RecipeProvider = ({ children }) => {
     const q = query(
       collection(db, 'recipes'),
       limit(8),
-      where('title', '==', recipeQuery)
+      where('title', '>=', recipeQuery),
+      where('title', '<=', recipeQuery + '\uf8ff')
     )
     const docSnaps = await getDocs(q)
 
@@ -120,6 +121,7 @@ const RecipeProvider = ({ children }) => {
 
     const fullRecipeData = {
       ...recipeData,
+      title: recipeData.title.toLowerCase(), // Needed for title search later on.
       totalTime,
       recipeImage: recipeImageUrl,
       authorId: userUID,
@@ -141,7 +143,25 @@ const RecipeProvider = ({ children }) => {
     console.log(recipeData)
   }
 
-  const value = { getRecipe, searchRecipes, getRecipes, addRecipe }
+  // Tags
+  const searchTags = async str => {
+    const q = query(
+      collection(db, 'tags'),
+      limit(4),
+      where('text', '>=', str),
+      where('text', '<=', str + '\uf8ff')
+    )
+
+    const docSnaps = await getDocs(q)
+
+    let tempTagsArr = []
+    docSnaps.forEach(doc => {
+      tempTagsArr.push(doc.data())
+    })
+    return tempTagsArr
+  }
+
+  const value = { getRecipe, searchRecipes, getRecipes, addRecipe, searchTags }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
   )

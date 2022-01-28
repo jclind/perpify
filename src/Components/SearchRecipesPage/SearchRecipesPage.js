@@ -4,7 +4,7 @@ import { useRecipe } from '../../context/RecipeContext'
 
 const SearchRecipesPage = () => {
   const params = useParams()
-  const queryString = params.searchQuery.split('+').join(' ')
+  const queryString = params.searchQuery.split('+').join(' ').toLowerCase()
 
   const { searchRecipes } = useRecipe()
 
