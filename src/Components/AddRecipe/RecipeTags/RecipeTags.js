@@ -27,6 +27,12 @@ const RecipeTags = ({ tags, setTags }) => {
     }
   }
 
+  const handleClickSearchResult = result => {
+    console.log(result)
+    setTags([...tags, result])
+    setTagsInputVal('')
+  }
+
   // Search through tags collection to show matching tags to user input
   useEffect(() => {
     setSearchResults([])
@@ -78,10 +84,13 @@ const RecipeTags = ({ tags, setTags }) => {
             {searchResults.map(result => {
               const matchedLetters = tagsInputVal
               const nonMatchedLetters = result.text.replace(matchedLetters, ``)
-              console.log(nonMatchedLetters, matchedLetters, tagsInputVal)
-              console.log(result)
+
               return (
-                <div className='result' key={result.text}>
+                <div
+                  className='result'
+                  key={result.tagId}
+                  onClick={() => handleClickSearchResult(result)}
+                >
                   <span className='matched-letters'>{matchedLetters}</span>
                   {nonMatchedLetters}
                 </div>
