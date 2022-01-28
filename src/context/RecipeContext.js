@@ -102,12 +102,11 @@ const RecipeProvider = ({ children }) => {
     setError
   ) => {
     setLoadingProgress(loadingProgress + 10)
+
     const recipeImage = recipeData.recipeImage
 
     const recipeImageUrl = await uploadImageToStorage(recipeImage)
     setLoadingProgress(loadingProgress + 50)
-    console.log(new Date().getTime())
-    console.log(recipeImageUrl)
 
     const recipeId = `recipe-${uuidv4()}`
     const userUID = user.uid
@@ -129,6 +128,9 @@ const RecipeProvider = ({ children }) => {
       recipeId,
       dateCreated: new Date(),
     }
+
+    // Set tags in 'tags' firestore collection
+    checkDatabaseForTagMatch(recipeData.tags)
 
     const recipesRef = doc(db, 'recipes', recipeId)
     await setDoc(recipesRef, { ...fullRecipeData }).catch(err => {
@@ -154,7 +156,8 @@ const RecipeProvider = ({ children }) => {
   }
 
   const searchTags = async (str, tagsArr) => {
-    const tagsArrText = tagsArr.length > 0 ? tagsArr.map(tag => tag.text) : ['']
+    const tagsArrText =
+      tagsArr && tagsArr.length > 0 ? tagsArr.map(tag => tag.text) : ['']
 
     const q = query(
       collection(db, 'tags'),
@@ -180,7 +183,7 @@ const RecipeProvider = ({ children }) => {
     // const promises = []
 
     tagsArr.forEach(tag => {
-      const tagRef = doc(db, 'tags', tag.tagId)
+      const tagRef = doc(db, 'tags', tag.text)
       // promises.push(getDoc(tagRef))
       getDoc(tagRef).then(docSnap => {
         // If the current tag doesn't exist in the 'tags' collection, add tag to collection

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './RecipeTags.scss'
 import { AiOutlineClose } from 'react-icons/ai'
-import { v4 as uuidv4 } from 'uuid'
 import { useRecipe } from '../../../context/RecipeContext'
 
 const RecipeTags = ({ tags, setTags }) => {
@@ -26,12 +25,12 @@ const RecipeTags = ({ tags, setTags }) => {
         return setError(tagsInputVal + ' is already in use!')
       }
 
-      setTags([...tags, { text: tagsInputVal, tagId: `tag-${uuidv4()}` }])
+      setTags([...tags, { text: tagsInputVal }])
       setTagsInputVal('')
     }
   }
-  const handleDeleteTag = tagId => {
-    setTags(tags.filter(tag => tag.tagId !== tagId))
+  const handleDeleteTag = tagText => {
+    setTags(tags.filter(tag => tag.text !== tagText))
   }
 
   const handleKeyPress = e => {
@@ -69,10 +68,10 @@ const RecipeTags = ({ tags, setTags }) => {
         {tags.length > 0 &&
           tags.map(tag => {
             return (
-              <div className='selected-tag' key={tag.tagId}>
+              <div className='selected-tag' key={tag.text}>
                 <AiOutlineClose
                   className='delete-tag'
-                  onClick={() => handleDeleteTag(tag.tagId)}
+                  onClick={() => handleDeleteTag(tag.text)}
                 />
                 {tag.text}
               </div>
@@ -107,7 +106,7 @@ const RecipeTags = ({ tags, setTags }) => {
               return (
                 <div
                   className='result'
-                  key={result.tagId}
+                  key={result.text}
                   onClick={() => handleClickSearchResult(result)}
                 >
                   <span className='matched-letters'>{matchedLetters}</span>
@@ -118,9 +117,6 @@ const RecipeTags = ({ tags, setTags }) => {
           </div>
         )}
       </div>
-      <button type='button' onClick={() => checkDatabaseForTagMatch(tags)}>
-        Submit Tags
-      </button>
     </label>
   )
 }

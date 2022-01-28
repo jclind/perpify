@@ -165,6 +165,9 @@ const AddRecipe = () => {
       instructions: recipeInstructions,
       ingredients: recipeIngredients,
       recipeImage: recipeImage,
+      tags: recipeTags.map(tag => {
+        return { text: tag.text }
+      }),
     }
 
     addRecipe(
