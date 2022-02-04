@@ -15,6 +15,8 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { db } from '../client/db'
 import { v4 as uuidv4 } from 'uuid'
 import { useAuth } from './AuthContext'
+import RecipeAPI from '../api/recipes'
+import ObjectID from 'bson-objectid'
 
 const RecipeContext = React.createContext()
 
@@ -24,39 +26,36 @@ export function useRecipe() {
 
 const RecipeProvider = ({ children }) => {
   const { user } = useAuth()
+
   const getRecipe = async recipeId => {
     if (recipeId) {
-      const recipesRef = collection(db, 'recipes')
-      const q = query(recipesRef, where('recipeId', '==', recipeId))
-
-      const querySnapshot = await getDocs(q)
-      const tempRecipeData = []
-      querySnapshot.forEach(doc => {
-        tempRecipeData.push(doc.data())
-      })
-      return tempRecipeData[0]
+      return await RecipeAPI.getRecipe(recipeId)
     }
     return null
   }
 
-  let latestsSearchRecipesDoc = null
-  const searchRecipes = async recipeQuery => {
-    const q = query(
-      collection(db, 'recipes'),
-      limit(8),
-      where('title', '>=', recipeQuery),
-      where('title', '<=', recipeQuery + '\uf8ff')
-    )
-    const docSnaps = await getDocs(q)
+  const searchRecipes = async (
+    recipeQuery,
+    tag,
+    page,
+    order,
+    recipesPerPage
+  ) => {
+    if (recipeQuery) {
+      return await RecipeAPI.search(
+        recipeQuery,
+        tag,
+        page,
+        order,
+        recipesPerPage
+      )
+    }
 
-    latestsSearchRecipesDoc = docSnaps.docs[docSnaps.docs.length - 1]
+    return await RecipeAPI.search(recipeQuery, tag, page, order, recipesPerPage)
+  }
 
-    let tempRecipesArr = []
-    docSnaps.forEach(doc => {
-      tempRecipesArr.push(doc.data())
-    })
-
-    return tempRecipesArr
+  const getTrendingRecipes = async limit => {
+    return await RecipeAPI.getTrendingRecipes(limit)
   }
 
   let latestRecipeDoc = null
@@ -103,9 +102,10 @@ const RecipeProvider = ({ children }) => {
   ) => {
     setLoadingProgress(loadingProgress + 10)
 
+    // Get image url for submitted image, stored in firebase (for now)
     const recipeImage = recipeData.recipeImage
-
     const recipeImageUrl = await uploadImageToStorage(recipeImage)
+
     setLoadingProgress(loadingProgress + 50)
 
     const recipeId = `recipe-${uuidv4()}`
@@ -115,38 +115,57 @@ const RecipeProvider = ({ children }) => {
     const tempPrepTime = prepTime ? prepTime : 0
     const tempCookTime = cookTime ? cookTime : 0
     const tempAdditionalTime = additionalTime ? additionalTime : 0
-    const totalTime =
-      Number(tempPrepTime) + Number(tempCookTime) + Number(tempAdditionalTime)
+    const totalTime = (
+      Number(tempPrepTime) +
+      Number(tempCookTime) +
+      Number(tempAdditionalTime)
+    ).toString()
 
     const fullRecipeData = {
       ...recipeData,
+      _id: ObjectID(),
       title: recipeData.title.toLowerCase(), // Needed for title search later on.
       totalTime,
       recipeImage: recipeImageUrl,
       authorId: userUID,
-      rating: 0,
-      tags: recipeData.tags.map(tag => tag.text),
-      recipeId,
-      dateCreated: new Date(),
+      rating: '0',
+      tags: recipeData.tags.map(tag => tag.text), // Map through tags to only return tag text which will be unique
+      createdAt: Date.now().toString(),
+      editedAt: null,
     }
 
-    // Set tags in 'tags' firestore collection
-    checkDatabaseForTagMatch(recipeData.tags)
-
-    const recipesRef = doc(db, 'recipes', recipeId)
-    await setDoc(recipesRef, { ...fullRecipeData }).catch(err => {
-      setLoading(false)
-      setLoadingProgress(0)
-      setError(err)
+    let tagsAreValid = true
+    // Validate each entered tag and return false if any tag is not valid
+    recipeData.tags.forEach(tag => {
+      const isTagValid = validateTag(tag, recipeData.tags)
+      if (!isTagValid) tagsAreValid = false // If the tag is not valid, set tagsAreValid to false to later return before adding recipe to database
     })
-    setLoadingProgress(90)
-    console.log(new Date().getTime())
 
-    console.log(recipeImage)
-    console.log(recipeData)
+    if (!tagsAreValid) {
+      return setError('Tags are not valid, please re-enter them correctly')
+    } else {
+      addTags(recipeData.tags)
+    }
+
+    RecipeAPI.addRecipe(fullRecipeData)
+      .then(() => {
+        setLoading(false)
+        setLoadingProgress(100)
+      })
+      .catch(err => {
+        setError(err)
+      })
+
+    setLoadingProgress(90)
   }
 
   // Tags
+  const addTags = tags => {
+    tags.forEach(tag => {
+      RecipeAPI.addRecipeTag(tag)
+    })
+  }
+
   const validateTag = (currTagText, tagsArr) => {
     if (currTagText.length < 3) return false
     if (currTagText.length > 20) return false
@@ -157,60 +176,26 @@ const RecipeProvider = ({ children }) => {
   }
 
   const searchTags = async (str, tagsArr) => {
+    // If tags array exists and the length is greater than 0, get text from each tags object and push to tagsArrText variable
     const tagsArrText =
-      tagsArr && tagsArr.length > 0 ? tagsArr.map(tag => tag.text) : ['']
+      tagsArr && tagsArr.length > 0 ? tagsArr.map(tag => tag.text) : []
 
-    const q = query(
-      collection(db, 'tags'),
-      limit(4),
-      where('text', '>=', str),
-      where('text', '<=', str + '\uf8ff'),
-      where('text', 'not-in', tagsArrText)
-    )
-
-    const docSnaps = await getDocs(q)
-
-    let tempTagsArr = []
-    docSnaps.forEach(doc => {
-      console.log(doc.data())
-      return tempTagsArr.push(doc.data())
-    })
-    return tempTagsArr
+    return await RecipeAPI.searchRecipeTags(str, tagsArrText)
   }
 
-  // Checks firebase tags collection and sets any given tag in tagsArr that doesn't
-  // Exist in the database.
-  const checkDatabaseForTagMatch = tagsArr => {
-    // const promises = []
-
-    tagsArr.forEach(tag => {
-      const tagRef = doc(db, 'tags', tag.text)
-      // promises.push(getDoc(tagRef))
-      getDoc(tagRef).then(docSnap => {
-        // If the current tag doesn't exist in the 'tags' collection, add tag to collection
-        if (!docSnap.exists()) {
-          const newTag = {
-            ...tag,
-            count: 1, // Amount of times the tag is used in recipes
-          }
-          setDoc(tagRef, newTag).then(() => {
-            console.log('tag-set')
-          })
-        } else {
-          console.log('Tag already exists in DB')
-        }
-      })
-    })
+  const getTopTags = async limit => {
+    return await RecipeAPI.getRecipeTags(limit)
   }
 
   const value = {
     getRecipe,
     searchRecipes,
+    getTrendingRecipes,
     getRecipes,
     addRecipe,
     validateTag,
     searchTags,
-    checkDatabaseForTagMatch,
+    getTopTags,
   }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>

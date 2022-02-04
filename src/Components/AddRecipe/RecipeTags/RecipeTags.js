@@ -11,7 +11,7 @@ const RecipeTags = ({ tags, setTags }) => {
 
   const [error, setError] = useState('')
 
-  const { validateTag, searchTags, checkDatabaseForTagMatch } = useRecipe()
+  const { validateTag, searchTags } = useRecipe()
 
   const handleAddTag = e => {
     if (!isTagsInputValid) {
@@ -21,6 +21,7 @@ const RecipeTags = ({ tags, setTags }) => {
     if (tagsInputVal.trim()) {
       e.preventDefault()
 
+      // If the currently added tag already exists in the tags array, set error. Can't have two of the same tags on one recipe
       if (tags.filter(tag => tag.text === tagsInputVal).length !== 0) {
         return setError(tagsInputVal + ' is already in use!')
       }
@@ -33,13 +34,13 @@ const RecipeTags = ({ tags, setTags }) => {
     setTags(tags.filter(tag => tag.text !== tagText))
   }
 
+  // If enter or comma are pressed, add current tag
   const handleKeyPress = e => {
     if (e.key === 'Enter' || e.key === ',') {
       e.preventDefault()
       handleAddTag(e)
     }
   }
-
   const handleClickSearchResult = result => {
     console.log(result)
     setTags([...tags, result])
@@ -55,7 +56,7 @@ const RecipeTags = ({ tags, setTags }) => {
     setSearchResults([])
     if (tagsInputVal.length >= 3) {
       searchTags(tagsInputVal, tags).then(res => {
-        setSearchResults(res)
+        setSearchResults(res.data)
       })
     }
   }, [tagsInputVal])
@@ -68,7 +69,7 @@ const RecipeTags = ({ tags, setTags }) => {
         {tags.length > 0 &&
           tags.map(tag => {
             return (
-              <div className='selected-tag' key={tag.text}>
+              <div className='tag' key={tag.text}>
                 <AiOutlineClose
                   className='delete-tag'
                   onClick={() => handleDeleteTag(tag.text)}
@@ -100,17 +101,14 @@ const RecipeTags = ({ tags, setTags }) => {
           <div className='search-results'>
             <div className='search-results-title'>Popular Tags</div>
             {searchResults.map(result => {
-              const matchedLetters = tagsInputVal
-              const nonMatchedLetters = result.text.replace(matchedLetters, ``)
-
               return (
                 <div
                   className='result'
                   key={result.text}
                   onClick={() => handleClickSearchResult(result)}
                 >
-                  <span className='matched-letters'>{matchedLetters}</span>
-                  {nonMatchedLetters}
+                  {result.text}
+                  <span className='count'>({result.count})</span>
                 </div>
               )
             })}

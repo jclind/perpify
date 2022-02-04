@@ -176,17 +176,14 @@ const AddRecipe = () => {
       loadingProgress,
       setLoadingProgress,
       setError
-    )
-      .then(() => {
-        setLoading(false)
-        setLoadingProgress(100)
-        clearForm()
-        navigate('/')
-      })
-      .catch(err => {
-        setLoading(false)
-        setError(err)
-      })
+    ).then(() => {
+      // navigate('/')
+      clearForm()
+    })
+    // .catch(err => {
+    //   setLoading(false)
+    //   setError(err)
+    // })
   }
 
   const clearForm = () => {

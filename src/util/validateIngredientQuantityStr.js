@@ -23,6 +23,8 @@ const measurementTypes = [
   'cloves',
   'saltspooon',
   'saltspooons',
+  'jar',
+  'jars',
   'scruple',
   'scruples',
   'ssp',
@@ -95,6 +97,8 @@ const measurementTypes = [
   'containers',
   'qts',
   'pottle',
+  'piece',
+  'pieces',
   'pottles',
   'pot',
   'pots',
@@ -118,7 +122,6 @@ const measurementExists = str => {
 // Takes String, returns boolean based on if given string is a number in fraction form
 const isFraction = str => {
   const tempSplit = str.split('/')
-  console.log(tempSplit)
 
   if (tempSplit.length !== 2) {
     return false

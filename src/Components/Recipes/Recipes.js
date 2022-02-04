@@ -1,84 +1,89 @@
 import React, { useState, useEffect } from 'react'
 import './Recipes.scss'
 import RecipeThumbnail from '../RecipeThumbnail/RecipeThumbnail'
-import Select from 'react-select'
+import RecipeFilters from '../RecipeFilters/RecipeFilters'
+import RecipeAPI from '../../api/recipes'
+import EJSON from 'ejson'
+
 import { useRecipe } from '../../context/RecipeContext'
 
 const Recipes = () => {
-  const selectOptions = [
-    { value: 'rating', label: 'Popular' },
-    { value: 'newest', label: 'Time: Newest' },
-    { value: 'oldest', label: 'Time: Oldest' },
-  ]
-
   const [recipeList, setRecipeList] = useState([])
-  const [selectVal, setSelectVal] = useState(selectOptions[0].value)
+
+  const [selectFilterVal, setSelectFilterVal] = useState('')
 
   const [loading, setLoading] = useState(false)
 
-  const [isMorePaginationData, setIsMorePaginationData] = useState(true)
-  const [isLoadMoreRecipesBtnVisible, setIsLoadMoreRecipesBtnVisible] =
-    useState(true)
+  // const [isMorePaginationData, setIsMorePaginationData] = useState(true)
+  // const [isLoadMoreRecipesBtnVisible, setIsLoadMoreRecipesBtnVisible] =
+  //   useState(true)
 
-  const { getRecipes } = useRecipe()
-
-  const handleSelectChange = e => {
-    const value = e.value
-    setSelectVal(value)
-  }
+  // const { getRecipes } = useRecipe()
 
   const getRecipeList = () => {
-    const recipeQuery = {
-      order: selectVal,
-      limit: 8,
-      start: recipeList.length,
-    }
-    getRecipes(recipeQuery).then(arr => {
-      // set is more pagination data to true is arr is not empty
-      setIsMorePaginationData(arr.length ? true : false)
-      console.log(1)
-      if (arr.length) {
-        console.log(2)
-        setRecipeList([...recipeList, ...arr])
-      }
-    })
-  }
-
-  const handleLoadMoreRecipes = () => {
-    getRecipeList()
+    // const recipeQuery = {
+    //   order: selectFilterVal,
+    //   limit: 12,
+    //   start: recipeList.length,
+    // }
+    // getRecipes(recipeQuery).then(arr => {
+    //   // set is more pagination data to true is arr is not empty
+    //   setIsMorePaginationData(arr.length ? true : false)
+    //   console.log(1)
+    //   if (arr.length) {
+    //     console.log(2)
+    //     setRecipeList([...recipeList, ...arr])
+    //   }
+    // })
   }
 
   useEffect(() => {
-    getRecipeList()
+    RecipeAPI.getAll(0).then(res => {
+      // console.log(EJSON.parse(JSON.stringify(res.data), { strict: false }))
+      console.log(res.data, res.data.recipeList)
+      // res.data.recipeList.map(recipe => {
+      // console.log(EJSON.parse(JSON.stringify(recipe), { strict: false }))
+      // })
+      setRecipeList(res.data.recipeList)
+      // setRecipeList(res.data.recipeList)
+    })
   }, [])
+
+  // const handleLoadMoreRecipes = () => {
+  //   getRecipeList()
+  // }
+
+  // useEffect(() => {
+  //   if (selectFilterVal) {
+  //     getRecipeList()
+  //   }
+  // }, [selectFilterVal])
+
+  // useEffect(() => {
+  //   console.log(JSON.stringify(recipeList))
+  // }, [recipeList])
 
   return (
     <div className='page recipes-page'>
       <h1 className='title'>Recipes</h1>
       <section className='recipes-container'>
-        <div className='filters'>
-          <Select
-            options={selectOptions}
-            isSearchable={false}
-            isClearable={false}
-            className='select'
-            onChange={handleSelectChange}
-            defaultValue={selectOptions[0]}
-          />
-        </div>
+        <RecipeFilters
+          selectVal={selectFilterVal}
+          setSelectVal={setSelectFilterVal}
+        />
         {recipeList[0] ? (
           <div className='recipes-list'>
             {recipeList.map((recipe, idx) => {
               return <RecipeThumbnail key={idx} recipe={recipe} />
             })}
-            {isMorePaginationData && isLoadMoreRecipesBtnVisible ? (
+            {/* {isMorePaginationData && isLoadMoreRecipesBtnVisible ? (
               <button
                 className='load-more-recipes-btn btn'
                 onClick={handleLoadMoreRecipes}
               >
                 Load More Recipes
               </button>
-            ) : null}
+            ) : null} */}
           </div>
         ) : (
           <div>Loading Recipes...</div>

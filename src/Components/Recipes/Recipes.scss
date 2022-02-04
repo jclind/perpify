@@ -5,22 +5,6 @@
     text-align: center;
   }
   .recipes-container {
-    .filters {
-      display: flex;
-      align-items: center;
-      margin-top: 2rem;
-      font-size: toRem(14);
-      font-weight: 600;
-      width: 100%;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid $tertiary-text;
-
-      .select {
-        max-width: 200px;
-        width: 100%;
-      }
-    }
-
     .recipes-list {
       display: grid;
       justify-items: center;
