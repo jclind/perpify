@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   height: $home-hero-height;
-  img,
+  img.background,
   .hero-overlay {
     top: 0;
     // transform: translateY(20%);
@@ -14,7 +14,7 @@
     max-height: 500px;
   }
 
-  img {
+  img.background {
     object-fit: cover;
     min-width: 1600px;
     margin: 0 auto;

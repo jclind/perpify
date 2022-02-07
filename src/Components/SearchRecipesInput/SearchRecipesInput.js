@@ -5,7 +5,7 @@ import { CgTimer } from 'react-icons/cg'
 import './SearchRecipesInput.scss'
 import { useRecipe } from '../../context/RecipeContext'
 
-const SearchRecipesInput = () => {
+const SearchRecipesInput = ({ autoComplete }) => {
   const [searchRecipeVal, setSearchRecipeVal] = useState('')
 
   const [autoCompleteResponse, setAutoCompleteResponse] = useState([])
@@ -40,7 +40,10 @@ const SearchRecipesInput = () => {
   }
 
   useEffect(() => {
-    getAutoCompleteResult(searchRecipeVal)
+    // If the autocomplete property passed through exists and is true, show auto complete results
+    if (autoComplete) {
+      getAutoCompleteResult(searchRecipeVal)
+    }
   }, [searchRecipeVal])
 
   return (
@@ -64,7 +67,7 @@ const SearchRecipesInput = () => {
           </div>
         )}
       </label>
-      {autoCompleteResponse.length > 0 && !isBlurred && (
+      {autoComplete && autoCompleteResponse.length > 0 && !isBlurred && (
         <div className='auto-complete-results'>
           <div className='recipes-container'>
             {autoCompleteResponse.map(recipe => {

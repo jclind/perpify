@@ -53,7 +53,7 @@ const Recipes = () => {
   return (
     <div className='page recipes-page'>
       <h1 className='title'>Recipes</h1>
-      <SearchRecipesInput />
+      <SearchRecipesInput autoComplete={true} />
       <section className='recipes-container'>
         <RecipeFilters
           selectVal={selectFilterVal}
