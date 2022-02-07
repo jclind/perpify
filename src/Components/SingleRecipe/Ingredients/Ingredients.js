@@ -21,13 +21,16 @@ const Ingredients = ({ ingredients, servings, setServings }) => {
   const [modServings, setModServings] = useState(servings)
 
   const decServings = () => {
-    if (modServings > 1) {
-      setModServings(Number(modServings - 1))
+    const num = Number(modServings)
+    if (num > 1) {
+      setServings(num - 1)
+      setModServings(num - 1)
     }
   }
-
   const incServings = () => {
-    setModServings(Number(modServings) + 1)
+    const num = Number(modServings)
+    setServings(num + 1)
+    setModServings(num + 1)
   }
 
   const handleServingsBlur = e => {
