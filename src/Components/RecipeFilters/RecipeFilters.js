@@ -3,12 +3,20 @@ import Select from 'react-select'
 import { useRecipe } from '../../context/RecipeContext'
 import './RecipeFilters.scss'
 
-const RecipeFilters = ({ options, selectVal, setSelectVal }) => {
+const RecipeFilters = ({
+  options,
+  selectVal,
+  setSelectVal,
+  selectedTags,
+  setSelectedTags,
+}) => {
   const [tags, setTags] = useState([])
   const selectOptions = options || [
-    { value: 'rating', label: 'Popular' },
-    { value: 'newest', label: 'Time: Newest' },
-    { value: 'oldest', label: 'Time: Oldest' },
+    { value: 'popular', label: 'Popular' },
+    { value: 'new', label: 'Date: Newest' },
+    { value: 'old', label: 'Date: Oldest' },
+    { value: 'shortest', label: 'Time: Shortest' },
+    { value: 'longest', label: 'Time: Longest' },
   ]
 
   const { getTopTags } = useRecipe()
@@ -25,6 +33,18 @@ const RecipeFilters = ({ options, selectVal, setSelectVal }) => {
     setSelectVal(value)
   }
 
+  const handleTagClick = text => {
+    if (selectedTags.includes(text)) {
+      const idx = selectedTags.indexOf(text)
+      return setSelectedTags([
+        ...selectedTags.slice(0, idx),
+        ...selectedTags.slice(idx + 1, selectedTags.length),
+      ])
+    }
+
+    return setSelectedTags([...selectedTags, text])
+  }
+
   return (
     <div className='filters'>
       <Select
@@ -38,7 +58,15 @@ const RecipeFilters = ({ options, selectVal, setSelectVal }) => {
       <div className='tags'>
         {tags.map(tag => {
           return (
-            <div className='tag' key={tag.text}>
+            <div
+              className={
+                selectedTags.includes(tag.text)
+                  ? 'tag-selected tag'
+                  : 'tag-not-selected tag'
+              }
+              key={tag.text}
+              onClick={() => handleTagClick(tag.text)}
+            >
               {tag.text} <span className='count'>({tag.count})</span>
             </div>
           )

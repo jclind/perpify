@@ -11,57 +11,43 @@ const Recipes = () => {
   const [recipeList, setRecipeList] = useState([])
 
   const [selectFilterVal, setSelectFilterVal] = useState('')
+  const [selectedTags, setSelectedTags] = useState([])
+
+  const [currPage, setCurrPage] = useState(null)
+  const [totalResults, setTotalResults] = useState(null)
 
   const [loading, setLoading] = useState(false)
 
-  // const [isMorePaginationData, setIsMorePaginationData] = useState(true)
-  // const [isLoadMoreRecipesBtnVisible, setIsLoadMoreRecipesBtnVisible] =
-  //   useState(true)
+  const getRecipes = page => {
+    console.log(page, selectFilterVal)
+    RecipeAPI.getAll(page, selectFilterVal, selectedTags).then(res => {
+      console.log(res.data, res.data.recipeList)
 
-  // const { getRecipes } = useRecipe()
+      const totalResults = Number(res.data.total_results)
+      console.log(totalResults)
+      setTotalResults(totalResults)
 
-  const getRecipeList = () => {
-    // const recipeQuery = {
-    //   order: selectFilterVal,
-    //   limit: 12,
-    //   start: recipeList.length,
-    // }
-    // getRecipes(recipeQuery).then(arr => {
-    //   // set is more pagination data to true is arr is not empty
-    //   setIsMorePaginationData(arr.length ? true : false)
-    //   console.log(1)
-    //   if (arr.length) {
-    //     console.log(2)
-    //     setRecipeList([...recipeList, ...arr])
-    //   }
-    // })
+      if (currPage !== 0) {
+        setRecipeList([...recipeList, ...res.data.recipeList])
+      } else {
+        setRecipeList(res.data.recipeList)
+      }
+    })
   }
 
   useEffect(() => {
-    RecipeAPI.getAll(0).then(res => {
-      // console.log(EJSON.parse(JSON.stringify(res.data), { strict: false }))
-      console.log(res.data, res.data.recipeList)
-      // res.data.recipeList.map(recipe => {
-      // console.log(EJSON.parse(JSON.stringify(recipe), { strict: false }))
-      // })
-      setRecipeList(res.data.recipeList)
-      // setRecipeList(res.data.recipeList)
-    })
-  }, [])
+    console.log(selectFilterVal, selectedTags)
+    if (selectFilterVal) {
+      setCurrPage(0)
+      getRecipes(0)
+    }
+  }, [selectFilterVal, selectedTags])
 
-  // const handleLoadMoreRecipes = () => {
-  //   getRecipeList()
-  // }
-
-  // useEffect(() => {
-  //   if (selectFilterVal) {
-  //     getRecipeList()
-  //   }
-  // }, [selectFilterVal])
-
-  // useEffect(() => {
-  //   console.log(JSON.stringify(recipeList))
-  // }, [recipeList])
+  useEffect(() => {
+    if (currPage !== null && currPage !== 0) {
+      getRecipes(currPage)
+    }
+  }, [currPage])
 
   return (
     <div className='page recipes-page'>
@@ -70,20 +56,22 @@ const Recipes = () => {
         <RecipeFilters
           selectVal={selectFilterVal}
           setSelectVal={setSelectFilterVal}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
         />
         {recipeList[0] ? (
           <div className='recipes-list'>
             {recipeList.map((recipe, idx) => {
               return <RecipeThumbnail key={idx} recipe={recipe} />
             })}
-            {/* {isMorePaginationData && isLoadMoreRecipesBtnVisible ? (
+            {totalResults && totalResults > recipeList.length ? (
               <button
                 className='load-more-recipes-btn btn'
-                onClick={handleLoadMoreRecipes}
+                onClick={() => setCurrPage(currPage + 1)}
               >
                 Load More Recipes
               </button>
-            ) : null} */}
+            ) : null}
           </div>
         ) : (
           <div>Loading Recipes...</div>

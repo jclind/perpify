@@ -21,12 +21,18 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    cursor: pointer;
 
     .tag {
       padding-right: 0.5rem;
+
       .count {
         margin-left: 0.25rem;
       }
+    }
+    .tag.tag-not-selected {
+      background: none;
+      border: 1px solid $primary-text;
     }
   }
 }

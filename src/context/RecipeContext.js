@@ -1,18 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import {
-  doc,
-  setDoc,
-  getDoc,
-  collection,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  where,
-  getDocs,
-} from 'firebase/firestore'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { db } from '../client/db'
 import { v4 as uuidv4 } from 'uuid'
 import { useAuth } from './AuthContext'
 import RecipeAPI from '../api/recipes'
@@ -58,27 +45,7 @@ const RecipeProvider = ({ children }) => {
     return await RecipeAPI.getTrendingRecipes(limit)
   }
 
-  let latestRecipeDoc = null
-
-  const getRecipes = async recipeQuery => {
-    const q = query(
-      collection(db, 'recipes'),
-      orderBy(recipeQuery.order, 'desc'),
-      startAfter(latestRecipeDoc || ''),
-      limit(recipeQuery.limit)
-    )
-    const docSnaps = await getDocs(q)
-
-    latestRecipeDoc = docSnaps.docs[docSnaps.docs.length - 1]
-
-    let tempRecipesArr = []
-    docSnaps.forEach(doc => {
-      tempRecipesArr.push(doc.data())
-    })
-
-    return tempRecipesArr
-  }
-
+  // Uploads image to firebase storage and returns url of image to be kept in database
   const uploadImageToStorage = async image => {
     if (image) {
       const storage = getStorage()
@@ -191,7 +158,6 @@ const RecipeProvider = ({ children }) => {
     getRecipe,
     searchRecipes,
     getTrendingRecipes,
-    getRecipes,
     addRecipe,
     validateTag,
     searchTags,

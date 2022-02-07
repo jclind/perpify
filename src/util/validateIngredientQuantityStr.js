@@ -108,6 +108,7 @@ const measurementTypes = [
   'gals',
   'slice',
   'slices',
+  'optional',
 ]
 
 // Takes String, returns boolean based on if given string exists in measurementTypes

@@ -1,8 +1,23 @@
 import http from './http-common'
 
 class RecipeAPI {
-  getAll(page = 0) {
-    return http.get(`recipes?page=${page}`)
+  getAll(page = 0, order = 'new', tags = []) {
+    let tagsArrParam = '' // For tags that have been chosen
+    if (tags.length > 0) {
+      tagsArrParam += '&tags='
+      tags.forEach((tag, idx) => {
+        tagsArrParam += `${tag},`
+
+        // When the last tag is reached, leave off the last comma for backend array processing
+        if (idx === tags.length - 1) {
+          tagsArrParam += `${tag}`
+        }
+      })
+    }
+
+    console.log(tagsArrParam)
+
+    return http.get(`recipes?page=${page}&order=${order}${tagsArrParam}`)
   }
   search(query, tag = '', page = 0, order = 'new', recipesPerPage = 5) {
     return http.get(
@@ -29,7 +44,7 @@ class RecipeAPI {
     if (tagsArr.length > 0) {
       tagsArrParam += '&selectedTags='
       tagsArr.forEach(tag => {
-        tagsArrParam += tag
+        tagsArrParam += `${tag},`
       })
     }
 
