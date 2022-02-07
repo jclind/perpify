@@ -21,9 +21,9 @@ const SingleRecipe = () => {
 
   // Retrieve recipe data with recipeId
   useEffect(() => {
-    getRecipe(recipeId).then(recipe => {
-      console.log(recipe)
-      setCurrRecipe(recipe)
+    getRecipe(recipeId).then(res => {
+      setCurrRecipe(res.data)
+      console.log(res.data)
       setLoading(false)
     })
   }, [])
@@ -44,18 +44,11 @@ const SingleRecipe = () => {
         <div className='recipe-container'>
           <div className='header-content'>
             <div className='recipe-image-container'>
-              <img src={currRecipe.url} alt={currRecipe.title} />
+              <img src={currRecipe.recipeImage} alt={currRecipe.title} />
             </div>
             <div className='description-content'>
               <h1 className='title'>{currRecipe.title}</h1>
-              <p className='description'>
-                Put down the fork and knife… here's a Chicago deep-dish pizza
-                that you can actually eat by holding it in your hands! A
-                beautiful golden crust contains a meaty, cheesy, saucy filling
-                with Italian sausage, sweet peppers, and 3 types of cheese. The
-                sauce and cheese char slightly on the outside as they bake,
-                resulting in a super savory taste.
-              </p>
+              <p className='description'>{currRecipe.description}</p>
               <div className='recipe-data'>
                 <div className='time data-element'>
                   <AiOutlineClockCircle className='icon' />
@@ -70,7 +63,11 @@ const SingleRecipe = () => {
                 <div className='rating data-element'>
                   <AiOutlineStar className='icon' />
                   <h3>Rating</h3>
-                  <div className='data'>{currRecipe.rating}</div>
+                  <div className='data'>
+                    {currRecipe.rating === '0'
+                      ? 'No Ratings'
+                      : currRecipe.rating}
+                  </div>
                 </div>
               </div>
             </div>

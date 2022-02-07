@@ -16,7 +16,8 @@
       display: flex;
       gap: 2rem;
       .recipe-image-container {
-        max-width: 550px;
+        max-width: 500px;
+        max-height: 500px;
         img {
           width: 100%;
           object-fit: contain;
@@ -27,6 +28,7 @@
         // background: red;
         .title {
           margin-bottom: 2rem;
+          text-transform: capitalize;
         }
         .description {
           font-size: toRem(18);

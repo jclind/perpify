@@ -6,10 +6,10 @@ import { AiOutlineStar } from 'react-icons/ai'
 import './RecipeThumbnail.scss'
 
 const RecipeThumbnail = ({ recipe }) => {
-  const { recipeId, recipeImage, title, totalTime, rating } = recipe
+  const { _id, recipeImage, title, totalTime, rating } = recipe
   // console.log(recipe, recipeId)
   return (
-    <Link to={`/recipes/${recipeId}`} className='recipe-thumbnail'>
+    <Link to={`/recipes/${_id}`} className='recipe-thumbnail'>
       <div className='img-container'>
         <img src={recipeImage} alt={title} />
       </div>
