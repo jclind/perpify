@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom'
 import { useRecipe } from '../../context/RecipeContext'
 import { TailSpin } from 'react-loader-spinner'
 
+import Ingredients from './Ingredients/Ingredients'
+
 import {
   AiOutlineClockCircle,
   AiOutlineUsergroupAdd,
@@ -13,6 +15,8 @@ import {
 const SingleRecipe = () => {
   const [currRecipe, setCurrRecipe] = useState(null)
   const [loading, setLoading] = useState(true)
+
+  const [servings, setServings] = useState(0)
 
   const { getRecipe } = useRecipe()
 
@@ -27,6 +31,12 @@ const SingleRecipe = () => {
       setLoading(false)
     })
   }, [])
+
+  useEffect(() => {
+    if (currRecipe) {
+      setServings(currRecipe.servings)
+    }
+  }, [currRecipe])
 
   return (
     <div className='page single-recipe-page'>
@@ -58,7 +68,7 @@ const SingleRecipe = () => {
                 <div className='servings data-element'>
                   <AiOutlineUsergroupAdd className='icon' />
                   <h3>Servings</h3>
-                  <div className='data'>{currRecipe.servings}</div>
+                  <div className='data'>{servings}</div>
                 </div>
                 <div className='rating data-element'>
                   <AiOutlineStar className='icon' />
@@ -70,7 +80,23 @@ const SingleRecipe = () => {
                   </div>
                 </div>
               </div>
+              <div className='tags'>
+                {currRecipe.tags.map(tag => {
+                  return (
+                    <div className='tag' key={tag}>
+                      {tag}
+                    </div>
+                  )
+                })}
+              </div>
             </div>
+          </div>
+          <div className='body-content'>
+            <Ingredients
+              ingredients={currRecipe.ingredients}
+              servings={servings}
+              setServings={setServings}
+            />
           </div>
         </div>
       )}

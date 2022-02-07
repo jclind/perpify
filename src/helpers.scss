@@ -13,7 +13,7 @@ $tertiary-text: #979ba0;
 $white: rgb(255, 255, 255);
 $gray-50: #fafafa;
 $gray-200: #eeeeee;
-$gray-400: #e2e2e2;
+$gray-400: #d6d6d6;
 
 $success-green: #28a745;
 $error-red: #dc3545;
@@ -35,6 +35,9 @@ $nav-height: toRem(100);
 $footer-height: toRem(150);
 
 $page-top-padding: calc(#{$nav-height} + 2rem);
+
+$recipe-page-max-width: 1000px;
+$recipe-body-max-width: 800px;
 
 $home-hero-height: calc(500px - #{$page-top-padding});
 
