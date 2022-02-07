@@ -20,6 +20,33 @@ const CheckBox = ({ text }) => {
 const Ingredients = ({ ingredients, servings, setServings }) => {
   const [modServings, setModServings] = useState(servings)
 
+  const decServings = () => {
+    if (modServings > 1) {
+      setModServings(Number(modServings - 1))
+    }
+  }
+
+  const incServings = () => {
+    setModServings(Number(modServings) + 1)
+  }
+
+  const handleServingsBlur = e => {
+    const val = e.target.value
+    if (val && !isNaN(val) && val > 0) {
+      setServings(modServings)
+    } else {
+      setModServings(servings)
+    }
+  }
+  const handleServingsOnChange = e => {
+    if (
+      (e.target.value % 1 === 0 || e.target.value === '') &&
+      !e.target.value.toString().includes('.')
+    ) {
+      setModServings(e.target.value)
+    }
+  }
+
   return (
     <div className='ingredients'>
       <div className='header'>
@@ -29,40 +56,20 @@ const Ingredients = ({ ingredients, servings, setServings }) => {
             <button
               type='button'
               className='dec counter-btn btn'
-              onClick={() => {
-                if (modServings > 1) {
-                  setModServings(Number(modServings - 1))
-                }
-              }}
+              onClick={decServings}
             >
               -
             </button>
             <input
               value={modServings}
               type='tel'
-              onChange={e => {
-                if (
-                  (e.target.value % 1 === 0 || e.target.value === '') &&
-                  !e.target.value.toString().includes('.')
-                ) {
-                  setModServings(e.target.value)
-                }
-              }}
-              onBlur={e => {
-                const val = e.target.value
-                if (val && !isNaN(val) && val > 0) {
-                  setServings(modServings)
-                } else {
-                  setModServings(servings)
-                }
-              }}
+              onChange={handleServingsOnChange}
+              onBlur={handleServingsBlur}
             />
             <button
               type='button'
               className='inc counter-btn btn'
-              onClick={() => {
-                setModServings(Number(modServings) + 1)
-              }}
+              onClick={incServings}
             >
               +
             </button>
