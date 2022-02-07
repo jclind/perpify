@@ -1,0 +1,125 @@
+@import '../../helpers.scss';
+
+.search-recipes-form {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+
+  .search-recipes-input-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .icon {
+      position: absolute;
+      left: 0.75rem;
+      height: 24px;
+      width: 24px;
+    }
+    input {
+      background: $primary-background;
+      outline: none;
+      border: none;
+      border-radius: $border-radius;
+      height: 50px;
+      width: 100%;
+      font-size: toRem(18);
+      padding: 0.1rem 2.75rem;
+    }
+    .search-recipes-btn {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 600;
+      color: $white;
+      right: 5px;
+      font-size: toRem(18);
+      background: $primary;
+      height: 80%;
+      padding: 0 1.25rem;
+      border-radius: $border-radius;
+    }
+  }
+
+  .auto-complete-results {
+    position: absolute;
+    z-index: 10;
+    top: 95%;
+    display: flex;
+    flex-direction: column;
+    background: $white;
+    width: 100%;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+
+    .recipes-container {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      margin: 0 auto;
+      margin-top: 0.25rem;
+      border-top: 1px solid $gray-400;
+
+      .recipe {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        height: 140px;
+        background: $white;
+        border-bottom: 1px solid $gray-200;
+
+        .image-container {
+          max-width: 100px;
+          max-height: 100px;
+          img {
+            object-fit: contain;
+            width: 100%;
+          }
+        }
+        .info-content {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          gap: 1.5rem;
+          // height: 100px;
+
+          .title {
+            font-size: toRem(22);
+            text-transform: capitalize;
+            font-weight: 600;
+          }
+          .data {
+            display: flex;
+            gap: 1.5rem;
+            .item {
+              display: flex;
+              align-items: center;
+              gap: 0.25rem;
+              font-weight: 500;
+              font-size: toRem(16);
+
+              .icon {
+                height: 20px;
+                width: 20px;
+              }
+            }
+          }
+        }
+        .tags {
+          display: flex;
+          justify-content: flex-end;
+          flex-wrap: wrap;
+          gap: 0.25rem;
+          width: 200px;
+        }
+
+        &:hover {
+          background: $gray-50;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

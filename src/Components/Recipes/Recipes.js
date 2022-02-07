@@ -4,6 +4,7 @@ import RecipeThumbnail from '../RecipeThumbnail/RecipeThumbnail'
 import RecipeFilters from '../RecipeFilters/RecipeFilters'
 import RecipeAPI from '../../api/recipes'
 import EJSON from 'ejson'
+import SearchRecipesInput from '../SearchRecipesInput/SearchRecipesInput'
 
 import { useRecipe } from '../../context/RecipeContext'
 
@@ -52,6 +53,7 @@ const Recipes = () => {
   return (
     <div className='page recipes-page'>
       <h1 className='title'>Recipes</h1>
+      <SearchRecipesInput />
       <section className='recipes-container'>
         <RecipeFilters
           selectVal={selectFilterVal}

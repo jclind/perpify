@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './HomeHero.scss'
-import SearchRecipesInput from './SearchRecipesInput'
+import SearchRecipesInput from '../SearchRecipesInput/SearchRecipesInput'
 
 const HomeHero = () => {
   return (

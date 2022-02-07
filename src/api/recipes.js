@@ -24,6 +24,9 @@ class RecipeAPI {
       `recipes?q=${query.toString()}&page=${page}&tag=${tag}&order=${order}&recipesPerPage=${recipesPerPage}`
     )
   }
+  async searchAutoComplete(title = '') {
+    return await http.get(`searchAutoCompleteRecipes?title=${title}`)
+  }
   async getTrendingRecipes(limit = 4) {
     return await http.get(`getTrendingRecipes?limit=${limit}`)
   }

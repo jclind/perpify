@@ -38,44 +38,4 @@
     margin-top: calc(#{$nav-height} / 4);
     margin-bottom: 2.5rem;
   }
-  form {
-    width: 80%;
-    max-width: 800px;
-  }
-  .search-recipes-input-label {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    .icon {
-      position: absolute;
-      left: 0.75rem;
-      height: 24px;
-      width: 24px;
-    }
-    input {
-      background: $primary-background;
-      outline: none;
-      border: none;
-      border-radius: $border-radius;
-      height: 50px;
-      width: 100%;
-      font-size: toRem(18);
-      padding: 0.1rem 2.75rem;
-    }
-    .search-recipes-btn {
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: 600;
-      color: $white;
-      right: 5px;
-      font-size: toRem(18);
-      background: $primary;
-      height: 80%;
-      padding: 0 1.25rem;
-      border-radius: $border-radius;
-    }
-  }
 }

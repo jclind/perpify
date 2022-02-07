@@ -40,6 +40,11 @@ const RecipeProvider = ({ children }) => {
 
     return await RecipeAPI.search(recipeQuery, tag, page, order, recipesPerPage)
   }
+  const searchAutoCompleteRecipes = async title => {
+    if (title) {
+      return await RecipeAPI.searchAutoComplete(title)
+    }
+  }
 
   const getTrendingRecipes = async limit => {
     return await RecipeAPI.getTrendingRecipes(limit)
@@ -157,6 +162,7 @@ const RecipeProvider = ({ children }) => {
   const value = {
     getRecipe,
     searchRecipes,
+    searchAutoCompleteRecipes,
     getTrendingRecipes,
     addRecipe,
     validateTag,

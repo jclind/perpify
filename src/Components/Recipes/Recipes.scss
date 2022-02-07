@@ -4,6 +4,15 @@
   h1.title {
     text-align: center;
   }
+
+  .search-recipes-form {
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    input {
+      background: $white;
+    }
+  }
   .recipes-container {
     .recipes-list {
       display: grid;
