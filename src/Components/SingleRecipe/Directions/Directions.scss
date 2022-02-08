@@ -1,0 +1,37 @@
+@import '../../../helpers.scss';
+
+.directions {
+  margin-top: 2rem;
+  .directions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 3rem;
+
+    .direction {
+      display: flex;
+      gap: 1.5rem;
+
+      .number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 25px;
+        width: 25px;
+        margin-top: 0.25rem;
+
+        background: $primary;
+        color: $white;
+        font-weight: 700;
+        font-size: toRem(16);
+        border-radius: 50%;
+      }
+      .content {
+        font-size: toRem(16);
+        font-weight: 500;
+        max-width: 600px;
+        line-height: 1.5;
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { useRecipe } from '../../context/RecipeContext'
 import { TailSpin } from 'react-loader-spinner'
 
 import Ingredients from './Ingredients/Ingredients'
+import Directions from './Directions/Directions'
 
 import {
   AiOutlineClockCircle,
@@ -97,6 +98,7 @@ const SingleRecipe = () => {
               servings={servings}
               setServings={setServings}
             />
+            <Directions directions={currRecipe.instructions} />
           </div>
         </div>
       )}

@@ -3,6 +3,7 @@ import './AddRecipe.scss'
 import RecipeFormInput from './RecipeFormInput'
 import RecipeFormTextArea from './RecipeFormTextArea'
 import IngredientsList from './IngredientsList/IngredientsList'
+import IngredientListV2 from './IngredientsList/IngredientListV2'
 import InstructionsList from './InstructionsList/InstructionsList'
 import RecipeImage from './RecipeImage/RecipeImage'
 import { useRecipe } from '../../context/RecipeContext'
@@ -290,13 +291,17 @@ const AddRecipe = () => {
             setVal={setRecipeDescription}
             placeholder='Description of recipe...'
           />
+          {/* <IngredientsList
+            recipeIngredients={recipeIngredients}
+            setRecipeIngredients={setRecipeIngredients}
+          /> */}
+          <IngredientListV2
+            recipeIngredients={recipeIngredients}
+            setRecipeIngredients={setRecipeIngredients}
+          />
           <InstructionsList
             recipeInstructions={recipeInstructions}
             setRecipeInstructions={setRecipeInstructions}
-          />
-          <IngredientsList
-            recipeIngredients={recipeIngredients}
-            setRecipeIngredients={setRecipeIngredients}
           />
           <RecipeImage
             recipeImage={recipeImage}
