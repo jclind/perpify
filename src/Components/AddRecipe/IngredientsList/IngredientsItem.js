@@ -16,14 +16,15 @@ const IngredientsItem = ({
 }) => {
   const [name, setName] = useState(ingredient.name)
   const [measurement, setMeasurement] = useState(ingredient.measurement)
-  const [isMeasurementOpen, setIsMeasurementOpen] = useState(false)
+  const [isMeasurementFocused, setIsMeasurementFocused] = useState(false)
+  const [isMeasurementSelectorOpen, setIsMeasurementSelectorOpen] =
+    useState(false)
   const [quantity, setQuantity] = useState(ingredient.quantity)
 
   const { id } = ingredient
   const quantityElId = `quantity-${id}`
 
   const quantityRef = useRef()
-  const measurementRef = useRef()
   const nameRef = useRef()
 
   const customStyles = {
@@ -77,6 +78,13 @@ const IngredientsItem = ({
       quantityRef.current.innerText = ingredient.quantity
     }
   }
+  const handleMeasurementChange = e => {
+    const newMeasurement = e
+    setMeasurement(e)
+
+    const updatedIngredient = { ...ingredient, measurement: newMeasurement }
+    updateItem(updatedIngredient, id)
+  }
   const handleNameChange = () => {
     const newName = nameRef.current.innerText
     if (newName && newName !== ingredient.name) {
@@ -116,39 +124,57 @@ const IngredientsItem = ({
             <AiOutlineHolder className='drag-icon' />
           </div>
           <div className='content'>
-            {quantity && (
-              <div
-                id={quantityElId}
-                className='quantity field'
-                contentEditable
-                suppressContentEditableWarning={true}
-                ref={quantityRef}
-                onBlur={handleQuantityChange}
-                onKeyPress={handleKeyPress}
-              >
-                {quantity}
-              </div>
-            )}
             <div
-              onMouseEnter={() => setIsMeasurementOpen(true)}
-              onBlur={() => setIsMeasurementOpen(false)}
+              id={quantityElId}
+              className='quantity field'
+              contentEditable
+              suppressContentEditableWarning={true}
+              ref={quantityRef}
+              onBlur={handleQuantityChange}
+              onKeyPress={handleKeyPress}
             >
-              {isMeasurementOpen ? (
+              {quantity ? quantity : '(No Quantity)'}
+            </div>
+            {/* <div */}
+            {/* onMouseEnter={() => setIsMeasurementOpen(true)} */}
+            {/* onBlur={() => setIsMeasurementOpen(false)} */}
+            {/* > */}
+            {isMeasurementFocused ? (
+              <div
+                onMouseLeave={() => {
+                  if (!isMeasurementSelectorOpen) {
+                    setIsMeasurementFocused(false)
+                  }
+                }}
+                onBlur={() => {
+                  setIsMeasurementFocused(false)
+                }}
+              >
                 <Select
                   options={options}
                   styles={customStyles}
                   contentEditable={false}
                   className='measurement-select'
                   value={measurement}
-                  onChange={e => setMeasurement(e)}
-                  onMouseLeave
+                  onChange={handleMeasurementChange}
+                  onMenuOpen={() => setIsMeasurementSelectorOpen(true)}
+                  onMenuClose={() => {
+                    setIsMeasurementFocused(false)
+                    setIsMeasurementSelectorOpen(false)
+                  }}
+
+                  // onMouseLeave
                 />
-              ) : (
-                <div className='measurement-text field'>
-                  {measurement.value}
-                </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div
+                className='measurement-text field'
+                onMouseEnter={() => setIsMeasurementFocused(true)}
+              >
+                {measurement.value}
+              </div>
+            )}
+            {/* </div> */}
             <div
               className='name field'
               contentEditable

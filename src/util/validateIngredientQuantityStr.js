@@ -138,6 +138,55 @@ const isFraction = str => {
   return true
 }
 
+export const validateQuantity = str => {
+  const splitVal = str.split(/[\s-]/)
+
+  console.log(splitVal)
+
+  // If the split val length is greater than 2, then it will be called invalid
+  if (splitVal.length > 2) {
+    return {
+      err: 'Str invalid length, make sure to only enter whole or mixed numbers',
+    }
+  }
+
+  // If there are two values in splitVal check that both are valid
+  if (splitVal.length === 2) {
+    // If the first value isn't a whole number, call error
+    if (isNaN(splitVal[0])) {
+      return { err: 'Invalid number, please check quantity again' }
+    } else if (splitVal[0] % 1 !== 0) {
+      return { err: 'Please enter whole or mixed numbers only, no decimals' }
+    }
+    // If the second value isn't a fraction, call error
+    if (!isFraction(splitVal[1])) {
+      return {
+        err: 'Invalid fraction. Please make sure to enter mixed number correctly',
+      }
+    }
+
+    return {}
+  }
+
+  // If there is only one number entered check that it's valid
+  if (splitVal.length === 1) {
+    if (isNaN(splitVal[0]) && !isFraction(splitVal[0])) {
+      return { err: 'Number entered must be a valid whole or mixed number' }
+    }
+    if (splitVal[0] % 1 !== 0) {
+      return { err: 'Please enter whole or mixed numbers only, no decimals' }
+    }
+
+    return {}
+  }
+
+  return {
+    err: 'Something went wrong, please check that the quantity entered is a valid whole or mixed number',
+  }
+
+  console.log(splitVal)
+}
+
 const validateQuantityandMeasurements = str => {
   const splitVal = str.split(' ')
 

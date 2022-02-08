@@ -3,8 +3,9 @@ import Select from 'react-select'
 import IngredientsItem from './IngredientsItem'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { capitalize } from '../../../util/capitalize'
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4, validate } from 'uuid'
 import './IngredientsList.scss'
+import { validateQuantity } from '../../../util/validateIngredientQuantityStr'
 
 const options = [
   { value: null, label: 'None' },
@@ -80,6 +81,14 @@ const IngredientListV2 = ({ recipeIngredients, setRecipeIngredients }) => {
 
     if (!name) return setError('Please fill out ingredient name')
 
+    // If a quantity was given test if it is a valid value
+    if (quantity) {
+      const validationRes = validateQuantity(quantity)
+      if (validationRes.err) {
+        return setError(validationRes.err)
+      }
+    }
+
     setRecipeIngredients(prevState => [
       ...prevState,
       { quantity, id: uuidv4(), measurement, name: capitalize(name) },
@@ -98,6 +107,20 @@ const IngredientListV2 = ({ recipeIngredients, setRecipeIngredients }) => {
     const tempIngredientIndex = recipeIngredients.findIndex(
       item => item.id === id
     )
+    console.log(
+      updatedItem.quantity,
+      recipeIngredients[tempIngredientIndex].quantity
+    )
+    if (
+      updatedItem.quantity !== recipeIngredients[tempIngredientIndex].quantity
+    ) {
+      if (updatedItem.quantity) {
+        const validationRes = validateQuantity(updatedItem.quantity)
+        if (validationRes.err) {
+          return setError(validationRes.err)
+        }
+      }
+    }
 
     setRecipeIngredients([
       ...recipeIngredients.slice(0, tempIngredientIndex),
@@ -161,7 +184,7 @@ const IngredientListV2 = ({ recipeIngredients, setRecipeIngredients }) => {
           onKeyPress={e => {
             if (e.key === 'Enter') {
               e.preventDefault()
-              handleAddIngredient()
+              handleAddIngredient(e)
             }
           }}
         />
