@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import './AddRecipe.scss'
 import RecipeFormInput from './RecipeFormInput'
 import RecipeFormTextArea from './RecipeFormTextArea'
+import TimeInput from './TimeInput/TimeInput'
 import IngredientListContainer from './IngredientsList/IngredientListContainer'
 import InstructionsContainer from './InstructionsList/InstructionsContainer'
 import RecipeImage from './RecipeImage/RecipeImage'
@@ -39,7 +40,6 @@ const AddRecipe = () => {
   const [loadingProgress, setLoadingProgress] = useState(0)
 
   const { addRecipe } = useRecipe()
-  const navigate = useNavigate()
 
   const setStatesToLocalData = () => {
     const addRecipeFormData = JSON.parse(
@@ -242,8 +242,23 @@ const AddRecipe = () => {
             setVal={setRecipeTitle}
             placeholder={'Mexican Chipotle Bowl...'}
           />
-          <div className='recipe-data'>
-            <RecipeFormInput
+          <div className='recipe-data times'>
+            <TimeInput
+              label='Prep Time *'
+              val={recipePrepTime}
+              setVal={setRecipePrepTime}
+            />
+            <TimeInput
+              label='Cook Time'
+              val={recipeCookTime}
+              setVal={setRecipeCookTime}
+            />
+            <TimeInput
+              label='Additional Time'
+              val={recipeAdditionalTime}
+              setVal={setRecipeAdditionalTime}
+            />
+            {/* <RecipeFormInput
               name={'Prep Time (min) *'}
               type={'number'}
               val={recipePrepTime}
@@ -263,7 +278,7 @@ const AddRecipe = () => {
               val={recipeAdditionalTime}
               setVal={setRecipeAdditionalTime}
               placeholder={'1 day'}
-            />
+            /> */}
           </div>
           <div className='recipe-data'>
             <RecipeFormInput

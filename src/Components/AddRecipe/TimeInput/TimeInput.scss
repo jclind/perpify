@@ -1,0 +1,17 @@
+@import '../../../helpers.scss';
+
+.time-input {
+  width: 100%;
+  .label-title {
+    font-weight: 600;
+    font-size: toRem(14);
+    text-transform: capitalize;
+    color: $primary;
+  }
+  .time-input-inputs {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    max-width: 300px;
+  }
+}

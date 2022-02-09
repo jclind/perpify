@@ -4,7 +4,7 @@ import './RecipeFormInput.scss'
 const RecipeFormInput = ({ type, placeholder, name, val, setVal }) => {
   return (
     <label className='recipe-form-input'>
-      <div className='label-title'>{name}</div>
+      {name && <div className='label-title'>{name}</div>}
       <div className='input-container'>
         <input
           type={type}

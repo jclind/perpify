@@ -28,6 +28,9 @@
       justify-content: space-around;
       gap: 2rem;
     }
+    .recipe-data.times {
+      flex-direction: column;
+    }
     .ingredients-container,
     .instructions-container {
       margin-top: 2rem;
