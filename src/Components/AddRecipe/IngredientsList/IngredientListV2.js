@@ -39,7 +39,6 @@ const IngredientListV2 = ({
   isMultipleLists,
   removeList,
 }) => {
-  console.log(recipeIngredients)
   const [listTitle, setListTitle] = useState('')
 
   const [quantity, setQuantity] = useState('')
@@ -113,7 +112,15 @@ const IngredientListV2 = ({
     setQuantity('')
   }
   const deleteIngredient = id => {
-    setRecipeIngredients(recipeIngredients.filter(item => item.id !== id))
+    const tempIngredientIndex = recipeIngredients.findIndex(
+      item => item.id === id
+    )
+
+    const ingredientData = [
+      ...recipeIngredients.slice(0, tempIngredientIndex),
+      ...recipeIngredients.slice(tempIngredientIndex + 1),
+    ]
+    updateRecipeIngredients(ingredientData, index)
   }
   const updateIngredient = (updatedItem, id) => {
     setError('')
@@ -121,10 +128,7 @@ const IngredientListV2 = ({
     const tempIngredientIndex = recipeIngredients.findIndex(
       item => item.id === id
     )
-    console.log(
-      updatedItem.quantity,
-      recipeIngredients[tempIngredientIndex].quantity
-    )
+
     if (
       updatedItem.quantity !== recipeIngredients[tempIngredientIndex].quantity
     ) {
@@ -153,8 +157,6 @@ const IngredientListV2 = ({
     const desIdx = param.destination.index
 
     if (desIdx !== null) {
-      console.log(srcIdx, desIdx)
-
       const tempIngredientsList = JSON.parse(JSON.stringify(recipeIngredients))
 
       const movedIngredient = tempIngredientsList.splice(srcIdx, 1)[0]
@@ -228,6 +230,7 @@ const IngredientListV2 = ({
         />
         <button
           className='add-ingredient-btn btn'
+          type='button'
           onClick={handleAddIngredient}
         >
           Add Ingredient
@@ -243,8 +246,6 @@ const IngredientListV2 = ({
             >
               {recipeIngredients &&
                 recipeIngredients.map((ingredient, idx) => {
-                  // NOTHING BEING PASSED THORUHG< RECIPEINGREDIENTS IS EMPTY
-                  console.log(ingredient)
                   return (
                     <IngredientsItem
                       ingredient={ingredient}

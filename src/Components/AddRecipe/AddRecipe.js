@@ -3,7 +3,7 @@ import './AddRecipe.scss'
 import RecipeFormInput from './RecipeFormInput'
 import RecipeFormTextArea from './RecipeFormTextArea'
 import IngredientListContainer from './IngredientsList/IngredientListContainer'
-import InstructionsList from './InstructionsList/InstructionsList'
+import InstructionsContainer from './InstructionsList/InstructionsContainer'
 import RecipeImage from './RecipeImage/RecipeImage'
 import { useRecipe } from '../../context/RecipeContext'
 import { TailSpin } from 'react-loader-spinner'
@@ -24,7 +24,9 @@ const AddRecipe = () => {
   const [recipeIngredients, setRecipeIngredients] = useState([
     { name: 'list1', list: [] },
   ])
-  const [recipeInstructions, setRecipeInstructions] = useState([])
+  const [recipeInstructions, setRecipeInstructions] = useState([
+    { name: 'list1', list: [] },
+  ])
 
   const [recipeTags, setRecipeTags] = useState([])
 
@@ -85,15 +87,15 @@ const AddRecipe = () => {
       : ''
     setRecipeDescription(description)
 
+    const ingredients = addRecipeFormData?.recipeIngredients
+      ? addRecipeFormData.recipeIngredients
+      : [{ name: 'list1', list: [] }]
+    setRecipeIngredients(ingredients)
+
     const instructions = addRecipeFormData?.recipeInstructions
       ? addRecipeFormData.recipeInstructions
-      : []
+      : [{ name: 'list1', list: [] }]
     setRecipeInstructions(instructions)
-
-    // const ingredients = addRecipeFormData?.recipeIngredients
-    //   ? addRecipeFormData.recipeIngredients
-    //   : [[{ name: 'list1', arr: [] }]]
-    // setRecipeIngredients(ingredients)
   }
 
   useEffect(() => {
@@ -300,7 +302,7 @@ const AddRecipe = () => {
             recipeIngredients={recipeIngredients}
             setRecipeIngredients={setRecipeIngredients}
           />
-          <InstructionsList
+          <InstructionsContainer
             recipeInstructions={recipeInstructions}
             setRecipeInstructions={setRecipeInstructions}
           />

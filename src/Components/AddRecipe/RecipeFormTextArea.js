@@ -8,10 +8,11 @@ const RecipeFormTextArea = ({
   smallTextArea,
   setVal,
   textAreaProp,
+  handleKeyPress,
 }) => {
   return (
     <label className='recipe-form-textarea'>
-      <div className='label-title'>{name}</div>
+      {name && <div className='label-title'>{name}</div>}
       <div className='input-container'>
         <textarea
           placeholder={placeholder}
@@ -19,6 +20,7 @@ const RecipeFormTextArea = ({
           onChange={e => setVal(e.target.value)}
           className={smallTextArea ? 'small-textarea' : ''}
           ref={textAreaProp ? textAreaProp : null}
+          onKeyPress={handleKeyPress}
         />
       </div>
     </label>

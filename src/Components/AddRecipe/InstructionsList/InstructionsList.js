@@ -4,9 +4,17 @@ import InstructionsItem from './InstructionsItem'
 import { v4 as uuidv4 } from 'uuid'
 import './InstructionsList.scss'
 
-const InstructionsList = ({ recipeInstructions, setRecipeInstructions }) => {
+const InstructionsList = ({
+  recipeInstructions,
+  setRecipeInstructions,
+  updateRecipeInstructions,
+  index,
+  isMultipleLists,
+  removeList,
+}) => {
   const [instructionText, setInstructionText] = useState('')
 
+  const [listTitle, setListTitle] = useState('')
   const [error, setError] = useState('')
 
   const instructionTextAreaRef = useRef()
@@ -18,16 +26,22 @@ const InstructionsList = ({ recipeInstructions, setRecipeInstructions }) => {
       return setError('ERROR, MUST HAVE 5 OR MORE CHARACTERS PER INSTRUCTION')
     }
 
-    setRecipeInstructions([
-      ...recipeInstructions,
-      {
-        content: instructionText,
-        index: recipeInstructions.length + 1,
-        id: `instruction-${uuidv4()}`,
-      },
-    ])
+    const data = {
+      content: instructionText,
+      index: recipeInstructions.length + 1,
+      id: `instruction-${uuidv4()}`,
+    }
+
+    setRecipeInstructions(data, index)
+
     setInstructionText('')
     instructionTextAreaRef.current.focus()
+  }
+  const handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleAddInstruction(e)
+    }
   }
 
   const updateInstruction = (updatedItem, id) => {
@@ -41,16 +55,26 @@ const InstructionsList = ({ recipeInstructions, setRecipeInstructions }) => {
       setError('ERROR, CONTENT CANNOT BE NULL')
     }
 
-    setRecipeInstructions([
+    const instructionData = [
       ...recipeInstructions.slice(0, tempInstructionsIndex),
       { ...updatedItem },
       ...recipeInstructions.slice(tempInstructionsIndex + 1),
-    ])
+    ]
+
+    updateRecipeInstructions(instructionData, index)
     return true
   }
 
   const deleteInstruction = id => {
-    setRecipeInstructions(recipeInstructions.filter(item => item.id !== id))
+    const tempInstructionsIndex = recipeInstructions.findIndex(
+      item => item.id === id
+    )
+
+    const instructionData = [
+      ...recipeInstructions.slice(0, tempInstructionsIndex),
+      ...recipeInstructions.slice(tempInstructionsIndex + 1),
+    ]
+    setRecipeInstructions(instructionData, index)
   }
 
   useEffect(() => {
@@ -59,17 +83,43 @@ const InstructionsList = ({ recipeInstructions, setRecipeInstructions }) => {
 
   return (
     <div className='instructions-list'>
+      {isMultipleLists && (
+        <div className='list-title'>
+          {listTitle ? `${listTitle}:` : `List${index + 1}:`}
+        </div>
+      )}
+      {isMultipleLists && (
+        <button
+          type='button'
+          className='remove-list-btn btn'
+          onClick={() => removeList(index)}
+        >
+          Remove List
+        </button>
+      )}
       {error && <div className='error'>{error}</div>}
+      {isMultipleLists && (
+        <input
+          className='list-title-input'
+          placeholder={`Enter Title For List ${index + 1}`}
+          value={listTitle}
+          onChange={e => setListTitle(e.target.value)}
+        />
+      )}
       <div className='instruction-list-textarea-container'>
         <RecipeFormTextArea
-          name='Instruction Steps *'
           smallTextArea={true}
           val={instructionText}
           setVal={setInstructionText}
           placeholder='Pre-heat oven to 350 degrees....'
           textAreaProp={instructionTextAreaRef}
+          handleKeyPress={handleKeyPress}
         />
-        <button className='add-instruction btn' onClick={handleAddInstruction}>
+        <button
+          type='button'
+          className='add-instruction btn'
+          onClick={handleAddInstruction}
+        >
           Add Step
         </button>
       </div>
