@@ -11,7 +11,7 @@ const IngredientListContainer = ({
   const addList = () => {
     setRecipeIngredients(prevState => [
       ...prevState,
-      { name: `list${recipeIngredients.length}`, list: [] },
+      { name: `list${recipeIngredients.length + 1}`, list: [] },
     ])
   }
   const removeList = idx => {
@@ -24,18 +24,22 @@ const IngredientListContainer = ({
   }
 
   const handleSet = (val, idx) => {
-    console.log(recipeIngredients[idx], recipeIngredients[idx].list, idx)
-    const data = {
-      ...recipeIngredients[idx],
-      list: [...recipeIngredients[idx].list, val],
-    }
+    console.log(recipeIngredients, recipeIngredients[idx].list, idx)
 
-    console.log(data)
-    if (recipeIngredients.length <= 1) {
-      setRecipeIngredients([data])
-    } else {
-      setRecipeIngredients(prevState => [...prevState, data])
-    }
+    const tempIngredients = JSON.parse(JSON.stringify(recipeIngredients))
+    tempIngredients[idx].list.push(val)
+
+    // const data = {
+    //   ...recipeIngredients[idx],
+    //   list: [...recipeIngredients[idx].list, val],
+    // }
+
+    setRecipeIngredients(tempIngredients)
+    // console.log(data)
+    // if (recipeIngredients.length <= 1) {
+    // } else {
+    //   setRecipeIngredients(prevState => [...prevState, data])
+    // }
   }
   const handleUpdate = (updatedArr, idx) => {
     const data = { ...recipeIngredients[idx], list: [...updatedArr] }
