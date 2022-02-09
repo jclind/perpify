@@ -31,7 +31,17 @@ const options = [
   { value: 'splash', label: 'splash' },
 ]
 
-const IngredientListV2 = ({ recipeIngredients, setRecipeIngredients }) => {
+const IngredientListV2 = ({
+  recipeIngredients,
+  setRecipeIngredients,
+  updateRecipeIngredients,
+  index,
+  isMultipleLists,
+  removeList,
+}) => {
+  console.log(recipeIngredients)
+  const [listTitle, setListTitle] = useState('')
+
   const [quantity, setQuantity] = useState('')
   const [measurement, setMeasurement] = useState(options[0])
   const [name, setName] = useState('')
@@ -89,10 +99,14 @@ const IngredientListV2 = ({ recipeIngredients, setRecipeIngredients }) => {
       }
     }
 
-    setRecipeIngredients(prevState => [
-      ...prevState,
-      { quantity, id: uuidv4(), measurement, name: capitalize(name) },
-    ])
+    const ingredientData = {
+      quantity,
+      id: uuidv4(),
+      measurement,
+      name: capitalize(name),
+    }
+    setRecipeIngredients(ingredientData, index)
+
     quantityRef.current.focus()
     setName('')
     setMeasurement(options[0])
@@ -122,11 +136,14 @@ const IngredientListV2 = ({ recipeIngredients, setRecipeIngredients }) => {
       }
     }
 
-    setRecipeIngredients([
+    const ingredientData = [
       ...recipeIngredients.slice(0, tempIngredientIndex),
       { ...updatedItem },
       ...recipeIngredients.slice(tempIngredientIndex + 1),
-    ])
+    ]
+    updateRecipeIngredients(ingredientData, index)
+
+    // setRecipeIngredients()
     return true
   }
 
@@ -150,8 +167,29 @@ const IngredientListV2 = ({ recipeIngredients, setRecipeIngredients }) => {
 
   return (
     <div className='ingredients-list'>
-      <label className='label-title'>Ingredients *</label>
+      {isMultipleLists && (
+        <div className='list-title'>
+          {listTitle ? `${listTitle}:` : `List${index + 1}:`}
+        </div>
+      )}
+      {isMultipleLists && (
+        <button
+          type='button'
+          className='remove-list-btn btn'
+          onClick={() => removeList(index)}
+        >
+          Remove List
+        </button>
+      )}
       {error && <div className='error'>{error}</div>}
+      {isMultipleLists && (
+        <input
+          className='list-title-input'
+          placeholder={`Enter Title For List ${index + 1}`}
+          value={listTitle}
+          onChange={e => setListTitle(e.target.value)}
+        />
+      )}
       <div className='inputs'>
         <input
           type='text'
@@ -205,6 +243,8 @@ const IngredientListV2 = ({ recipeIngredients, setRecipeIngredients }) => {
             >
               {recipeIngredients &&
                 recipeIngredients.map((ingredient, idx) => {
+                  // NOTHING BEING PASSED THORUHG< RECIPEINGREDIENTS IS EMPTY
+                  console.log(ingredient)
                   return (
                     <IngredientsItem
                       ingredient={ingredient}

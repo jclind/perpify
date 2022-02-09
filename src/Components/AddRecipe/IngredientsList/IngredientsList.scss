@@ -1,31 +1,52 @@
 @import '../../../helpers.scss';
 
 .ingredients-list {
+  position: relative;
   height: fit-content;
 
-  .label-title {
+  .list-title {
+    font-size: toRem(16);
     font-weight: 600;
-    font-size: toRem(14);
+    padding-bottom: 1rem;
     text-transform: capitalize;
-    color: $primary;
   }
+  .list-title-input {
+    width: 100%;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+  }
+
+  .remove-list-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: toRem(14);
+    color: $primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  input {
+    background: none;
+    border: none;
+    outline: none;
+    border: 1px solid $tertiary-text;
+    border-radius: $border-radius;
+    height: 100%;
+    padding: 0 1rem;
+    font-size: toRem(16);
+    font-weight: 500;
+    height: 45px;
+  }
+
   .inputs {
     margin-top: 1rem;
+    margin-bottom: 2rem;
     display: flex;
     gap: 1rem;
 
-    input {
-      background: none;
-      border: none;
-      outline: none;
-      border: 1px solid $tertiary-text;
-      border-radius: $border-radius;
-      height: 100%;
-      padding: 0 1rem;
-      font-size: toRem(16);
-      font-weight: 500;
-      height: 45px;
-    }
     .ingredient-quantity {
       width: 5ch;
       // height: 45px;

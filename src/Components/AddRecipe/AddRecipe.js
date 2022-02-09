@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import './AddRecipe.scss'
 import RecipeFormInput from './RecipeFormInput'
 import RecipeFormTextArea from './RecipeFormTextArea'
-import IngredientsList from './IngredientsList/IngredientsList'
-import IngredientListV2 from './IngredientsList/IngredientListV2'
+import IngredientListContainer from './IngredientsList/IngredientListContainer'
 import InstructionsList from './InstructionsList/InstructionsList'
 import RecipeImage from './RecipeImage/RecipeImage'
 import { useRecipe } from '../../context/RecipeContext'
@@ -22,8 +21,10 @@ const AddRecipe = () => {
   const [recipeFreezerLife, setRecipeFreezerLife] = useState('')
   const [recipeDescription, setRecipeDescription] = useState('')
 
+  const [recipeIngredients, setRecipeIngredients] = useState([
+    { name: 'list1', list: [] },
+  ])
   const [recipeInstructions, setRecipeInstructions] = useState([])
-  const [recipeIngredients, setRecipeIngredients] = useState([])
 
   const [recipeTags, setRecipeTags] = useState([])
 
@@ -89,10 +90,10 @@ const AddRecipe = () => {
       : []
     setRecipeInstructions(instructions)
 
-    const ingredients = addRecipeFormData?.recipeIngredients
-      ? addRecipeFormData.recipeIngredients
-      : []
-    setRecipeIngredients(ingredients)
+    // const ingredients = addRecipeFormData?.recipeIngredients
+    //   ? addRecipeFormData.recipeIngredients
+    //   : [[{ name: 'list1', arr: [] }]]
+    // setRecipeIngredients(ingredients)
   }
 
   useEffect(() => {
@@ -295,7 +296,7 @@ const AddRecipe = () => {
             recipeIngredients={recipeIngredients}
             setRecipeIngredients={setRecipeIngredients}
           /> */}
-          <IngredientListV2
+          <IngredientListContainer
             recipeIngredients={recipeIngredients}
             setRecipeIngredients={setRecipeIngredients}
           />

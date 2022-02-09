@@ -28,6 +28,34 @@
       justify-content: space-around;
       gap: 2rem;
     }
+    .ingredients-container {
+      margin: 2rem 0;
+      padding: 2rem 0 4rem 0;
+      border-top: 1px solid $gray-400;
+      border-bottom: 1px solid $gray-400;
+      .label-title {
+        font-weight: 600;
+        font-size: toRem(14);
+        text-transform: capitalize;
+        color: $primary;
+      }
+      .ingredients-list-container {
+        margin: 2rem 0 4rem 0;
+      }
+      .add-ingredient-list-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: toRem(16);
+        margin-top: 2rem;
+        color: $tertiary-text;
+
+        .icon {
+          height: 25px;
+          width: 25px;
+        }
+      }
+    }
     .recipe-image-dropzone {
       display: flex;
       justify-content: center;

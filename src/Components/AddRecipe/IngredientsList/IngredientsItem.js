@@ -171,7 +171,7 @@ const IngredientsItem = ({
                 className='measurement-text field'
                 onMouseEnter={() => setIsMeasurementFocused(true)}
               >
-                {measurement.value}
+                {measurement.value ? measurement.value : '(No Measurement)'}
               </div>
             )}
             {/* </div> */}
