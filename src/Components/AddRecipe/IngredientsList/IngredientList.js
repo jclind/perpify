@@ -66,6 +66,10 @@ const IngredientList = ({
       color: 'hsl(0, 0%, 0%)',
       paddingBottom: '3px',
     }),
+    menu: (provided, state) => ({
+      ...provided,
+      zIndex: '11',
+    }),
 
     valueContainer: (provided, state) => ({
       ...provided,

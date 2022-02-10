@@ -50,7 +50,6 @@ const InstructionsContainer = ({
       <label className='label-title'>Instruction Steps *</label>
       {recipeInstructions.length > 0 &&
         recipeInstructions.map((list, idx) => {
-          console.log(list)
           return (
             <div className='instructions-list-container' key={idx}>
               <InstructionsList

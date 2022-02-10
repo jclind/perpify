@@ -292,10 +292,6 @@ const AddRecipe = () => {
               placeholder={'40'}
             />
           </div>
-          {/* <IngredientsList
-            recipeIngredients={recipeIngredients}
-            setRecipeIngredients={setRecipeIngredients}
-          /> */}
           <IngredientListContainer
             recipeIngredients={recipeIngredients}
             setRecipeIngredients={setRecipeIngredients}
