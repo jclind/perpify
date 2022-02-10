@@ -2,18 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 
 const RecipeImage = ({ recipeImage, setRecipeImage }) => {
-  // const recipeImageRef = useRef()
-  // const readURL = e => {
-  //   if (e.target.files[0]) {
-  //     console.log('picture: ', e.target.files)
-  //     const reader = new FileReader()
-  //     reader.addEventListener('load', () => {
-  //       setRecipeImage(reader.result)
-  //     })
-  //     reader.readAsDataURL(e.target.files[0])
-  //   }
-  // }
-
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/png, image/gif, image/jpeg',
 
@@ -35,7 +23,7 @@ const RecipeImage = ({ recipeImage, setRecipeImage }) => {
   }, [recipeImage])
 
   return (
-    <>
+    <div className='recipe-image'>
       <div className='recipe-form-input'>
         <div className='label-title'>Recipe Image *</div>
         <div {...getRootProps({ className: 'recipe-image-dropzone' })}>
@@ -52,12 +40,9 @@ const RecipeImage = ({ recipeImage, setRecipeImage }) => {
               className='recipe-image'
             />
           </div>
-          {/* <button className='upload-recipe-image' onClick={uploadImage}>
-            Upload
-          </button> */}
         </>
       )}
-    </>
+    </div>
   )
 }
 

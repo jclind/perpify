@@ -1,7 +1,11 @@
 @import '../../../helpers.scss';
 
-.time-input {
-  width: 100%;
+.servings-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 400px;
+
   .label-title {
     font-weight: 600;
     font-size: toRem(14);
@@ -9,13 +13,8 @@
     color: $primary;
   }
 
-  .time-input-inputs {
-    margin-top: 0.5rem;
+  .inputs {
     display: flex;
-    gap: 0.5rem;
-    max-width: 400px;
-    input {
-      padding-right: 0.25rem;
-    }
+    gap: 1rem;
   }
 }

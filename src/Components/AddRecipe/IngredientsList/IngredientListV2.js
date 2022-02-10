@@ -56,7 +56,7 @@ const IngredientListV2 = ({
       borderColor: '#9e9e9e',
       minHeight: '47px',
       height: '47px',
-      width: '200px',
+      width: '160px',
       boxShadow: state.isFocused ? null : null,
     }),
     singleValue: (provided, state) => ({
@@ -233,7 +233,7 @@ const IngredientListV2 = ({
           type='button'
           onClick={handleAddIngredient}
         >
-          Add Ingredient
+          Add
         </button>
       </div>
       <DragDropContext onDragEnd={param => handleOnDragEnd(param)}>

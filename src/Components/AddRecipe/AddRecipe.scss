@@ -18,8 +18,8 @@
     flex-direction: column;
     gap: 2rem;
     margin: 0 auto;
-    padding: 2rem;
-    max-width: 800px;
+    padding: 3rem;
+    max-width: 650px;
     background: $primary-background;
     border-radius: $border-radius;
 
@@ -60,6 +60,9 @@
       }
     }
 
+    .recipe-image {
+      margin-top: 2rem;
+    }
     .recipe-image-dropzone {
       display: flex;
       justify-content: center;

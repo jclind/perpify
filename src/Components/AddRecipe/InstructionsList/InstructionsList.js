@@ -74,7 +74,7 @@ const InstructionsList = ({
       ...recipeInstructions.slice(0, tempInstructionsIndex),
       ...recipeInstructions.slice(tempInstructionsIndex + 1),
     ]
-    setRecipeInstructions(instructionData, index)
+    updateRecipeInstructions(instructionData, index)
   }
 
   useEffect(() => {

@@ -6,6 +6,7 @@ import TimeInput from './TimeInput/TimeInput'
 import IngredientListContainer from './IngredientsList/IngredientListContainer'
 import InstructionsContainer from './InstructionsList/InstructionsContainer'
 import RecipeImage from './RecipeImage/RecipeImage'
+import ServingsInput from './ServingsInput/ServingsInput'
 import { useRecipe } from '../../context/RecipeContext'
 import { TailSpin } from 'react-loader-spinner'
 import LoadingBar from 'react-top-loading-bar'
@@ -17,7 +18,10 @@ const AddRecipe = () => {
   const [recipePrepTime, setRecipePrepTime] = useState('')
   const [recipeCookTime, setRecipeCookTime] = useState('')
   const [recipeAdditionalTime, setRecipeAdditionalTime] = useState('')
-  const [recipeServingSize, setRecipeServingSize] = useState('')
+  const [recipeYield, setRecipeYield] = useState({
+    type: 'Servings',
+    value: '',
+  })
   const [recipeFridgeLife, setRecipeFridgeLife] = useState('')
   const [recipeFreezerLife, setRecipeFreezerLife] = useState('')
   const [recipeDescription, setRecipeDescription] = useState('')
@@ -67,10 +71,10 @@ const AddRecipe = () => {
       : ''
     setRecipeAdditionalTime(additionalTime)
 
-    const servingSize = addRecipeFormData?.recipeServingSize
-      ? addRecipeFormData.recipeServingSize
-      : ''
-    setRecipeServingSize(servingSize)
+    const servingSize = addRecipeFormData?.recipeYield
+      ? addRecipeFormData.recipeYield
+      : { type: 'Servings', value: '' }
+    setRecipeYield(servingSize)
 
     const fridgeLife = addRecipeFormData?.recipeFridgeLife
       ? addRecipeFormData.recipeFridgeLife
@@ -109,7 +113,7 @@ const AddRecipe = () => {
         recipePrepTime,
         recipeCookTime,
         recipeAdditionalTime,
-        recipeServingSize,
+        recipeYield,
         recipeFridgeLife,
         recipeFreezerLife,
         recipeDescription,
@@ -132,7 +136,7 @@ const AddRecipe = () => {
     recipePrepTime,
     recipeCookTime,
     recipeAdditionalTime,
-    recipeServingSize,
+    recipeYield,
     recipeFridgeLife,
     recipeFreezerLife,
     recipeDescription,
@@ -152,7 +156,7 @@ const AddRecipe = () => {
     if (!recipeTitle) return returnError('Please Enter Recipe Title')
     if (!recipePrepTime) return returnError('Please Enter Prep time')
     if (!recipeCookTime) return returnError('Please Enter Cook Time')
-    if (!recipeServingSize) return returnError('Please Enter Serving Size')
+    if (!recipeYield) return returnError('Please Enter Serving Size')
     if (recipeInstructions.length <= 0)
       return returnError('Please Enter Instructions')
     if (recipeIngredients.length <= 0)
@@ -164,7 +168,7 @@ const AddRecipe = () => {
       prepTime: recipePrepTime,
       cookTime: recipeCookTime,
       additionalTime: recipeAdditionalTime,
-      servings: recipeServingSize,
+      servings: recipeYield,
       fridgeLife: recipeFridgeLife,
       freezerLife: recipeFreezerLife,
       description: recipeDescription,
@@ -200,7 +204,7 @@ const AddRecipe = () => {
     setRecipePrepTime('')
     setRecipeCookTime('')
     setRecipeAdditionalTime('')
-    setRecipeServingSize('')
+    setRecipeYield('')
     setRecipeFridgeLife('')
     setRecipeFreezerLife('')
     setRecipeDescription('')
@@ -242,6 +246,16 @@ const AddRecipe = () => {
             setVal={setRecipeTitle}
             placeholder={'Mexican Chipotle Bowl...'}
           />
+          <RecipeFormTextArea
+            name='Recipe Description'
+            val={recipeDescription}
+            setVal={setRecipeDescription}
+            placeholder='Description of recipe...'
+          />
+          <ServingsInput
+            recipeYield={recipeYield}
+            setRecipeYield={setRecipeYield}
+          />
           <div className='recipe-data times'>
             <TimeInput
               label='Prep Time *'
@@ -258,36 +272,8 @@ const AddRecipe = () => {
               val={recipeAdditionalTime}
               setVal={setRecipeAdditionalTime}
             />
-            {/* <RecipeFormInput
-              name={'Prep Time (min) *'}
-              type={'number'}
-              val={recipePrepTime}
-              setVal={setRecipePrepTime}
-              placeholder={'25'}
-            />
-            <RecipeFormInput
-              name={'Cook Time (min) *'}
-              type={'number'}
-              val={recipeCookTime}
-              setVal={setRecipeCookTime}
-              placeholder={'35'}
-            />
-            <RecipeFormInput
-              name={'Additional Time'}
-              type={'text'}
-              val={recipeAdditionalTime}
-              setVal={setRecipeAdditionalTime}
-              placeholder={'1 day'}
-            /> */}
           </div>
           <div className='recipe-data'>
-            <RecipeFormInput
-              name={'Serving Size *'}
-              type={'number'}
-              val={recipeServingSize}
-              setVal={setRecipeServingSize}
-              placeholder={'6'}
-            />
             <RecipeFormInput
               name={'Fridge Life (days)'}
               type={'number'}
@@ -303,12 +289,6 @@ const AddRecipe = () => {
               placeholder={'40'}
             />
           </div>
-          <RecipeFormTextArea
-            name='Recipe Description'
-            val={recipeDescription}
-            setVal={setRecipeDescription}
-            placeholder='Description of recipe...'
-          />
           {/* <IngredientsList
             recipeIngredients={recipeIngredients}
             setRecipeIngredients={setRecipeIngredients}
