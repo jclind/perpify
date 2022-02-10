@@ -168,7 +168,7 @@ const AddRecipe = () => {
       prepTime: recipePrepTime,
       cookTime: recipeCookTime,
       additionalTime: recipeAdditionalTime,
-      servings: recipeYield,
+      yield: recipeYield,
       fridgeLife: recipeFridgeLife,
       freezerLife: recipeFreezerLife,
       description: recipeDescription,

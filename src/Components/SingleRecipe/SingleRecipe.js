@@ -17,7 +17,7 @@ const SingleRecipe = () => {
   const [currRecipe, setCurrRecipe] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  const [servings, setServings] = useState(0)
+  const [yieldSize, setYieldSize] = useState(0)
 
   const { getRecipe } = useRecipe()
 
@@ -35,7 +35,7 @@ const SingleRecipe = () => {
 
   useEffect(() => {
     if (currRecipe) {
-      setServings(currRecipe.servings)
+      setYieldSize(Number(currRecipe.yield.value))
     }
   }, [currRecipe])
 
@@ -68,8 +68,8 @@ const SingleRecipe = () => {
                 </div>
                 <div className='servings data-element'>
                   <AiOutlineUsergroupAdd className='icon' />
-                  <h3>Servings</h3>
-                  <div className='data'>{servings}</div>
+                  <h3>{currRecipe.yield.type.value}</h3>
+                  <div className='data'>{yieldSize}</div>
                 </div>
                 <div className='rating data-element'>
                   <AiOutlineStar className='icon' />
@@ -95,10 +95,11 @@ const SingleRecipe = () => {
           <div className='body-content'>
             <Ingredients
               ingredients={currRecipe.ingredients}
-              servings={servings}
-              setServings={setServings}
+              yieldSize={yieldSize}
+              setYieldSize={setYieldSize}
             />
-            <Directions directions={currRecipe.instructions} />
+            {/* 
+            <Directions directions={currRecipe.instructions} /> */}
           </div>
         </div>
       )}

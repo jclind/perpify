@@ -17,28 +17,28 @@ const CheckBox = ({ text }) => {
   )
 }
 
-const Ingredients = ({ ingredients, servings, setServings }) => {
-  const [modServings, setModServings] = useState(servings)
+const Ingredients = ({ ingredients, yieldSize, setYieldSize }) => {
+  const [modYieldSize, setModYieldSize] = useState(yieldSize)
 
-  const decServings = () => {
-    const num = Number(modServings)
+  const decYieldSize = () => {
+    const num = Number(modYieldSize)
     if (num > 1) {
-      setServings(num - 1)
-      setModServings(num - 1)
+      setYieldSize(num - 1)
+      setModYieldSize(num - 1)
     }
   }
-  const incServings = () => {
-    const num = Number(modServings)
-    setServings(num + 1)
-    setModServings(num + 1)
+  const incYieldSize = () => {
+    const num = Number(modYieldSize)
+    setYieldSize(num + 1)
+    setModYieldSize(num + 1)
   }
 
   const handleServingsBlur = e => {
     const val = e.target.value
     if (val && !isNaN(val) && val > 0) {
-      setServings(modServings)
+      setYieldSize(modYieldSize)
     } else {
-      setModServings(servings)
+      setModYieldSize(yieldSize)
     }
   }
   const handleServingsOnChange = e => {
@@ -46,7 +46,7 @@ const Ingredients = ({ ingredients, servings, setServings }) => {
       (e.target.value % 1 === 0 || e.target.value === '') &&
       !e.target.value.toString().includes('.')
     ) {
-      setModServings(e.target.value)
+      setModYieldSize(e.target.value)
     }
   }
 
@@ -59,12 +59,12 @@ const Ingredients = ({ ingredients, servings, setServings }) => {
             <button
               type='button'
               className='dec counter-btn btn'
-              onClick={decServings}
+              onClick={decYieldSize}
             >
               -
             </button>
             <input
-              value={modServings}
+              value={modYieldSize}
               type='tel'
               onChange={handleServingsOnChange}
               onBlur={handleServingsBlur}
@@ -72,7 +72,7 @@ const Ingredients = ({ ingredients, servings, setServings }) => {
             <button
               type='button'
               className='inc counter-btn btn'
-              onClick={incServings}
+              onClick={incYieldSize}
             >
               +
             </button>
@@ -80,9 +80,16 @@ const Ingredients = ({ ingredients, servings, setServings }) => {
           <div className='text'>Servings</div>
         </div>
       </div>
-      <div className='ingredients-list'>
-        {ingredients.map(ingr => {
-          return <CheckBox text={ingr.name} key={ingr.id} />
+      <div className='ingredients-lists'>
+        {ingredients.map(ingredientList => {
+          return (
+            <div className='list'>
+              <div className='title'>{ingredientList.name}</div>
+              {ingredientList.list.map(ingr => {
+                return <CheckBox text={ingr.name} key={ingr.id} />
+              })}
+            </div>
+          )
         })}
       </div>
     </div>
