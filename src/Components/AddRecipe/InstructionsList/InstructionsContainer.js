@@ -9,7 +9,7 @@ const InstructionsContainer = ({
   const addList = () => {
     setRecipeInstructions(prevState => [
       ...prevState,
-      { name: `list${recipeInstructions.length + 1}`, list: [] },
+      { name: `Instructions List ${recipeInstructions.length + 1}`, list: [] },
     ])
   }
   const removeList = idx => {
@@ -26,12 +26,23 @@ const InstructionsContainer = ({
     tempIngredients[idx].list.push(val)
     setRecipeInstructions(tempIngredients)
   }
-  const handleUpdate = (updatedArr, idx) => {
+  const handleUpdateListArr = (updatedArr, idx) => {
     const data = { ...recipeInstructions[idx], list: [...updatedArr] }
-    const tempIngredients = JSON.parse(JSON.stringify(recipeInstructions))
-    tempIngredients[idx] = data
+    const tempInstructions = JSON.parse(JSON.stringify(recipeInstructions))
+    tempInstructions[idx] = data
 
-    setRecipeInstructions(tempIngredients)
+    console.log(tempInstructions)
+
+    setRecipeInstructions(tempInstructions)
+  }
+  const handleUpdateListName = (updatedName, idx) => {
+    const data = { ...recipeInstructions[idx], name: updatedName }
+    const tempInstructions = JSON.parse(JSON.stringify(recipeInstructions))
+    tempInstructions[idx] = data
+
+    console.log(tempInstructions)
+
+    setRecipeInstructions(tempInstructions)
   }
 
   return (
@@ -44,8 +55,12 @@ const InstructionsContainer = ({
             <div className='instructions-list-container' key={idx}>
               <InstructionsList
                 recipeInstructions={list.list}
+                instructionListName={list.name}
                 setRecipeInstructions={(val, idx) => handleSet(val, idx)}
-                updateRecipeInstructions={(val, idx) => handleUpdate(val, idx)}
+                updateRecipeInstructions={(val, idx) =>
+                  handleUpdateListArr(val, idx)
+                }
+                updateListName={(val, idx) => handleUpdateListName(val, idx)}
                 index={idx}
                 isMultipleLists={recipeInstructions.length > 1}
                 removeList={removeList}

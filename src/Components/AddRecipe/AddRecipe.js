@@ -27,10 +27,10 @@ const AddRecipe = () => {
   const [recipeDescription, setRecipeDescription] = useState('')
 
   const [recipeIngredients, setRecipeIngredients] = useState([
-    { name: 'list1', list: [] },
+    { name: 'Ingredients List 1', list: [] },
   ])
   const [recipeInstructions, setRecipeInstructions] = useState([
-    { name: 'list1', list: [] },
+    { name: 'Instructions List 1', list: [] },
   ])
 
   const [recipeTags, setRecipeTags] = useState([])
@@ -93,12 +93,12 @@ const AddRecipe = () => {
 
     const ingredients = addRecipeFormData?.recipeIngredients
       ? addRecipeFormData.recipeIngredients
-      : [{ name: 'list1', list: [] }]
+      : [{ name: 'Ingredient List 1', list: [] }]
     setRecipeIngredients(ingredients)
 
     const instructions = addRecipeFormData?.recipeInstructions
       ? addRecipeFormData.recipeInstructions
-      : [{ name: 'list1', list: [] }]
+      : [{ name: 'Instructions List 1', list: [] }]
     setRecipeInstructions(instructions)
   }
 
@@ -201,15 +201,18 @@ const AddRecipe = () => {
     }
 
     setRecipeTitle('')
+    setRecipeYield({
+      type: 'Servings',
+      value: '',
+    })
     setRecipePrepTime('')
     setRecipeCookTime('')
     setRecipeAdditionalTime('')
-    setRecipeYield('')
     setRecipeFridgeLife('')
     setRecipeFreezerLife('')
     setRecipeDescription('')
-    setRecipeInstructions([])
-    setRecipeIngredients([])
+    setRecipeIngredients([{ name: 'Ingredients List 1', list: [] }])
+    setRecipeInstructions([{ name: 'Instructions List 1', list: [] }])
     setRecipeImage('')
     setRecipeTags([])
     setUndoClearForm(true)

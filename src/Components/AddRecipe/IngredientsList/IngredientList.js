@@ -31,10 +31,12 @@ const options = [
   { value: 'splash', label: 'splash' },
 ]
 
-const IngredientListV2 = ({
+const IngredientList = ({
   recipeIngredients,
+  instructionListName,
   setRecipeIngredients,
   updateRecipeIngredients,
+  updateListName,
   index,
   isMultipleLists,
   removeList,
@@ -167,11 +169,18 @@ const IngredientListV2 = ({
     }
   }
 
+  const updateInstructionListName = e => {
+    const val = e.target.value
+    console.log(val)
+    setListTitle(val)
+    updateListName(val, index)
+  }
+
   return (
     <div className='ingredients-list'>
       {isMultipleLists && (
         <div className='list-title'>
-          {listTitle ? `${listTitle}:` : `List${index + 1}:`}
+          {listTitle ? `${listTitle}:` : `${instructionListName}:`}
         </div>
       )}
       {isMultipleLists && (
@@ -189,7 +198,7 @@ const IngredientListV2 = ({
           className='list-title-input'
           placeholder={`Enter Title For List ${index + 1}`}
           value={listTitle}
-          onChange={e => setListTitle(e.target.value)}
+          onChange={updateInstructionListName}
         />
       )}
       <div className='inputs'>
@@ -266,4 +275,4 @@ const IngredientListV2 = ({
   )
 }
 
-export default IngredientListV2
+export default IngredientList

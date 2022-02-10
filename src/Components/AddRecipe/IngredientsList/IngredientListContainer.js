@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import IngredientListV2 from './IngredientListV2'
+import IngredientList from './IngredientList'
 import { BsPlusCircle } from 'react-icons/bs'
 
 const IngredientListContainer = ({
@@ -33,6 +33,15 @@ const IngredientListContainer = ({
 
     setRecipeIngredients(tempIngredients)
   }
+  const handleUpdateListName = (updatedName, idx) => {
+    const data = { ...recipeIngredients[idx], name: updatedName }
+    const tempIngredients = JSON.parse(JSON.stringify(recipeIngredients))
+    tempIngredients[idx] = data
+
+    console.log(tempIngredients)
+
+    setRecipeIngredients(tempIngredients)
+  }
 
   return (
     <div className='ingredients-container'>
@@ -41,10 +50,12 @@ const IngredientListContainer = ({
         recipeIngredients.map((list, idx) => {
           return (
             <div className='ingredients-list-container' key={idx}>
-              <IngredientListV2
+              <IngredientList
                 recipeIngredients={list.list}
+                instructionListName={list.name}
                 setRecipeIngredients={(val, idx) => handleSet(val, idx)}
                 updateRecipeIngredients={(val, idx) => handleUpdate(val, idx)}
+                updateListName={handleUpdateListName}
                 index={idx}
                 isMultipleLists={recipeIngredients.length > 1}
                 removeList={removeList}

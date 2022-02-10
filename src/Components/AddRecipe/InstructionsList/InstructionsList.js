@@ -6,8 +6,10 @@ import './InstructionsList.scss'
 
 const InstructionsList = ({
   recipeInstructions,
+  instructionListName,
   setRecipeInstructions,
   updateRecipeInstructions,
+  updateListName,
   index,
   isMultipleLists,
   removeList,
@@ -77,6 +79,13 @@ const InstructionsList = ({
     updateRecipeInstructions(instructionData, index)
   }
 
+  const updateInstructionListName = e => {
+    const val = e.target.value
+    console.log(val)
+    setListTitle(val)
+    updateListName(val, index)
+  }
+
   useEffect(() => {
     setError('')
   }, [instructionText])
@@ -85,7 +94,7 @@ const InstructionsList = ({
     <div className='instructions-list'>
       {isMultipleLists && (
         <div className='list-title'>
-          {listTitle ? `${listTitle}:` : `List${index + 1}:`}
+          {listTitle ? `${listTitle}:` : `${instructionListName}:`}
         </div>
       )}
       {isMultipleLists && (
@@ -103,7 +112,7 @@ const InstructionsList = ({
           className='list-title-input'
           placeholder={`Enter Title For List ${index + 1}`}
           value={listTitle}
-          onChange={e => setListTitle(e.target.value)}
+          onChange={updateInstructionListName}
         />
       )}
       <div className='instruction-list-textarea-container'>
