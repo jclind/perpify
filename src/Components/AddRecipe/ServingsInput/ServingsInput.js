@@ -81,6 +81,7 @@ const ServingsInput = ({ recipeYield, setRecipeYield }) => {
             }
           }}
           placeholder={'6'}
+          characterLimit={3}
         />
       </div>
     </div>

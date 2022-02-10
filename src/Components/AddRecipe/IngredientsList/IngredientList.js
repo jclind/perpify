@@ -211,8 +211,6 @@ const IngredientList = ({
           className='ingredient-quantity'
           value={quantity}
           onChange={e => {
-            // const val = e.target.value.trim()
-            // if (val && !isNaN(val) && val.toString().includes('.'))
             setQuantity(e.target.value)
           }}
           placeholder={'Qty'}

@@ -29,12 +29,14 @@ const TimeInput = ({ label, val, setVal }) => {
           placeholder='Hours'
           val={hours || ''}
           setVal={setHours}
+          characterLimit={3}
         />
         <RecipeFormInput
           type='number'
           placeholder='Minutes'
           val={minutes || ''}
           setVal={setMinutes}
+          characterLimit={3}
         />{' '}
       </div>
     </div>

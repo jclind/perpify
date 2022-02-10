@@ -248,12 +248,14 @@ const AddRecipe = () => {
             val={recipeTitle}
             setVal={setRecipeTitle}
             placeholder={'Mexican Chipotle Bowl...'}
+            characterLimit={50}
           />
           <RecipeFormTextArea
             name='Recipe Description'
             val={recipeDescription}
             setVal={setRecipeDescription}
             placeholder='Description of recipe...'
+            characterLimit={400}
           />
           <ServingsInput
             recipeYield={recipeYield}
@@ -283,6 +285,7 @@ const AddRecipe = () => {
               val={recipeFridgeLife}
               setVal={setRecipeFridgeLife}
               placeholder={'3'}
+              characterLimit={3}
             />
             <RecipeFormInput
               name={'Freezer Life (days)'}
@@ -290,6 +293,7 @@ const AddRecipe = () => {
               val={recipeFreezerLife}
               setVal={setRecipeFreezerLife}
               placeholder={'40'}
+              characterLimit={3}
             />
           </div>
           <IngredientListContainer
