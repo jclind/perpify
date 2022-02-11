@@ -34,6 +34,10 @@ class RecipeAPI {
     return await http.get(`getRecipe?id=${id}`)
   }
 
+  async saveRecipe(userId = '', recipeId = '') {
+    return await http.get(`saveRecipe?userId=${userId}&recipeId=${recipeId}}`)
+  }
+
   async addRecipe(data) {
     return await http.post('addRecipe', data)
   }
@@ -57,34 +61,6 @@ class RecipeAPI {
   async getRecipeTags(limit = 5) {
     return await http.get(`getRecipeTags?limit=${limit}`)
   }
-
-  // getAll(page = 0) {
-  //   return http.get(`restaurants?page=${page}`)
-  // }
-
-  // get(id) {
-  //   return http.get(`/restaurant?id=${id}`)
-  // }
-
-  // find(query, by = 'name', page = 0) {
-  //   return http.get(`restaurants?${by}=${query}&page=${page}`)
-  // }
-
-  // createReview(data) {
-  //   return http.post('/reviewNew', data)
-  // }
-
-  // updateReview(data) {
-  //   return http.put('/reviewEdit', data)
-  // }
-
-  // deleteReview(id, userId) {
-  //   return http.delete(`/reviewDelete?id=${id}`, { data: { user_id: userId } })
-  // }
-
-  // getCuisines() {
-  //   return http.get(`/restaurants/cuisines`)
-  // }
 }
 
 export default new RecipeAPI()

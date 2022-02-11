@@ -131,6 +131,10 @@ const RecipeProvider = ({ children }) => {
     setLoadingProgress(90)
   }
 
+  const saveRecipe = async (userId, recipeId) => {
+    return await RecipeAPI.saveRecipe(userId, recipeId)
+  }
+
   // Tags
   const addTags = tags => {
     tags.forEach(tag => {
@@ -165,6 +169,7 @@ const RecipeProvider = ({ children }) => {
     searchAutoCompleteRecipes,
     getTrendingRecipes,
     addRecipe,
+    saveRecipe,
     validateTag,
     searchTags,
     getTopTags,

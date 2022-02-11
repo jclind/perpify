@@ -81,12 +81,25 @@ const Ingredients = ({ ingredients, yieldSize, setYieldSize }) => {
         </div>
       </div>
       <div className='ingredients-lists'>
-        {ingredients.map(ingredientList => {
+        {ingredients.map((ingredientList, idx) => {
+          const isMultiIngr = ingredients.length > 1
           return (
-            <div className='list'>
-              <div className='title'>{ingredientList.name}</div>
+            <div
+              className={isMultiIngr ? 'multi-ingredient-list list' : 'list'}
+              key={idx}
+            >
+              {isMultiIngr && (
+                <h4 className='title'>
+                  <span className='text'>{ingredientList.name}</span>
+                  <div className='divider'></div>
+                </h4>
+              )}
               {ingredientList.list.map(ingr => {
-                return <CheckBox text={ingr.name} key={ingr.id} />
+                return (
+                  <div key={ingr.id}>
+                    <CheckBox text={ingr.name} />
+                  </div>
+                )
               })}
             </div>
           )

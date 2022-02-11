@@ -47,7 +47,32 @@
     flex-direction: column;
     justify-items: start;
     margin-top: 2rem;
-    width: fit-content;
+
+    .list.multi-ingredient-list {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2rem;
+      // border-bottom: 1px solid $gray-400;
+
+      .title {
+        display: flex;
+        align-items: center;
+        text-transform: capitalize;
+        padding-bottom: 0.5rem;
+        gap: 0.5rem;
+        .text {
+          color: $primary;
+          font-weight: 700;
+          font-size: toRem(16);
+          white-space: nowrap;
+        }
+        .divider {
+          height: 1px;
+          width: 100%;
+          background: $gray-400;
+        }
+      }
+    }
 
     .ingredient {
       display: flex;

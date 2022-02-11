@@ -6,12 +6,12 @@ import { TailSpin } from 'react-loader-spinner'
 
 import Ingredients from './Ingredients/Ingredients'
 import Directions from './Directions/Directions'
+import SaveRecipeBtn from './SaveRecipeBtn'
+import AddRatingBtn from './AddRatingBtn'
+import PrintRecipeBtn from './PrintRecipeBtn'
 
-import {
-  AiOutlineClockCircle,
-  AiOutlineUsergroupAdd,
-  AiOutlineStar,
-} from 'react-icons/ai'
+import { AiOutlineClockCircle, AiOutlineUsergroupAdd } from 'react-icons/ai'
+import { BsStar } from 'react-icons/bs'
 
 const SingleRecipe = () => {
   const [currRecipe, setCurrRecipe] = useState(null)
@@ -72,7 +72,7 @@ const SingleRecipe = () => {
                   <div className='data'>{yieldSize}</div>
                 </div>
                 <div className='rating data-element'>
-                  <AiOutlineStar className='icon' />
+                  <BsStar className='icon' />
                   <h3>Rating</h3>
                   <div className='data'>
                     {currRecipe.rating === '0'
@@ -81,7 +81,12 @@ const SingleRecipe = () => {
                   </div>
                 </div>
               </div>
-              <div className='tags'>
+              <div className='actions'>
+                <SaveRecipeBtn recipeId={currRecipe._id} />
+                <AddRatingBtn recipeId={currRecipe._id} />
+                <PrintRecipeBtn recipe={currRecipe} />
+              </div>
+              {/* <div className='tags'>
                 {currRecipe.tags.map(tag => {
                   return (
                     <div className='tag' key={tag}>
@@ -89,17 +94,17 @@ const SingleRecipe = () => {
                     </div>
                   )
                 })}
-              </div>
+              </div> */}
             </div>
           </div>
+
           <div className='body-content'>
             <Ingredients
               ingredients={currRecipe.ingredients}
               yieldSize={yieldSize}
               setYieldSize={setYieldSize}
             />
-            {/* 
-            <Directions directions={currRecipe.instructions} /> */}
+            <Directions directions={currRecipe.instructions} />
           </div>
         </div>
       )}
