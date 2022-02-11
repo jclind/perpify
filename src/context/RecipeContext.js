@@ -134,6 +134,9 @@ const RecipeProvider = ({ children }) => {
   const saveRecipe = async (userId, recipeId) => {
     return await RecipeAPI.saveRecipe(userId, recipeId)
   }
+  const getSavedRecipe = async (userId, recipeId) => {
+    return await RecipeAPI.getSavedRecipe(userId, recipeId)
+  }
 
   // Tags
   const addTags = tags => {
@@ -170,6 +173,7 @@ const RecipeProvider = ({ children }) => {
     getTrendingRecipes,
     addRecipe,
     saveRecipe,
+    getSavedRecipe,
     validateTag,
     searchTags,
     getTopTags,

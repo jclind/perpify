@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   BsBookmark,
   BsFillBookmarkFill,
@@ -13,7 +13,7 @@ const SaveRecipeBtn = ({ recipeId }) => {
   const [isSaved, setIsSaved] = useState(false)
 
   const { user } = useAuth()
-  const { saveRecipe } = useRecipe()
+  const { saveRecipe, getSavedRecipe } = useRecipe()
 
   const handleSaveRecipe = recipeId => {
     saveRecipe(user.uid, recipeId)
@@ -22,6 +22,19 @@ const SaveRecipeBtn = ({ recipeId }) => {
   const handleUnsaveRecipe = recipeId => {
     setIsSaved(false)
   }
+
+  useEffect(() => {
+    const getIsRecipeSaved = async recipeId => {
+      return await getSavedRecipe(user.uid, recipeId)
+    }
+
+    getIsRecipeSaved().then(res => {
+      const currIsSaved = res.data.length > 0
+      console.log(user.uid)
+      console.log(currIsSaved)
+      setIsSaved(currIsSaved)
+    })
+  }, [])
 
   return (
     <div className='save-recipe'>

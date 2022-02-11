@@ -35,7 +35,12 @@ class RecipeAPI {
   }
 
   async saveRecipe(userId = '', recipeId = '') {
-    return await http.get(`saveRecipe?userId=${userId}&recipeId=${recipeId}}`)
+    return await http.put(`saveRecipe?userId=${userId}&recipeId=${recipeId}`)
+  }
+  async getSavedRecipe(userId = '', recipeId = '') {
+    return await http.get(
+      `getSavedRecipe?userId=${userId}&recipeId=${recipeId}`
+    )
   }
 
   async addRecipe(data) {
