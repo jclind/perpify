@@ -37,10 +37,12 @@ class RecipeAPI {
   async saveRecipe(userId = '', recipeId = '') {
     return await http.put(`saveRecipe?userId=${userId}&recipeId=${recipeId}`)
   }
-  async getSavedRecipe(userId = '', recipeId = '') {
-    return await http.get(
-      `getSavedRecipe?userId=${userId}&recipeId=${recipeId}`
-    )
+  getSavedRecipe(userId = '', recipeId = '') {
+    console.log(userId, recipeId)
+    return http.get(`getSavedRecipe?userId=${userId}&recipeId=${recipeId}`)
+  }
+  unsaveRecipe(userId = '', recipeId = '') {
+    return http.put(`unsaveRecipe?userId=${userId}&recipeId=${recipeId}`)
   }
 
   async addRecipe(data) {

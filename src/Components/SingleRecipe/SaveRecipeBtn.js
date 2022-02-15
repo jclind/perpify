@@ -13,22 +13,24 @@ const SaveRecipeBtn = ({ recipeId }) => {
   const [isSaved, setIsSaved] = useState(false)
 
   const { user } = useAuth()
-  const { saveRecipe, getSavedRecipe } = useRecipe()
+  const { saveRecipe, getSavedRecipe, unsaveRecipe } = useRecipe()
 
-  const handleSaveRecipe = recipeId => {
-    saveRecipe(user.uid, recipeId)
-    setIsSaved(true)
-  }
-  const handleUnsaveRecipe = recipeId => {
-    setIsSaved(false)
+  const handleToggleSaveRecipe = recipeId => {
+    if (isSaved) {
+      console.log('unsaving')
+      unsaveRecipe(user.uid, recipeId).then(() => setIsSaved(false))
+    } else {
+      saveRecipe(user.uid, recipeId).then(() => setIsSaved(true))
+    }
   }
 
   useEffect(() => {
     const getIsRecipeSaved = async recipeId => {
       return await getSavedRecipe(user.uid, recipeId)
     }
-
-    getIsRecipeSaved().then(res => {
+    console.log(user.uid, recipeId)
+    getIsRecipeSaved(recipeId).then(res => {
+      console.log(res, res.data)
       const currIsSaved = res.data.length > 0
       console.log(user.uid)
       console.log(currIsSaved)
@@ -38,31 +40,28 @@ const SaveRecipeBtn = ({ recipeId }) => {
 
   return (
     <div className='save-recipe'>
-      {isSaved ? (
-        <button
-          className='save-recipe-btn btn'
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onClick={() => handleUnsaveRecipe(recipeId)}
-        >
-          <BsFillBookmarkCheckFill className='icon' />
-          Saved
-        </button>
-      ) : (
-        <button
-          className='save-recipe-btn btn'
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onClick={() => handleSaveRecipe(recipeId)}
-        >
-          {isHovered ? (
-            <BsFillBookmarkFill className='icon' />
-          ) : (
-            <BsBookmark className='icon' />
-          )}{' '}
-          Save
-        </button>
-      )}
+      <button
+        className='save-recipe-btn btn'
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => handleToggleSaveRecipe(recipeId)}
+      >
+        {!isSaved ? (
+          <>
+            {isHovered ? (
+              <BsFillBookmarkFill className='icon' />
+            ) : (
+              <BsBookmark className='icon' />
+            )}
+            Save
+          </>
+        ) : (
+          <>
+            <BsFillBookmarkCheckFill className='icon' />
+            Saved
+          </>
+        )}
+      </button>
     </div>
   )
 }
