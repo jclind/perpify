@@ -68,6 +68,11 @@ class RecipeAPI {
   async getRecipeTags(limit = 5) {
     return await http.get(`getRecipeTags?limit=${limit}`)
   }
+
+  // Ratings
+  async newRating(data) {
+    return await http.post(`getRecipeTags`, data)
+  }
 }
 
 export default new RecipeAPI()

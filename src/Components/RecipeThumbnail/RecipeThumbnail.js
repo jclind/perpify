@@ -21,7 +21,9 @@ const RecipeThumbnail = ({ recipe }) => {
         </div>
         <div className='rating single-info'>
           <AiOutlineStar className='icon' />
-          {rating}
+          {Number(rating.rateCount) === 0
+            ? 0
+            : Number(rating.rateValue) / Number(rating.rateCount)}
         </div>
       </div>
     </Link>
