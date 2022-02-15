@@ -86,15 +86,6 @@ const SingleRecipe = () => {
                 <AddRatingBtn recipeId={currRecipe._id} />
                 <PrintRecipeBtn recipe={currRecipe} />
               </div>
-              {/* <div className='tags'>
-                {currRecipe.tags.map(tag => {
-                  return (
-                    <div className='tag' key={tag}>
-                      {tag}
-                    </div>
-                  )
-                })}
-              </div> */}
             </div>
           </div>
 

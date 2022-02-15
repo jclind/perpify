@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './Ingredients.scss'
 
-const CheckBox = ({ text }) => {
+const CheckBox = ({ ingr }) => {
   const [checked, setChecked] = useState(false)
 
   return (
@@ -12,7 +12,12 @@ const CheckBox = ({ text }) => {
         className='ingredient-checkbox'
         onChange={() => {}}
       />
-      <label>{text}</label>
+      <label>
+        <strong>
+          {ingr.quantity} {ingr.measurement.value}
+        </strong>{' '}
+        {ingr.name}
+      </label>
     </div>
   )
 }
@@ -97,7 +102,7 @@ const Ingredients = ({ ingredients, yieldSize, setYieldSize }) => {
               {ingredientList.list.map(ingr => {
                 return (
                   <div key={ingr.id}>
-                    <CheckBox text={ingr.name} />
+                    <CheckBox ingr={ingr} />
                   </div>
                 )
               })}
