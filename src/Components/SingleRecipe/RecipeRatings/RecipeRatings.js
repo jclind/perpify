@@ -10,14 +10,22 @@ const RecipeRatings = ({ recipeId }) => {
   const [isReviewed, setIsReviewed] = useState(false)
   const [currUserReview, setCurrUserReview] = useState({})
 
+  const [reviewList, setReviewList] = useState([])
+  const [reviewListPage, setReviewListPage] = useState(0)
+
   const [isReviewOpen, setIsReviewOpen] = useState(false)
   const [newReviewText, setNewReviewText] = useState('')
   const [newReviewError, setNewReviewError] = useState('')
 
-  const { checkIfReviewed, newReview } = useRecipe()
+  const { checkIfReviewed, newReview, getReviews } = useRecipe()
 
   useEffect(() => {
-    return checkIfReviewed(recipeId).then(res => {
+    getReviews(recipeId, 0, 5).then(res => {
+      if (res && res.data && res.data.length !== 0 && res.data[0].reviews) {
+        setReviewList(res.data[0].reviews)
+      }
+    })
+    checkIfReviewed(recipeId).then(res => {
       const resData = res.data
       const reviewData =
         resData && resData[0] && resData[0].reviews
@@ -30,6 +38,7 @@ const RecipeRatings = ({ recipeId }) => {
       if (!isNaN(userRating)) {
         setRating(Number(userRating))
       }
+      console.log(isUserReview)
       setCurrUserReview(reviewData)
       setIsReviewed(isUserReview)
     })
@@ -52,6 +61,9 @@ const RecipeRatings = ({ recipeId }) => {
       console.log(res, res.data)
     })
   }
+
+  const editReview = () => {}
+  const deleteReview = () => {}
 
   return (
     <div className='recipe-ratings'>
@@ -83,7 +95,7 @@ const RecipeRatings = ({ recipeId }) => {
         </div>
         <div className='reviews'>
           <div className='leave-review-input-container'>
-            {!isReviewed && (
+            {!isReviewed ? (
               <>
                 {isReviewOpen ? (
                   <div className='review-open'>
@@ -113,11 +125,25 @@ const RecipeRatings = ({ recipeId }) => {
                   </button>
                 )}
               </>
+            ) : (
+              <div className='curr-user-review'>
+                <h4 className='heading'>Your Review:</h4>
+
+                <RecipeReview
+                  review={currUserReview}
+                  editReview={editReview}
+                  deleteReview={deleteReview}
+                />
+              </div>
             )}
           </div>
           <div className='review-filters'></div>
           <div className='reviews-container'>
-            {currUserReview && <RecipeReview review={currUserReview} />}{' '}
+            {reviewList.length > 0 &&
+              reviewList.map(review => {
+                return <RecipeReview key={review.userId} review={review} />
+              })}
+            {/* {currUserReview && <RecipeReview review={currUserReview} />} */}
           </div>
         </div>
       </div>

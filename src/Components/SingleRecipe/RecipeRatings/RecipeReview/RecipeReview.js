@@ -10,7 +10,7 @@ import {
   AiTwotoneDislike,
 } from 'react-icons/ai'
 
-const ReviewOptions = () => {
+const ReviewOptions = ({ editReview, deleteReview }) => {
   const [likeStatus, setLikeStatue] = useState(null)
   const [isLikeHovered, setIsLikeHovered] = useState(false)
   const [isDislikeHovered, setIsDislikeHovered] = useState(false)
@@ -39,11 +39,19 @@ const ReviewOptions = () => {
           <AiOutlineDislike className='icon' />
         )}
       </button>
+      {editReview && deleteReview ? (
+        <div className='actions'>
+          <button className='edit-btn btn'>Edit</button>
+          <button className='delete-btn btn'>Delete</button>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   )
 }
 
-const RecipeReview = ({ review }) => {
+const RecipeReview = ({ review, editReview, deleteReview }) => {
   const [rating, setRating] = useState(0)
   const [date, setDate] = useState('')
   const [username, setUsername] = useState('')
@@ -77,7 +85,7 @@ const RecipeReview = ({ review }) => {
       </div>
       <div className='body'>
         <div className='text'>{review.reviewText}</div>
-        <ReviewOptions />
+        <ReviewOptions editReview={editReview} deleteReview={deleteReview} />
       </div>
     </div>
   )

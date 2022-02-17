@@ -67,6 +67,19 @@
       max-width: 600px;
       width: 100%;
 
+      .curr-user-review {
+        margin: 2rem 0;
+        border: 1px solid $primary;
+        padding: 1rem 1rem 0 1rem;
+        border-radius: $border-radius;
+
+        .heading {
+          text-align: center;
+          font-weight: 600;
+          color: $primary;
+        }
+      }
+
       .leave-review-input-container {
         display: flex;
         justify-content: center;

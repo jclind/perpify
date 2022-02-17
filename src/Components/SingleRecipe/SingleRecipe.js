@@ -29,7 +29,6 @@ const SingleRecipe = () => {
   useEffect(() => {
     getRecipe(recipeId).then(res => {
       setCurrRecipe(res.data)
-      console.log(res.data)
       setLoading(false)
     })
   }, [])
@@ -78,7 +77,8 @@ const SingleRecipe = () => {
                   <div className='data'>
                     {Number(currRecipe.rating.rateCount) === 0
                       ? 'No Ratings'
-                      : Number(currRecipe.rating.rateValue) / Number(currRecipe.rating.rateCount)}
+                      : Number(currRecipe.rating.rateValue) /
+                        Number(currRecipe.rating.rateCount)}
                   </div>
                 </div>
               </div>

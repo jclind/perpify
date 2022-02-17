@@ -187,6 +187,9 @@ const RecipeProvider = ({ children }) => {
   const deleteReview = async recipeId => {
     return await RecipeAPI.deleteReview(user.uid, recipeId)
   }
+  const getReviews = async (recipeId, page, reviewsPerPage) => {
+    return await RecipeAPI.getReviews(user.uid, recipeId, page, reviewsPerPage)
+  }
 
   const value = {
     getRecipe,
@@ -203,6 +206,7 @@ const RecipeProvider = ({ children }) => {
     newReview,
     checkIfReviewed,
     deleteReview,
+    getReviews,
   }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>

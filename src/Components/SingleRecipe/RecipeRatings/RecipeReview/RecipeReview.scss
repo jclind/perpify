@@ -35,6 +35,29 @@
         height: 18px;
         width: 18px;
       }
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        flex: 1;
+        gap: 1.5rem;
+
+        button {
+          font-size: toRem(14);
+          font-weight: 600;
+          text-decoration: underline;
+          color: $tertiary-text;
+        }
+        button.edit-btn {
+          &:hover {
+            color: $primary-text;
+          }
+        }
+        button.delete-btn {
+          &:hover {
+            color: $error-red;
+          }
+        }
+      }
     }
   }
 
