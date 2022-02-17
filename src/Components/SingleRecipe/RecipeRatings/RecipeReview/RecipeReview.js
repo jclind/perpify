@@ -50,19 +50,15 @@ const RecipeReview = ({ review }) => {
   const { user, getUsername } = useAuth()
 
   useEffect(() => {
-    getUsername(user.uid).then(res => {
-      setUsername(res)
-    })
-  }, [])
-
-  useEffect(() => {
     if (review.rating) {
       setRating(Number(review.rating))
       setDate(formatDate(review.dateCreated, true))
+      getUsername(review.userId).then(res => {
+        setUsername(res)
+      })
     }
     console.log(review)
   }, [review])
-
   return (
     <div className='recipe-review'>
       <div className='head'>

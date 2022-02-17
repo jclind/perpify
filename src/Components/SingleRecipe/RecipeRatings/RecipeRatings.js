@@ -14,7 +14,7 @@ const RecipeRatings = ({ recipeId }) => {
   const [newReviewText, setNewReviewText] = useState('')
   const [newReviewError, setNewReviewError] = useState('')
 
-  const { checkIfReviewed } = useRecipe()
+  const { checkIfReviewed, newReview } = useRecipe()
 
   useEffect(() => {
     return checkIfReviewed(recipeId).then(res => {
@@ -27,7 +27,7 @@ const RecipeRatings = ({ recipeId }) => {
       const userRating = reviewData?.rating
       const isUserReview = reviewData?.reviewText.length > 0
 
-      if (userRating) {
+      if (!isNaN(userRating)) {
         setRating(Number(userRating))
       }
       setCurrUserReview(reviewData)
@@ -48,6 +48,9 @@ const RecipeRatings = ({ recipeId }) => {
       )
     }
     setIsReviewOpen(false)
+    newReview(recipeId, newReviewText, rating.toString()).then(res => {
+      console.log(res, res.data)
+    })
   }
 
   return (
