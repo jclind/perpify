@@ -170,6 +170,24 @@ const RecipeProvider = ({ children }) => {
     return await RecipeAPI.getRecipeTags(limit)
   }
 
+  // Reviews
+  const newReview = async (recipeId, text, rating) => {
+    const data = {
+      userId: user.uid,
+      recipeId,
+      text,
+      rating,
+    }
+
+    return await RecipeAPI.newReview(data)
+  }
+  const checkIfReviewed = async recipeId => {
+    return await RecipeAPI.checkIfReviewed(user.uid, recipeId)
+  }
+  const deleteReview = async recipeId => {
+    return await RecipeAPI.deleteReview(user.uid, recipeId)
+  }
+
   const value = {
     getRecipe,
     searchRecipes,
@@ -182,6 +200,9 @@ const RecipeProvider = ({ children }) => {
     validateTag,
     searchTags,
     getTopTags,
+    newReview,
+    checkIfReviewed,
+    deleteReview,
   }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>

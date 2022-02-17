@@ -69,9 +69,22 @@ class RecipeAPI {
     return await http.get(`getRecipeTags?limit=${limit}`)
   }
 
-  // Ratings
+  // Ratings / Reviews
   async newRating(data) {
     return await http.post(`getRecipeTags`, data)
+  }
+
+  async newReview(data) {
+    return await http.put(`newReview`, data)
+  }
+  async checkIfReviewed(userId, recipeId) {
+    console.log(`checkIfReviewed?userId=${userId}&recipeId=${recipeId}`)
+    return await http.get(
+      `checkIfReviewed?userId=${userId}&recipeId=${recipeId}`
+    )
+  }
+  async deleteReview(userId, recipeId) {
+    return await http.put(`deleteReview?userId=${userId}&recipeId=${recipeId}`)
   }
 }
 

@@ -1,0 +1,41 @@
+@import '../../../../helpers.scss';
+
+.recipe-review {
+  padding: 2rem 0;
+  // font-weight: 500;
+  .head {
+    display: flex;
+    gap: 0.35rem;
+    align-items: flex-start;
+    padding-bottom: 1.5rem;
+
+    .name {
+      font-weight: 600;
+    }
+    .date {
+      flex: 1;
+      text-align: right;
+      font-size: toRem(14);
+      font-weight: 500;
+      // color: $secondary-text;
+    }
+  }
+  .body {
+    .text {
+      font-size: toRem(16);
+      font-weight: 500;
+      color: $primary-text;
+    }
+    .review-options {
+      display: flex;
+      gap: 1rem;
+      padding-top: 1rem;
+      .icon {
+        height: 18px;
+        width: 18px;
+      }
+    }
+  }
+
+  border-bottom: 1px solid $gray-400;
+}
