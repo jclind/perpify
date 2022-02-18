@@ -135,7 +135,6 @@ const RecipeProvider = ({ children }) => {
     return await RecipeAPI.saveRecipe(userId, recipeId)
   }
   const getSavedRecipe = async (userId, recipeId) => {
-    console.log(userId, recipeId)
     return await RecipeAPI.getSavedRecipe(userId, recipeId)
   }
   const unsaveRecipe = async (userId, recipeId) => {
@@ -175,12 +174,11 @@ const RecipeProvider = ({ children }) => {
     return await RecipeAPI.addRating(user.uid, recipeId, rating)
   }
 
-  const newReview = async (recipeId, text, rating) => {
+  const newReview = async (recipeId, text) => {
     const data = {
       userId: user.uid,
       recipeId,
       text,
-      rating,
     }
 
     return await RecipeAPI.newReview(data)

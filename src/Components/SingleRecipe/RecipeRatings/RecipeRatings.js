@@ -21,8 +21,8 @@ const RecipeRatings = ({ recipeId }) => {
 
   useEffect(() => {
     getReviews(recipeId, 0, 5).then(res => {
-      if (res && res.data && res.data.length !== 0 && res.data[0].reviews) {
-        setReviewList(res.data[0].reviews)
+      if (res && res.data) {
+        setReviewList(res.data)
       }
     })
     checkIfReviewed(recipeId).then(res => {
@@ -35,7 +35,6 @@ const RecipeRatings = ({ recipeId }) => {
       if (!isNaN(userRating)) {
         setRating(Number(userRating))
       }
-      console.log(isUserReview)
       setCurrUserReview(reviewData)
       setIsReviewed(isUserReview)
     })
@@ -54,8 +53,10 @@ const RecipeRatings = ({ recipeId }) => {
       )
     }
     setIsReviewOpen(false)
-    newReview(recipeId, newReviewText, rating.toString()).then(res => {
-      console.log(res, res.data)
+    newReview(recipeId, newReviewText).then(res => {
+      console.log(res.data)
+      setCurrUserReview(res.data)
+      setIsReviewed(true)
     })
   }
   const changeRating = e => {
