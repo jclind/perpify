@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { CgTimer } from 'react-icons/cg'
 import { AiOutlineStar } from 'react-icons/ai'
+import { formatRating } from '../../util/formatRating'
 
 import './RecipeThumbnail.scss'
 
@@ -21,9 +22,14 @@ const RecipeThumbnail = ({ recipe }) => {
         </div>
         <div className='rating single-info'>
           <AiOutlineStar className='icon' />
-          {Number(rating.rateCount) === 0
-            ? 0
-            : Number(rating.rateValue) / Number(rating.rateCount)}
+          {Number(rating.rateCount) === 0 ? (
+            0
+          ) : (
+            <>
+              {formatRating(rating.rateValue, rating.rateCount)} (
+              {rating.rateCount})
+            </>
+          )}
         </div>
       </div>
     </Link>

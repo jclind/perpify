@@ -11,6 +11,8 @@ import AddRatingBtn from './AddRatingBtn'
 import PrintRecipeBtn from './PrintRecipeBtn'
 import RecipeRatings from './RecipeRatings/RecipeRatings'
 
+import { formatRating } from '../../util/formatRating'
+
 import { AiOutlineClockCircle, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsStar } from 'react-icons/bs'
 
@@ -75,10 +77,17 @@ const SingleRecipe = () => {
                   <BsStar className='icon' />
                   <h3>Rating</h3>
                   <div className='data'>
-                    {Number(currRecipe.rating.rateCount) === 0
-                      ? 'No Ratings'
-                      : Number(currRecipe.rating.rateValue) /
-                        Number(currRecipe.rating.rateCount)}
+                    {Number(currRecipe.rating.rateCount) === 0 ? (
+                      'No Ratings'
+                    ) : (
+                      <>
+                        {formatRating(
+                          currRecipe.rating.rateValue,
+                          currRecipe.rating.rateCount
+                        )}{' '}
+                        ({currRecipe.rating.rateCount})
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -98,7 +107,11 @@ const SingleRecipe = () => {
             />
             <Directions directions={currRecipe.instructions} />
           </div>
-          <RecipeRatings recipeId={currRecipe._id} />
+          <RecipeRatings
+            recipeId={currRecipe._id}
+            ratingVal={currRecipe.rating.rateValue}
+            ratingCount={currRecipe.rating.rateCount}
+          />
         </div>
       )}
     </div>

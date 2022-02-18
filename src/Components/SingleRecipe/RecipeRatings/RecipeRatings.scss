@@ -116,6 +116,18 @@
           }
         }
       }
+      .get-more-reviews {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+
+        .get-more-reviews-btn {
+          font-size: toRem(18);
+          padding-top: 2rem;
+          margin: 0 auto;
+          text-align: center;
+        }
+      }
     }
   }
 }

@@ -65,7 +65,6 @@ const RecipeReview = ({ review, editReview, deleteReview }) => {
         setUsername(res)
       })
     }
-    console.log(review)
   }, [review])
   return (
     <div className='recipe-review'>

@@ -4,14 +4,16 @@ import StarRatings from 'react-star-ratings'
 import { BsStar } from 'react-icons/bs'
 import { useRecipe } from '../../../context/RecipeContext'
 import RecipeReview from './RecipeReview/RecipeReview'
+import { formatRating } from '../../../util/formatRating'
 
-const RecipeRatings = ({ recipeId }) => {
+const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
   const [rating, setRating] = useState(0)
   const [isReviewed, setIsReviewed] = useState(false)
   const [currUserReview, setCurrUserReview] = useState({})
 
   const [reviewList, setReviewList] = useState([])
   const [reviewListPage, setReviewListPage] = useState(0)
+  const [isMoreReviews, setIsMoreReviews] = useState(false)
 
   const [isReviewOpen, setIsReviewOpen] = useState(false)
   const [newReviewText, setNewReviewText] = useState('')
@@ -19,10 +21,32 @@ const RecipeRatings = ({ recipeId }) => {
 
   const { checkIfReviewed, newReview, getReviews, addRating } = useRecipe()
 
+  const recipesPerPage = 5
+
+  const getNextReviewsPage = recipeId => {
+    getReviews(recipeId, reviewListPage + 1, recipesPerPage).then(res => {
+      const updatedArr = [...reviewList, ...res.data.reviews]
+      setReviewList([...updatedArr])
+      if (res.data.totalCount > updatedArr.length) {
+        setIsMoreReviews(true)
+      } else {
+        setIsMoreReviews(false)
+      }
+    })
+    setReviewListPage(reviewListPage + 1)
+  }
+
   useEffect(() => {
-    getReviews(recipeId, 0, 5).then(res => {
+    getReviews(recipeId, 0, recipesPerPage).then(res => {
+      console.log(res.data)
       if (res && res.data) {
-        setReviewList(res.data)
+        const updatedArr = [...reviewList, ...res.data.reviews]
+        setReviewList([...updatedArr])
+        if (res.data.totalCount > updatedArr.length) {
+          setIsMoreReviews(true)
+        } else {
+          setIsMoreReviews(false)
+        }
       }
     })
     checkIfReviewed(recipeId).then(res => {
@@ -54,7 +78,6 @@ const RecipeRatings = ({ recipeId }) => {
     }
     setIsReviewOpen(false)
     newReview(recipeId, newReviewText).then(res => {
-      console.log(res.data)
       setCurrUserReview(res.data)
       setIsReviewed(true)
     })
@@ -76,8 +99,10 @@ const RecipeRatings = ({ recipeId }) => {
             <span className='text'>Average Rating:</span>
             <div className='average-rating'>
               <BsStar className='icon' />
-              <div className='number'>4.3</div>
-              <span className='count'>(15)</span>
+              <div className='number'>
+                {formatRating(ratingVal, ratingCount)}
+              </div>
+              <span className='count'>({ratingCount})</span>
             </div>
           </div>
           <div className='user-rating'>
@@ -145,7 +170,16 @@ const RecipeRatings = ({ recipeId }) => {
               reviewList.map(review => {
                 return <RecipeReview key={review.userId} review={review} />
               })}
-            {/* {currUserReview && <RecipeReview review={currUserReview} />} */}
+            {isMoreReviews && (
+              <div className='get-more-reviews'>
+                <button
+                  className='get-more-reviews-btn btn'
+                  onClick={() => getNextReviewsPage(recipeId)}
+                >
+                  More Reviews
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
