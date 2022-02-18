@@ -178,7 +178,7 @@ const RecipeProvider = ({ children }) => {
     const data = {
       userId: user.uid,
       recipeId,
-      text,
+      reviewText: text,
     }
 
     return await RecipeAPI.newReview(data)

@@ -60,7 +60,7 @@ const RecipeReview = ({ review, editReview, deleteReview }) => {
   useEffect(() => {
     if (review.rating) {
       setRating(Number(review.rating))
-      setDate(formatDate(review.dateCreated, true))
+      setDate(formatDate(review.reviewCreatedAt, true))
       getUsername(review.userId).then(res => {
         setUsername(res)
       })
