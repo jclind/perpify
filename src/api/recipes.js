@@ -70,8 +70,13 @@ class RecipeAPI {
   }
 
   // Ratings / Reviews
-  async newRating(data) {
-    return await http.post(`getRecipeTags`, data)
+  async addRating(userId, recipeId, rating) {
+    console.log(
+      `addRating?userId=${userId}&recipeId=${recipeId}&rating=${rating}`
+    )
+    return await http.put(
+      `addRating?userId=${userId}&recipeId=${recipeId}&rating=${rating}`
+    )
   }
 
   async newReview(data) {

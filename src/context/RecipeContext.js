@@ -171,6 +171,10 @@ const RecipeProvider = ({ children }) => {
   }
 
   // Reviews
+  const addRating = async (recipeId, rating) => {
+    return await RecipeAPI.addRating(user.uid, recipeId, rating)
+  }
+
   const newReview = async (recipeId, text, rating) => {
     const data = {
       userId: user.uid,
@@ -203,6 +207,7 @@ const RecipeProvider = ({ children }) => {
     validateTag,
     searchTags,
     getTopTags,
+    addRating,
     newReview,
     checkIfReviewed,
     deleteReview,

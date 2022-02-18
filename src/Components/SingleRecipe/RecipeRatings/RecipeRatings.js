@@ -17,7 +17,7 @@ const RecipeRatings = ({ recipeId }) => {
   const [newReviewText, setNewReviewText] = useState('')
   const [newReviewError, setNewReviewError] = useState('')
 
-  const { checkIfReviewed, newReview, getReviews } = useRecipe()
+  const { checkIfReviewed, newReview, getReviews, addRating } = useRecipe()
 
   useEffect(() => {
     getReviews(recipeId, 0, 5).then(res => {
@@ -27,13 +27,10 @@ const RecipeRatings = ({ recipeId }) => {
     })
     checkIfReviewed(recipeId).then(res => {
       const resData = res.data
-      const reviewData =
-        resData && resData[0] && resData[0].reviews
-          ? resData[0].reviews[0]
-          : null
+      const reviewData = resData || null
 
       const userRating = reviewData?.rating
-      const isUserReview = reviewData?.reviewText.length > 0
+      const isUserReview = reviewData?.reviewText?.length > 0
 
       if (!isNaN(userRating)) {
         setRating(Number(userRating))
@@ -61,6 +58,10 @@ const RecipeRatings = ({ recipeId }) => {
       console.log(res, res.data)
     })
   }
+  const changeRating = e => {
+    addRating(recipeId, e)
+    setRating(e)
+  }
 
   const editReview = () => {}
   const deleteReview = () => {}
@@ -84,7 +85,7 @@ const RecipeRatings = ({ recipeId }) => {
               <StarRatings
                 rating={rating}
                 starRatedColor='#ff5722'
-                changeRating={e => setRating(e)}
+                changeRating={changeRating}
                 numberOfStars={5}
                 starDimension='30px'
                 starSpacing='2px'
