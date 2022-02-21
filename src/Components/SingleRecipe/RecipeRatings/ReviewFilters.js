@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 
 const options = [
@@ -42,22 +42,33 @@ const customStyles = {
   }),
 }
 
-const ReviewFilters = () => {
-  const handleSelectChange = () => {}
+const ReviewFilters = ({ reviewListSort, setReviewListSort, isList }) => {
+  const [selectValue, setSelectValue] = useState(options[0])
+
+  useEffect(() => {
+    setReviewListSort(options[0])
+  }, [])
+
+  const handleSelectChange = e => {
+    setSelectValue(e)
+    setReviewListSort(e.value)
+  }
 
   return (
     <div>
-      <div className='review-filters'>
-        <Select
-          options={options}
-          styles={customStyles}
-          isSearchable={false}
-          isClearable={false}
-          className='select'
-          onChange={handleSelectChange}
-          defaultValue={options[0]}
-        />
-      </div>
+      {isList && (
+        <div className='review-filters'>
+          <Select
+            options={options}
+            styles={customStyles}
+            isSearchable={false}
+            isClearable={false}
+            className='select'
+            onChange={handleSelectChange}
+            value={selectValue}
+          />
+        </div>
+      )}
     </div>
   )
 }

@@ -13,7 +13,7 @@
   .ratings-reviews-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 4rem;
 
     .overview {
       display: flex;
@@ -83,19 +83,21 @@
 
       .review-filters {
         width: 200px;
+        padding: 1rem 0 0.5rem 0;
       }
 
       .leave-review-input-container {
         display: flex;
         justify-content: center;
         width: 100%;
+        margin-bottom: 1rem;
 
         .error {
           margin: 0;
         }
         .leave-review-btn,
         .submit-review-btn {
-          font-size: toRem(18);
+          font-size: toRem(16);
           background: $primary;
           color: $primary-background;
           padding: 0.5rem 1rem;

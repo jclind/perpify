@@ -22,6 +22,5 @@ export const formatDate = (d, short) => {
   if (short) {
     month = month.substring(0, 3)
   }
-
   return `${month} ${day}, ${year}`
 }

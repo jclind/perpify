@@ -91,10 +91,10 @@ class RecipeAPI {
   async deleteReview(userId, recipeId) {
     return await http.put(`deleteReview?userId=${userId}&recipeId=${recipeId}`)
   }
-  async getReviews(userId, recipeId, page, reviewsPerPage = 5) {
+  async getReviews(userId, recipeId, filter = 'new', page, reviewsPerPage = 5) {
     console.log(userId, recipeId, page, reviewsPerPage)
     return await http.get(
-      `getReviews?userId=${userId}&recipeId=${recipeId}&page=${page}&reviewsPerPage=${reviewsPerPage}`
+      `getReviews?userId=${userId}&recipeId=${recipeId}&page=${page}&reviewsPerPage=${reviewsPerPage}&filter=${filter}`
     )
   }
 }
