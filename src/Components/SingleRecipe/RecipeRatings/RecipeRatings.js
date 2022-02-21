@@ -71,6 +71,12 @@ const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
     }
   }, [reviewListSort])
 
+  useEffect(() => {
+    if (currUserReview.length <= 0) {
+      return setIsReviewed(false)
+    }
+  }, [currUserReview])
+
   const handleSubmitReview = () => {
     setNewReviewError('')
     if (rating === 0) {
@@ -150,7 +156,10 @@ const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
                 ) : (
                   <button
                     className='leave-review-btn btn'
-                    onClick={() => setIsReviewOpen(true)}
+                    onClick={() => {
+                      setNewReviewText('')
+                      setIsReviewOpen(true)
+                    }}
                   >
                     Add Review
                   </button>
@@ -160,7 +169,11 @@ const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
               <div className='curr-user-review'>
                 <h4 className='heading'>Your Review:</h4>
 
-                <RecipeReview review={currUserReview} recipeId={recipeId} />
+                <RecipeReview
+                  review={currUserReview}
+                  setCurrUserReview={setCurrUserReview}
+                  recipeId={recipeId}
+                />
               </div>
             )}
           </div>

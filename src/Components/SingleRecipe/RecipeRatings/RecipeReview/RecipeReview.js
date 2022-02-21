@@ -11,17 +11,54 @@ import {
   AiTwotoneLike,
   AiTwotoneDislike,
 } from 'react-icons/ai'
+import Modal from 'react-modal'
+Modal.setAppElement('#root')
 
 const ReviewOptions = ({
   handleEditReview,
   editing,
   setEditing,
-  deleteReview,
+  handleDeleteReview,
   editLoading,
+  reviewAuthorUID,
 }) => {
+  const { user } = useAuth()
+
   const [likeStatus, setLikeStatue] = useState(null)
   const [isLikeHovered, setIsLikeHovered] = useState(false)
   const [isDislikeHovered, setIsDislikeHovered] = useState(false)
+
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false)
+
+  const [deleteLoading, setDeleteLoading] = useState(false)
+
+  const customStyles = {
+    content: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+
+      background: '#eeeeee',
+      padding: '2.5rem',
+      borderRadius: '5px',
+    },
+    overlay: {
+      zIndex: '1000',
+      background: 'rgba(0, 0, 0, 0.5)',
+    },
+  }
+  const closeModal = () => {
+    setDeleteModalIsOpen(false)
+  }
 
   return (
     <div className='review-options'>
@@ -47,27 +84,37 @@ const ReviewOptions = ({
           <AiOutlineDislike className='icon' />
         )}
       </button>
-      {handleEditReview && deleteReview ? (
-        <div className='actions'>
-          {!editing ? (
-            <>
-              <button className='edit-btn btn' onClick={() => setEditing(true)}>
-                Edit
-              </button>
-              <button className='delete-btn btn'>Delete</button>
-            </>
-          ) : (
-            <>
-              <button className='cancel btn' onClick={() => setEditing(false)}>
+      {user.uid === reviewAuthorUID ? (
+        <>
+          <Modal
+            isOpen={deleteModalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            className='delete-modal'
+          >
+            <div className='heading'>
+              Are you sure you want to delete your review?
+            </div>
+            <p className='text'>
+              This action is permanent and cannot be undone.
+            </p>
+            <div className='options'>
+              <button className='cancel btn' onClick={closeModal}>
                 Cancel
               </button>
               <button
-                className='edit-review btn'
-                onClick={handleEditReview}
-                disabled={editLoading}
+                className='delete btn'
+                onClick={() => {
+                  setDeleteLoading(true)
+                  handleDeleteReview().then(() => {
+                    setDeleteModalIsOpen(false)
+                    setDeleteLoading(false)
+                  })
+                }}
+                disabled={deleteLoading}
               >
-                Submit
-                {editLoading && (
+                Delete
+                {deleteLoading && (
                   <div className='btn-overlay'>
                     <TailSpin
                       heigth='30'
@@ -78,9 +125,53 @@ const ReviewOptions = ({
                   </div>
                 )}
               </button>
-            </>
-          )}
-        </div>
+            </div>
+          </Modal>
+          <div className='actions'>
+            {!editing ? (
+              <>
+                <button
+                  className='edit-btn btn'
+                  onClick={() => setEditing(true)}
+                >
+                  Edit
+                </button>
+                <button
+                  className='delete-btn btn'
+                  onClick={() => setDeleteModalIsOpen(true)}
+                >
+                  Delete
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className='cancel btn'
+                  onClick={() => setEditing(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className='edit-review btn'
+                  onClick={handleEditReview}
+                  disabled={editLoading}
+                >
+                  Submit
+                  {editLoading && (
+                    <div className='btn-overlay'>
+                      <TailSpin
+                        heigth='30'
+                        width='30'
+                        color='#303841'
+                        arialLabel='loading'
+                      />
+                    </div>
+                  )}
+                </button>
+              </>
+            )}
+          </div>
+        </>
       ) : (
         ''
       )}
@@ -88,12 +179,12 @@ const ReviewOptions = ({
   )
 }
 
-const RecipeReview = ({ review, recipeId }) => {
+const RecipeReview = ({ review, setCurrUserReview, recipeId }) => {
   const [rating, setRating] = useState(0)
   const [date, setDate] = useState('')
   const [username, setUsername] = useState('')
   const { getUsername } = useAuth()
-  const { editReview } = useRecipe()
+  const { editReview, deleteReview } = useRecipe()
 
   const [reviewText, setReviewText] = useState(review.reviewText)
 
@@ -121,7 +212,11 @@ const RecipeReview = ({ review, recipeId }) => {
       })
     }
   }
-  const deleteReview = () => {}
+  const handleDeleteReview = async () => {
+    await deleteReview(recipeId).then(() => {
+      setCurrUserReview([])
+    })
+  }
 
   return (
     <div className='recipe-review'>
@@ -154,8 +249,9 @@ const RecipeReview = ({ review, recipeId }) => {
           handleEditReview={handleEditReview}
           editing={editing}
           setEditing={setEditing}
-          deleteReview={deleteReview}
+          handleDeleteReview={handleDeleteReview}
           editLoading={editLoading}
+          reviewAuthorUID={review.userId}
         />
       </div>
     </div>
