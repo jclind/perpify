@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import './RecipeReview.scss'
 import StarRatings from 'react-star-ratings'
 import { useAuth } from '../../../../context/AuthContext'
+import { useRecipe } from '../../../../context/RecipeContext'
 import { formatDate } from '../../../../util/formatDate'
+import { TailSpin } from 'react-loader-spinner'
 import {
   AiOutlineLike,
   AiOutlineDislike,
@@ -10,7 +12,13 @@ import {
   AiTwotoneDislike,
 } from 'react-icons/ai'
 
-const ReviewOptions = ({ editReview, deleteReview }) => {
+const ReviewOptions = ({
+  handleEditReview,
+  editing,
+  setEditing,
+  deleteReview,
+  editLoading,
+}) => {
   const [likeStatus, setLikeStatue] = useState(null)
   const [isLikeHovered, setIsLikeHovered] = useState(false)
   const [isDislikeHovered, setIsDislikeHovered] = useState(false)
@@ -39,10 +47,39 @@ const ReviewOptions = ({ editReview, deleteReview }) => {
           <AiOutlineDislike className='icon' />
         )}
       </button>
-      {editReview && deleteReview ? (
+      {handleEditReview && deleteReview ? (
         <div className='actions'>
-          <button className='edit-btn btn'>Edit</button>
-          <button className='delete-btn btn'>Delete</button>
+          {!editing ? (
+            <>
+              <button className='edit-btn btn' onClick={() => setEditing(true)}>
+                Edit
+              </button>
+              <button className='delete-btn btn'>Delete</button>
+            </>
+          ) : (
+            <>
+              <button className='cancel btn' onClick={() => setEditing(false)}>
+                Cancel
+              </button>
+              <button
+                className='edit-review btn'
+                onClick={handleEditReview}
+                disabled={editLoading}
+              >
+                Submit
+                {editLoading && (
+                  <div className='btn-overlay'>
+                    <TailSpin
+                      heigth='30'
+                      width='30'
+                      color='#303841'
+                      arialLabel='loading'
+                    />
+                  </div>
+                )}
+              </button>
+            </>
+          )}
         </div>
       ) : (
         ''
@@ -51,11 +88,18 @@ const ReviewOptions = ({ editReview, deleteReview }) => {
   )
 }
 
-const RecipeReview = ({ review, editReview, deleteReview }) => {
+const RecipeReview = ({ review, recipeId }) => {
   const [rating, setRating] = useState(0)
   const [date, setDate] = useState('')
   const [username, setUsername] = useState('')
-  const { user, getUsername } = useAuth()
+  const { getUsername } = useAuth()
+  const { editReview } = useRecipe()
+
+  const [reviewText, setReviewText] = useState(review.reviewText)
+
+  const [editingText, setEditingText] = useState(review.reviewText)
+  const [editing, setEditing] = useState(false)
+  const [editLoading, setEditLoading] = useState(false)
 
   useEffect(() => {
     if (review.rating) {
@@ -66,6 +110,19 @@ const RecipeReview = ({ review, editReview, deleteReview }) => {
       })
     }
   }, [review])
+
+  const handleEditReview = () => {
+    if (editingText.length >= 5 && editingText !== reviewText) {
+      setEditLoading(true)
+      editReview(recipeId, editingText).then(() => {
+        setEditing(false)
+        setReviewText(editingText)
+        setEditLoading(false)
+      })
+    }
+  }
+  const deleteReview = () => {}
+
   return (
     <div className='recipe-review'>
       <div className='head'>
@@ -83,8 +140,23 @@ const RecipeReview = ({ review, editReview, deleteReview }) => {
         <div className='date'>{date}</div>
       </div>
       <div className='body'>
-        <div className='text'>{review.reviewText}</div>
-        <ReviewOptions editReview={editReview} deleteReview={deleteReview} />
+        {!editing ? (
+          <div className='text'>{reviewText}</div>
+        ) : (
+          <textarea
+            className='editing-review text'
+            value={editingText}
+            onChange={e => setEditingText(e.target.value)}
+          ></textarea>
+        )}
+
+        <ReviewOptions
+          handleEditReview={handleEditReview}
+          editing={editing}
+          setEditing={setEditing}
+          deleteReview={deleteReview}
+          editLoading={editLoading}
+        />
       </div>
     </div>
   )

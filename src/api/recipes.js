@@ -88,6 +88,11 @@ class RecipeAPI {
       `checkIfReviewed?userId=${userId}&recipeId=${recipeId}`
     )
   }
+  async editReview(userId, recipeId, text) {
+    return await http.put(
+      `editReview?userId=${userId}&recipeId=${recipeId}&text=${text}`
+    )
+  }
   async deleteReview(userId, recipeId) {
     return await http.put(`deleteReview?userId=${userId}&recipeId=${recipeId}`)
   }

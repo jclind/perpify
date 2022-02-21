@@ -186,6 +186,9 @@ const RecipeProvider = ({ children }) => {
   const checkIfReviewed = async recipeId => {
     return await RecipeAPI.checkIfReviewed(user.uid, recipeId)
   }
+  const editReview = async (recipeId, text) => {
+    return await RecipeAPI.editReview(user.uid, recipeId, text)
+  }
   const deleteReview = async recipeId => {
     return await RecipeAPI.deleteReview(user.uid, recipeId)
   }
@@ -214,6 +217,7 @@ const RecipeProvider = ({ children }) => {
     addRating,
     newReview,
     checkIfReviewed,
+    editReview,
     deleteReview,
     getReviews,
   }

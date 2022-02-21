@@ -94,9 +94,6 @@ const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
     setRating(e)
   }
 
-  const editReview = () => {}
-  const deleteReview = () => {}
-
   return (
     <div className='recipe-ratings'>
       <h2 className='title'>Ratings & Reviews</h2>
@@ -163,11 +160,7 @@ const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
               <div className='curr-user-review'>
                 <h4 className='heading'>Your Review:</h4>
 
-                <RecipeReview
-                  review={currUserReview}
-                  editReview={editReview}
-                  deleteReview={deleteReview}
-                />
+                <RecipeReview review={currUserReview} recipeId={recipeId} />
               </div>
             )}
           </div>
