@@ -5,6 +5,7 @@ const PrepifyLogo = () => {
   return (
     <NavLink to='/' className='nav-link prepify-logo'>
       <div className='nav-logo'>Prepify</div>
+      <div className='beta-tag'>Beta</div>
     </NavLink>
   )
 }
