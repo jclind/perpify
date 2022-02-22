@@ -105,6 +105,7 @@ class RecipeAPI {
 
   // User
   async getSavedRecipes(userId, page, recipesPerPage, order) {
+    console.log(page, recipesPerPage, order)
     return await http.get(
       `getSavedRecipes?userId=${userId}&page=${page}&recipesPerPage=${recipesPerPage}&order=${order}`
     )

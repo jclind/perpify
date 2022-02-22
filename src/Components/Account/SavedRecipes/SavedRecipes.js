@@ -6,11 +6,11 @@ import Select from 'react-select'
 import './SavedRecipes.scss'
 
 const options = [
-  { value: 'popular', label: 'Popular' },
-  { value: 'new', label: 'Recipe Date: Newest' },
-  { value: 'old', label: 'Recipe Date: Oldest' },
-  { value: 'shortest', label: 'Time: Shortest' },
-  { value: 'longest', label: 'Time: Longest' },
+  // { value: 'popular', label: 'Popular' },
+  // { value: 'new', label: 'Recipe Date: Newest' },
+  // { value: 'old', label: 'Recipe Date: Oldest' },
+  // { value: 'shortest', label: 'Time: Shortest' },
+  // { value: 'longest', label: 'Time: Longest' },
   { value: 'newAdd', label: 'Save Time: Recent' },
   { value: 'oldAdd', label: 'Save Time: Oldest' },
 ]
@@ -53,16 +53,45 @@ const SavedRecipes = () => {
   const [recipes, setRecipes] = useState([])
   const [recipesPage, setRecipesPage] = useState(0)
   const { getSavedRecipes } = useRecipe()
+  const [isMoreRecipes, setIsMoreRecipes] = useState(false)
 
-  const [selectValue, setSelectValue] = useState(options[0])
+  const [selectOption, setSelectOption] = useState(options[0])
+  const [selectValue, setSelectValue] = useState(options[0].value)
 
-  useEffect(() => {
-    if (recipesPage >= 0) {
-      getSavedRecipes(recipesPage, 5).then(res => {
-        setRecipes(res.data)
+  const handleGetSavedRecipes = (recipesPage, selectValue) => {
+    if (recipesPage >= 0 && selectValue) {
+      getSavedRecipes(recipesPage, 2, selectValue).then(res => {
+        const updatedArr =
+          recipesPage === 0
+            ? [...res.data.recipes]
+            : [...recipes, ...res.data.recipes]
+        setRecipes([...updatedArr])
+
+        console.log(res.data.totalCount, recipes.length)
+        if (Number(res.data.totalCount) > updatedArr.length) {
+          setIsMoreRecipes(true)
+        } else {
+          setIsMoreRecipes(false)
+        }
+
+        setRecipesPage(recipesPage + 1)
       })
     }
-  }, [recipesPage])
+  }
+
+  useEffect(() => {
+    handleGetSavedRecipes(recipesPage, selectValue)
+  }, [])
+
+  const handleSelectChange = e => {
+    setSelectOption(e)
+    setSelectValue(e.value)
+    setRecipesPage(0)
+    handleGetSavedRecipes(0, e.value)
+  }
+  const handleLoadMoreRecipes = () => {
+    handleGetSavedRecipes(recipesPage, selectValue)
+  }
 
   return (
     <div className='saved-recipes'>
@@ -73,14 +102,22 @@ const SavedRecipes = () => {
           isSearchable={false}
           isClearable={false}
           className='select'
-          onChange={e => setSelectValue(e)}
-          value={selectValue}
+          onChange={handleSelectChange}
+          value={selectOption}
         />
       </div>
       <div className='thumbnails-container'>
         {recipes.map(recipe => {
           return <RecipeThumbnail key={recipe._id} recipe={recipe} />
         })}
+        {isMoreRecipes && recipes.length > 0 ? (
+          <button
+            className='load-more-recipes-btn btn'
+            onClick={handleLoadMoreRecipes}
+          >
+            Load More Recipes
+          </button>
+        ) : null}
       </div>
     </div>
   )
