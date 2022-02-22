@@ -123,6 +123,24 @@
     .body-content {
       width: 100%;
       max-width: $recipe-body-max-width;
+
+      .tags-container {
+        margin-top: 4rem;
+        .tag-label {
+          font-size: toRem(16);
+          color: $primary;
+          font-weight: 700;
+        }
+        .tags {
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          margin-top: 1.5rem;
+          .tag {
+            padding-right: 0.5rem;
+          }
+        }
+      }
     }
   }
 }

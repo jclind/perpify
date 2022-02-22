@@ -37,6 +37,7 @@ const SingleRecipe = () => {
 
   useEffect(() => {
     if (currRecipe) {
+      console.log(currRecipe)
       setYieldSize(Number(currRecipe.yield.value))
     }
   }, [currRecipe])
@@ -106,6 +107,18 @@ const SingleRecipe = () => {
               setYieldSize={setYieldSize}
             />
             <Directions directions={currRecipe.instructions} />
+            <div className='tags-container'>
+              <label className='tag-label'>Tags:</label>
+              <div className='tags'>
+                {currRecipe.tags.map(tag => {
+                  return (
+                    <div className='tag' key={tag}>
+                      {tag}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
           </div>
           <RecipeRatings
             recipeId={currRecipe._id}
