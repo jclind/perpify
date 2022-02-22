@@ -1,0 +1,12 @@
+.saved-recipes {
+  .saved-recipes-filters {
+    margin-top: 1rem;
+    max-width: 250px;
+  }
+  .thumbnails-container {
+    margin-top: 1rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}

@@ -202,6 +202,16 @@ const RecipeProvider = ({ children }) => {
     )
   }
 
+  // User recipe data
+  const getSavedRecipes = async (page, recipesPerPage, order) => {
+    return await RecipeAPI.getSavedRecipes(
+      user.uid,
+      page,
+      recipesPerPage,
+      order
+    )
+  }
+
   const value = {
     getRecipe,
     searchRecipes,
@@ -220,6 +230,7 @@ const RecipeProvider = ({ children }) => {
     editReview,
     deleteReview,
     getReviews,
+    getSavedRecipes,
   }
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>

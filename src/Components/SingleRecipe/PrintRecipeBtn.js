@@ -11,6 +11,7 @@ const PrintRecipeBtn = () => {
         className='print-recipe-btn btn'
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={() => window.print()}
       >
         {isHovered ? (
           <BsFillPrinterFill className='icon' />

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, Link, Outlet } from 'react-router-dom'
+import { useLocation, useNavigate, Link, Outlet } from 'react-router-dom'
 import './Account.scss'
 import { useAuth } from '../../context/AuthContext'
+
+import SavedRecipes from './SavedRecipes/SavedRecipes'
 
 const Account = () => {
   const [nameInitial, setNameInitial] = useState('')
@@ -11,6 +13,7 @@ const Account = () => {
   const { getUsername, user } = useAuth()
 
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (user) {
@@ -29,6 +32,9 @@ const Account = () => {
 
   useEffect(() => {
     setCurrPath(location.pathname)
+    if (location.pathname === '/account') {
+      navigate('/account/saved-recipes')
+    }
   }, [location.pathname])
 
   return (
@@ -54,7 +60,7 @@ const Account = () => {
                 : 'selection'
             }
           >
-            Saved Recipes
+            Saved Recipe
           </Link>
           <Link
             to='/account/ratings'

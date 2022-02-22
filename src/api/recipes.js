@@ -102,6 +102,13 @@ class RecipeAPI {
       `getReviews?userId=${userId}&recipeId=${recipeId}&page=${page}&reviewsPerPage=${reviewsPerPage}&filter=${filter}`
     )
   }
+
+  // User
+  async getSavedRecipes(userId, page, recipesPerPage, order) {
+    return await http.get(
+      `getSavedRecipes?userId=${userId}&page=${page}&recipesPerPage=${recipesPerPage}&order=${order}`
+    )
+  }
 }
 
 export default new RecipeAPI()
