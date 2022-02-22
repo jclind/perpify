@@ -60,7 +60,7 @@ const SavedRecipes = () => {
 
   const handleGetSavedRecipes = (recipesPage, selectValue) => {
     if (recipesPage >= 0 && selectValue) {
-      getSavedRecipes(recipesPage, 2, selectValue).then(res => {
+      getSavedRecipes(recipesPage, 5, selectValue).then(res => {
         const updatedArr =
           recipesPage === 0
             ? [...res.data.recipes]

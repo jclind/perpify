@@ -110,7 +110,9 @@ const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
             <div className='average-rating'>
               <BsStar className='icon' />
               <div className='number'>
-                {formatRating(ratingVal, ratingCount)}
+                {Number(ratingVal) === 0
+                  ? '0'
+                  : formatRating(ratingVal, ratingCount)}
               </div>
               <span className='count'>({ratingCount})</span>
             </div>

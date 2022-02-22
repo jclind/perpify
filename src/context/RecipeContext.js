@@ -100,7 +100,7 @@ const RecipeProvider = ({ children }) => {
       totalTime,
       recipeImage: recipeImageUrl,
       authorId: userUID,
-      rating: '0',
+      rating: { rateCount: '0', rateValue: '0' },
       tags: recipeData.tags.map(tag => tag.text), // Map through tags to only return tag text which will be unique
       createdAt: Date.now().toString(),
       editedAt: null,

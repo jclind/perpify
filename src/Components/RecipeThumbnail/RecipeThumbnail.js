@@ -8,6 +8,7 @@ import './RecipeThumbnail.scss'
 
 const RecipeThumbnail = ({ recipe }) => {
   const { _id, recipeImage, title, totalTime, rating } = recipe
+  console.log(rating)
   // console.log(recipe, recipeId)
   return (
     <Link to={`/recipes/${_id}`} className='recipe-thumbnail'>
