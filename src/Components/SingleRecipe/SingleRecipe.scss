@@ -33,6 +33,7 @@
         .save-recipe .save-recipe-btn,
         .add-rating .add-rating-btn,
         .print-recipe .print-recipe-btn {
+          position: relative;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -42,6 +43,22 @@
           background: $gray-300;
           padding: 0.35rem 0.75rem;
           border-radius: $border-radius;
+
+          .disabled-overlay {
+            z-index: 10;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            border-radius: $border-radius;
+            background: rgba(255, 255, 255, 0.5);
+
+            &:hover {
+              border: 0px !important;
+              cursor: default !important;
+            }
+          }
 
           &:hover {
             border: 1px solid $secondary-text;
@@ -53,6 +70,14 @@
           }
         }
       }
+      .save-recipe .save-recipe-btn.disabled,
+      .add-rating .add-rating-btn.disabled,
+      .print-recipe .print-recipe-btn.disabled {
+        &:hover {
+          border: 1px solid $gray-400 !important;
+        }
+      }
+
       .recipe-image-container {
         display: flex;
         // justify-content: flex-start;

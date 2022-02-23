@@ -21,6 +21,41 @@ const SingleRecipe = () => {
   const [loading, setLoading] = useState(true)
 
   const [yieldSize, setYieldSize] = useState(0)
+  useEffect(() => {
+    if (
+      yieldSize &&
+      currRecipe &&
+      yieldSize !== Number(currRecipe.yield.value)
+    ) {
+      const recipeServings = JSON.parse(localStorage.getItem('recipeServings'))
+      console.log(recipeServings)
+      if (!recipeServings) {
+        localStorage.setItem(
+          'recipeServings',
+          JSON.stringify([{ recipeId: currRecipe._id, servingSize: yieldSize }])
+        )
+      } else {
+        const idx = recipeServings.findIndex(
+          item => item.recipeId === currRecipe._id
+        )
+        if (idx >= 0) {
+          recipeServings[idx].servingSize = yieldSize
+          localStorage.setItem(
+            'recipeServings',
+            JSON.stringify([...recipeServings])
+          )
+        } else {
+          localStorage.setItem(
+            'recipeServings',
+            JSON.stringify([
+              ...recipeServings,
+              { recipeId: currRecipe._id, servingSize: yieldSize },
+            ])
+          )
+        }
+      }
+    }
+  }, [yieldSize])
 
   const { getRecipe } = useRecipe()
 
@@ -32,6 +67,16 @@ const SingleRecipe = () => {
     getRecipe(recipeId).then(res => {
       setCurrRecipe(res.data)
       setLoading(false)
+
+      const recipeServings = JSON.parse(localStorage.getItem('recipeServings'))
+      if (recipeServings) {
+        const idx = recipeServings.findIndex(
+          item => item.recipeId === res.data._id
+        )
+        if (idx >= 0) {
+          setYieldSize(recipeServings[idx].servingSize)
+        }
+      }
     })
   }, [])
 

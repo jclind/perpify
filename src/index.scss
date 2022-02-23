@@ -124,3 +124,39 @@ input {
     cursor: pointer;
   }
 }
+
+// Alerts
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: $primary-background;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  padding: 1rem 2rem;
+  width: 90%;
+  max-width: 800px;
+  border: 1px solid $secondary-background;
+  border-radius: $border-radius;
+
+  font-weight: 600;
+  font-size: toRem(18);
+
+  .content {
+    flex: 1;
+  }
+
+  .icon {
+    height: 25px;
+    width: 25px;
+  }
+  .icon.info {
+    color: $secondary;
+  }
+  .icon.success {
+    color: $success-green;
+  }
+  .icon.error {
+    color: $error-red;
+  }
+}
