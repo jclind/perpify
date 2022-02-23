@@ -12,6 +12,7 @@ import PrintRecipeBtn from './PrintRecipeBtn'
 import RecipeRatings from './RecipeRatings/RecipeRatings'
 
 import { formatRating } from '../../util/formatRating'
+import { calcServings } from '../../util/calcServings'
 
 import { AiOutlineClockCircle, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsStar } from 'react-icons/bs'
@@ -22,13 +23,8 @@ const SingleRecipe = () => {
 
   const [yieldSize, setYieldSize] = useState(0)
   useEffect(() => {
-    if (
-      yieldSize &&
-      currRecipe &&
-      yieldSize !== Number(currRecipe.yield.value)
-    ) {
+    if (yieldSize && currRecipe) {
       const recipeServings = JSON.parse(localStorage.getItem('recipeServings'))
-      console.log(recipeServings)
       if (!recipeServings) {
         localStorage.setItem(
           'recipeServings',
@@ -67,23 +63,32 @@ const SingleRecipe = () => {
     getRecipe(recipeId).then(res => {
       setCurrRecipe(res.data)
       setLoading(false)
-
-      const recipeServings = JSON.parse(localStorage.getItem('recipeServings'))
-      if (recipeServings) {
-        const idx = recipeServings.findIndex(
-          item => item.recipeId === res.data._id
-        )
-        if (idx >= 0) {
-          setYieldSize(recipeServings[idx].servingSize)
-        }
-      }
     })
   }, [])
 
   useEffect(() => {
     if (currRecipe) {
       console.log(currRecipe)
-      setYieldSize(Number(currRecipe.yield.value))
+
+      const recipeServings = JSON.parse(localStorage.getItem('recipeServings'))
+      if (recipeServings) {
+        const idx = recipeServings.findIndex(
+          item => item.recipeId === currRecipe._id
+        )
+        if (idx >= 0) {
+          const newServingSize = recipeServings[idx].servingSize
+          setYieldSize(newServingSize)
+          console.log(
+            calcServings(
+              currRecipe.ingredients,
+              Number(currRecipe.yield.value),
+              newServingSize
+            )
+          )
+        } else {
+          setYieldSize(Number(currRecipe.yield.value))
+        }
+      }
     }
   }, [currRecipe])
 

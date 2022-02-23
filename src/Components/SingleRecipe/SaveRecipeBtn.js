@@ -17,7 +17,6 @@ const SaveRecipeBtn = ({ recipeId }) => {
 
   const handleToggleSaveRecipe = recipeId => {
     if (isSaved) {
-      console.log('unsaving')
       unsaveRecipe(user.uid, recipeId).then(() => setIsSaved(false))
     } else {
       saveRecipe(user.uid, recipeId).then(() => setIsSaved(true))
@@ -28,12 +27,8 @@ const SaveRecipeBtn = ({ recipeId }) => {
     const getIsRecipeSaved = async recipeId => {
       return await getSavedRecipe(user.uid, recipeId)
     }
-    console.log(user.uid, recipeId)
     getIsRecipeSaved(recipeId).then(res => {
-      console.log(res, res.data)
       const currIsSaved = res.data.length > 0
-      console.log(user.uid)
-      console.log(currIsSaved)
       setIsSaved(currIsSaved)
     })
   }, [])

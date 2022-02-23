@@ -15,8 +15,6 @@ class RecipeAPI {
       })
     }
 
-    console.log(tagsArrParam)
-
     return http.get(`recipes?page=${page}&order=${order}${tagsArrParam}`)
   }
   search(query, tag = '', page = 0, order = 'new', recipesPerPage = 5) {
@@ -38,7 +36,6 @@ class RecipeAPI {
     return await http.put(`saveRecipe?userId=${userId}&recipeId=${recipeId}`)
   }
   getSavedRecipe(userId = '', recipeId = '') {
-    console.log(userId, recipeId)
     return http.get(`getSavedRecipe?userId=${userId}&recipeId=${recipeId}`)
   }
   unsaveRecipe(userId = '', recipeId = '') {
@@ -71,9 +68,6 @@ class RecipeAPI {
 
   // Ratings / Reviews
   async addRating(userId, recipeId, rating) {
-    console.log(
-      `addRating?userId=${userId}&recipeId=${recipeId}&rating=${rating}`
-    )
     return await http.put(
       `addRating?userId=${userId}&recipeId=${recipeId}&rating=${rating}`
     )
@@ -83,7 +77,6 @@ class RecipeAPI {
     return await http.put(`newReview`, data)
   }
   async checkIfReviewed(userId, recipeId) {
-    console.log(`checkIfReviewed?userId=${userId}&recipeId=${recipeId}`)
     return await http.get(
       `checkIfReviewed?userId=${userId}&recipeId=${recipeId}`
     )
@@ -97,7 +90,6 @@ class RecipeAPI {
     return await http.put(`deleteReview?userId=${userId}&recipeId=${recipeId}`)
   }
   async getReviews(userId, recipeId, filter = 'new', page, reviewsPerPage = 5) {
-    console.log(userId, recipeId, page, reviewsPerPage)
     return await http.get(
       `getReviews?userId=${userId}&recipeId=${recipeId}&page=${page}&reviewsPerPage=${reviewsPerPage}&filter=${filter}`
     )
@@ -105,7 +97,6 @@ class RecipeAPI {
 
   // User
   async getSavedRecipes(userId, page, recipesPerPage, order) {
-    console.log(page, recipesPerPage, order)
     return await http.get(
       `getSavedRecipes?userId=${userId}&page=${page}&recipesPerPage=${recipesPerPage}&order=${order}`
     )

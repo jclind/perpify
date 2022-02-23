@@ -100,14 +100,12 @@ const AuthProvider = ({ children }) => {
     }
 
     checkUsernameAvailability(username).then(isAvailable => {
-      console.log(isAvailable)
       if (!isAvailable) {
         return setError(`${username} has already been taken`)
       }
       createUserWithEmailAndPassword(auth, email, password)
         .then(cred => {
           const uid = cred.user.uid
-          console.log('signed up')
           setUsername(uid, username, setLoading, setSuccess, setError).then(
             () => {
               setLoading(false)
@@ -135,18 +133,14 @@ const AuthProvider = ({ children }) => {
   }
 
   const getUsername = async uid => {
-    console.log('in getUsername()', uid)
-
     // Get reference to username collection document with property of the passed uid
     const usernamesRef = doc(db, 'username', uid)
     const usernamesSnap = await getDoc(usernamesRef)
 
     if (usernamesSnap.exists()) {
-      console.log('1')
       const currUsername = usernamesSnap.data().username
       return currUsername
     } else {
-      console.log('2')
       navigate('/create-username')
       return null
     }
@@ -192,8 +186,6 @@ const AuthProvider = ({ children }) => {
   // Check for auth status on page load
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(userInstance => {
-      console.log(userInstance)
-
       if (userInstance) {
         // Gets type of authentication, ie... password, google...
         const providerId = userInstance.providerData[0].providerId
