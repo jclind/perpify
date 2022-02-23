@@ -17,7 +17,7 @@ export const calcServings = (ingredients, originalServings, newServings) => {
   return ingredients.map(ingrObj => {
     const list = ingrObj.list.map(ingr => {
       if (ingr.quantity) {
-        const denominator = 16
+        const denominator = 8
 
         const res = mixedToDecimal(ingr.quantity) * fraction
         const wholeNum = Math.floor(res)
@@ -33,6 +33,7 @@ export const calcServings = (ingredients, originalServings, newServings) => {
             : `${numerator}/${denominator}`
         return { ...ingr, quantity: `${wholeNum} ${quantityFraction}` }
       }
+      return { ...ingr }
     })
     return { ...ingrObj, list }
   })

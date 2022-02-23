@@ -20,6 +20,9 @@ import { BsStar } from 'react-icons/bs'
 const SingleRecipe = () => {
   const [currRecipe, setCurrRecipe] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [modIngredients, setModIngredients] = useState([])
+
+  const [currUserReview, setCurrUserReview] = useState({})
 
   const [yieldSize, setYieldSize] = useState(0)
   useEffect(() => {
@@ -50,6 +53,14 @@ const SingleRecipe = () => {
           )
         }
       }
+
+      setModIngredients(
+        calcServings(
+          currRecipe.ingredients,
+          Number(currRecipe.yield.value),
+          yieldSize
+        )
+      )
     }
   }, [yieldSize])
 
@@ -78,13 +89,6 @@ const SingleRecipe = () => {
         if (idx >= 0) {
           const newServingSize = recipeServings[idx].servingSize
           setYieldSize(newServingSize)
-          console.log(
-            calcServings(
-              currRecipe.ingredients,
-              Number(currRecipe.yield.value),
-              newServingSize
-            )
-          )
         } else {
           setYieldSize(Number(currRecipe.yield.value))
         }
@@ -144,7 +148,10 @@ const SingleRecipe = () => {
               </div>
               <div className='actions'>
                 <SaveRecipeBtn recipeId={currRecipe._id} />
-                <AddRatingBtn recipeId={currRecipe._id} />
+                <AddRatingBtn
+                  recipeId={currRecipe._id}
+                  currUserReview={currUserReview}
+                />
                 <PrintRecipeBtn recipe={currRecipe} />
               </div>
             </div>
@@ -152,7 +159,7 @@ const SingleRecipe = () => {
 
           <div className='body-content'>
             <Ingredients
-              ingredients={currRecipe.ingredients}
+              ingredients={modIngredients}
               yieldSize={yieldSize}
               setYieldSize={setYieldSize}
             />
@@ -174,6 +181,8 @@ const SingleRecipe = () => {
             recipeId={currRecipe._id}
             ratingVal={currRecipe.rating.rateValue}
             ratingCount={currRecipe.rating.rateCount}
+            currUserReview={currUserReview}
+            setCurrUserReview={setCurrUserReview}
           />
         </div>
       )}

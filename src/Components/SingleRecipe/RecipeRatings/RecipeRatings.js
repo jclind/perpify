@@ -7,10 +7,15 @@ import RecipeReview from './RecipeReview/RecipeReview'
 import { formatRating } from '../../../util/formatRating'
 import ReviewFilters from './ReviewFilters'
 
-const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
+const RecipeRatings = ({
+  recipeId,
+  ratingVal,
+  ratingCount,
+  currUserReview,
+  setCurrUserReview,
+}) => {
   const [rating, setRating] = useState(0)
   const [isReviewed, setIsReviewed] = useState(false)
-  const [currUserReview, setCurrUserReview] = useState({})
 
   const [reviewList, setReviewList] = useState([])
   const [reviewListPage, setReviewListPage] = useState(0)
@@ -101,7 +106,7 @@ const RecipeRatings = ({ recipeId, ratingVal, ratingCount }) => {
   }
 
   return (
-    <div className='recipe-ratings'>
+    <div className='recipe-ratings' id='recipeReviews'>
       <h2 className='title'>Ratings & Reviews</h2>
       <div className='ratings-reviews-container'>
         <div className='overview'>

@@ -1,9 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BsStar, BsStarFill } from 'react-icons/bs'
 
-const AddRatingBtn = () => {
+const AddRatingBtn = ({ currUserReview }) => {
   const [isRated, setIsRated] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+
+  useEffect(() => {
+    console.log(currUserReview)
+    if (currUserReview) {
+      setIsRated(true)
+    } else {
+      setIsRated(false)
+    }
+  }, [currUserReview])
+
+  const handleClick = () => {
+    document.getElementById('recipeReviews').scrollIntoView({
+      behavior: 'smooth',
+    })
+  }
 
   return (
     <div className='add-rating'>
@@ -11,13 +26,23 @@ const AddRatingBtn = () => {
         className='add-rating-btn btn'
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={handleClick}
       >
-        {isHovered && !isRated ? (
-          <BsStarFill className='icon' />
+        {!isRated ? (
+          <>
+            {isHovered ? (
+              <BsStarFill className='icon' />
+            ) : (
+              <BsStar className='icon' />
+            )}{' '}
+            Add Rating
+          </>
         ) : (
-          <BsStar className='icon' />
-        )}{' '}
-        Add Rating
+          <>
+            <BsStarFill className='icon' />
+            {currUserReview.rating}
+          </>
+        )}
       </button>
     </div>
   )
