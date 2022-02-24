@@ -26,7 +26,7 @@ const ReviewOptions = ({
   const { user } = useAuth()
   const alert = useAlert()
 
-  const [likeStatus, setLikeStatue] = useState(null)
+  // const [likeStatus, setLikeStatue] = useState(null)
   const [isLikeHovered, setIsLikeHovered] = useState(false)
   const [isDislikeHovered, setIsDislikeHovered] = useState(false)
 

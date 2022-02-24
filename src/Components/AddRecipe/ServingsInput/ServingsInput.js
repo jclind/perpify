@@ -55,6 +55,7 @@ const ServingsInput = ({ recipeYield, setRecipeYield }) => {
 
   useEffect(() => {
     setRecipeYield({ type, value })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, value])
 
   return (

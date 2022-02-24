@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 import { useAuth } from './AuthContext'
@@ -80,7 +80,6 @@ const RecipeProvider = ({ children }) => {
 
     setLoadingProgress(loadingProgress + 50)
 
-    const recipeId = `recipe-${uuidv4()}`
     const userUID = user.uid
 
     const { prepTime, cookTime, additionalTime } = recipeData
