@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { v4 as uuidv4 } from 'uuid'
 import { useAuth } from './AuthContext'
 import RecipeAPI from '../api/recipes'
 import ObjectID from 'bson-objectid'

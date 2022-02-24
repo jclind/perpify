@@ -220,6 +220,7 @@ const RecipeReview = ({ review, setCurrUserReview, recipeId }) => {
         setUsername(res)
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [review])
 
   const handleEditReview = () => {
