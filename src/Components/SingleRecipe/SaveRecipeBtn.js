@@ -4,9 +4,11 @@ import {
   BsFillBookmarkFill,
   BsFillBookmarkCheckFill,
 } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
 
 import { useAuth } from '../../context/AuthContext'
 import { useRecipe } from '../../context/RecipeContext'
+import { useAlert } from 'react-alert'
 
 const SaveRecipeBtn = ({ recipeId }) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -15,23 +17,39 @@ const SaveRecipeBtn = ({ recipeId }) => {
   const { user } = useAuth()
   const { saveRecipe, getSavedRecipe, unsaveRecipe } = useRecipe()
 
+  const alert = useAlert()
+
   const handleToggleSaveRecipe = recipeId => {
-    if (isSaved) {
-      unsaveRecipe(user.uid, recipeId).then(() => setIsSaved(false))
+    if (user) {
+      if (isSaved) {
+        unsaveRecipe(user.uid, recipeId).then(() => setIsSaved(false))
+      } else {
+        saveRecipe(user.uid, recipeId).then(() => setIsSaved(true))
+      }
     } else {
-      saveRecipe(user.uid, recipeId).then(() => setIsSaved(true))
+      alert.show(
+        <div>
+          Please <Link to='/login'>login</Link> to save recipes.
+        </div>,
+        {
+          timeout: 10000,
+          type: 'info',
+        }
+      )
     }
   }
 
   useEffect(() => {
-    const getIsRecipeSaved = async recipeId => {
-      return await getSavedRecipe(user.uid, recipeId)
+    if (user) {
+      const getIsRecipeSaved = async recipeId => {
+        return await getSavedRecipe(user.uid, recipeId)
+      }
+      getIsRecipeSaved(recipeId).then(res => {
+        const currIsSaved = res.data.length > 0
+        setIsSaved(currIsSaved)
+      })
     }
-    getIsRecipeSaved(recipeId).then(res => {
-      const currIsSaved = res.data.length > 0
-      setIsSaved(currIsSaved)
-    })
-  }, [])
+  }, [user])
 
   return (
     <div className='save-recipe'>

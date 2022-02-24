@@ -3,6 +3,7 @@ import './RecipeReview.scss'
 import StarRatings from 'react-star-ratings'
 import { useAuth } from '../../../../context/AuthContext'
 import { useRecipe } from '../../../../context/RecipeContext'
+import { useAlert } from 'react-alert'
 import { formatDate } from '../../../../util/formatDate'
 import { TailSpin } from 'react-loader-spinner'
 import {
@@ -23,6 +24,7 @@ const ReviewOptions = ({
   reviewAuthorUID,
 }) => {
   const { user } = useAuth()
+  const alert = useAlert()
 
   const [likeStatus, setLikeStatue] = useState(null)
   const [isLikeHovered, setIsLikeHovered] = useState(false)
@@ -66,6 +68,15 @@ const ReviewOptions = ({
         className='like-review-btn btn'
         onMouseEnter={() => setIsLikeHovered(true)}
         onMouseLeave={() => setIsLikeHovered(false)}
+        onClick={() => {
+          alert.show(
+            "Sorry, liking and disliking reviews isn't available yet in beta.",
+            {
+              timeout: 10000,
+              type: 'info',
+            }
+          )
+        }}
       >
         {isLikeHovered ? (
           <AiTwotoneLike className='icon' />
@@ -77,6 +88,15 @@ const ReviewOptions = ({
         className='dislike-review-btn btn'
         onMouseEnter={() => setIsDislikeHovered(true)}
         onMouseLeave={() => setIsDislikeHovered(false)}
+        onClick={() => {
+          alert.show(
+            "Sorry, liking and disliking reviews isn't available yet in beta.",
+            {
+              timeout: 10000,
+              type: 'info',
+            }
+          )
+        }}
       >
         {isDislikeHovered ? (
           <AiTwotoneDislike className='icon' />
@@ -84,7 +104,7 @@ const ReviewOptions = ({
           <AiOutlineDislike className='icon' />
         )}
       </button>
-      {user.uid === reviewAuthorUID ? (
+      {user && user.uid === reviewAuthorUID ? (
         <>
           <Modal
             isOpen={deleteModalIsOpen}

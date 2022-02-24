@@ -160,3 +160,20 @@ input {
     color: $error-red;
   }
 }
+
+.window-too-small {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: toRem(24);
+  font-weight: 700;
+  height: 100vh;
+  width: 100%;
+  background: $primary;
+  color: $white;
+  p {
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+  }
+}

@@ -193,8 +193,10 @@ const RecipeProvider = ({ children }) => {
     return await RecipeAPI.deleteReview(user.uid, recipeId)
   }
   const getReviews = async (recipeId, filter, page, reviewsPerPage) => {
+    const userId = user && user.uid ? user.uid : ''
+
     return await RecipeAPI.getReviews(
-      user.uid,
+      userId,
       recipeId,
       filter,
       page,

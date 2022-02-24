@@ -6,8 +6,7 @@ const AddRatingBtn = ({ currUserReview }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
-    console.log(currUserReview)
-    if (currUserReview) {
+    if (currUserReview && currUserReview.rating) {
       setIsRated(true)
     } else {
       setIsRated(false)

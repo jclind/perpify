@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import './RecipeRatings.scss'
+import { Link } from 'react-router-dom'
 import StarRatings from 'react-star-ratings'
 import { BsStar } from 'react-icons/bs'
 import { useRecipe } from '../../../context/RecipeContext'
 import RecipeReview from './RecipeReview/RecipeReview'
 import { formatRating } from '../../../util/formatRating'
 import ReviewFilters from './ReviewFilters'
+import { useAuth } from '../../../context/AuthContext'
+import { useAlert } from 'react-alert'
 
 const RecipeRatings = ({
   recipeId,
@@ -27,6 +30,8 @@ const RecipeRatings = ({
   const [newReviewError, setNewReviewError] = useState('')
 
   const { checkIfReviewed, newReview, getReviews, addRating } = useRecipe()
+  const { user } = useAuth()
+  const alert = useAlert()
 
   const recipesPerPage = 5
 
@@ -44,19 +49,21 @@ const RecipeRatings = ({
   }
 
   useEffect(() => {
-    checkIfReviewed(recipeId).then(res => {
-      const resData = res.data
-      const reviewData = resData || null
+    if (user) {
+      checkIfReviewed(recipeId).then(res => {
+        const resData = res.data
+        const reviewData = resData || null
 
-      const userRating = reviewData?.rating
-      const isUserReview = reviewData?.reviewText?.length > 0
+        const userRating = reviewData?.rating
+        const isUserReview = reviewData?.reviewText?.length > 0
 
-      if (!isNaN(userRating)) {
-        setRating(Number(userRating))
-      }
-      setCurrUserReview(reviewData)
-      setIsReviewed(isUserReview)
-    })
+        if (!isNaN(userRating)) {
+          setRating(Number(userRating))
+        }
+        setCurrUserReview(reviewData)
+        setIsReviewed(isUserReview)
+      })
+    }
   }, [])
   useEffect(() => {
     if (reviewListSort) {
@@ -125,15 +132,21 @@ const RecipeRatings = ({
           <div className='user-rating'>
             <span className='text'>Your Rating:</span>
             <div className='user-rate-container'>
-              <StarRatings
-                rating={rating}
-                starRatedColor='#ff5722'
-                changeRating={changeRating}
-                numberOfStars={5}
-                starDimension='30px'
-                starSpacing='2px'
-                name='rating'
-              />
+              {user ? (
+                <StarRatings
+                  rating={rating}
+                  starRatedColor='#ff5722'
+                  changeRating={changeRating}
+                  numberOfStars={5}
+                  starDimension='30px'
+                  starSpacing='2px'
+                  name='rating'
+                />
+              ) : (
+                <Link to='/login' className='text'>
+                  Sign In To Rate
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -164,8 +177,21 @@ const RecipeRatings = ({
                   <button
                     className='leave-review-btn btn'
                     onClick={() => {
-                      setNewReviewText('')
-                      setIsReviewOpen(true)
+                      if (user) {
+                        setNewReviewText('')
+                        setIsReviewOpen(true)
+                      } else {
+                        alert.show(
+                          <div>
+                            Please <Link to='/login'>login</Link> to add a
+                            review.
+                          </div>,
+                          {
+                            timeout: 10000,
+                            type: 'info',
+                          }
+                        )
+                      }
                     }}
                   >
                     Add Review

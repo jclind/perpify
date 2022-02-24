@@ -56,6 +56,12 @@
         flex-direction: column;
       }
       .user-rate-container {
+        height: 30px !important;
+        .text {
+          font-size: toRem(18);
+          font-weight: 600;
+          color: $primary-text;
+        }
       }
     }
 
