@@ -26,6 +26,7 @@
     margin-top: 1rem;
     margin-bottom: 0.75rem;
     height: 3ch;
+    text-transform: capitalize;
   }
   .info {
     display: flex;
@@ -40,6 +41,43 @@
       .icon {
         height: toRem(22);
         width: toRem(22);
+      }
+    }
+  }
+
+  @media screen and (max-width: 725px) {
+    width: 400px;
+    max-width: 400px;
+
+    .img-container {
+      width: 400px;
+      img {
+        height: 250px;
+      }
+    }
+
+    .title {
+      font-weight: 600;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    width: 325px;
+    max-width: 325px;
+
+    .img-container {
+      width: 325px;
+      img {
+        height: 215px;
+      }
+    }
+  }
+  @media screen and (max-width: 375px) {
+    max-width: 250px;
+
+    .img-container {
+      width: 250px;
+      img {
+        height: 175px;
       }
     }
   }
