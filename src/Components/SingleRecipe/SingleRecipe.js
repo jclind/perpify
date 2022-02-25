@@ -17,12 +17,16 @@ import { calcServings } from '../../util/calcServings'
 import { AiOutlineClockCircle, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsStar } from 'react-icons/bs'
 
+import { getWindowWidth } from '../../util/getWindowWidth'
+
 const SingleRecipe = () => {
   const [currRecipe, setCurrRecipe] = useState(null)
   const [loading, setLoading] = useState(true)
   const [modIngredients, setModIngredients] = useState([])
 
   const [currUserReview, setCurrUserReview] = useState({})
+
+  const [windowWidth, setWindowWidth] = useState(getWindowWidth())
 
   const [yieldSize, setYieldSize] = useState(0)
   useEffect(() => {
@@ -76,6 +80,14 @@ const SingleRecipe = () => {
       setCurrRecipe(res.data)
       setLoading(false)
     })
+
+    function handleResize() {
+      console.log(windowWidth)
+      setWindowWidth(getWindowWidth())
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -92,6 +104,7 @@ const SingleRecipe = () => {
           const newServingSize = recipeServings[idx].servingSize
           setYieldSize(newServingSize)
         } else {
+          console.log(currRecipe.yield.value)
           setYieldSize(Number(currRecipe.yield.value))
         }
       }
@@ -113,12 +126,23 @@ const SingleRecipe = () => {
       ) : (
         <div className='recipe-container'>
           <div className='header-content'>
+            {windowWidth <= 956 && (
+              <div className='mobile-title-content'>
+                <h1 className='title'>{currRecipe.title}</h1>
+                <p className='description'>{currRecipe.description}</p>
+              </div>
+            )}
             <div className='recipe-image-container'>
               <img src={currRecipe.recipeImage} alt={currRecipe.title} />
             </div>
             <div className='description-content'>
-              <h1 className='title'>{currRecipe.title}</h1>
-              <p className='description'>{currRecipe.description}</p>
+              {windowWidth > 956 && (
+                <>
+                  <h1 className='title'>{currRecipe.title}</h1>
+                  <p className='description'>{currRecipe.description}</p>
+                </>
+              )}
+
               <div className='recipe-data'>
                 <div className='time data-element'>
                   <AiOutlineClockCircle className='icon' />
@@ -127,7 +151,9 @@ const SingleRecipe = () => {
                 </div>
                 <div className='servings data-element'>
                   <AiOutlineUsergroupAdd className='icon' />
-                  <h3>{currRecipe.yield.type.value}</h3>
+                  <h3>
+                    {currRecipe.yield.type.value || currRecipe.yield.type}
+                  </h3>
                   <div className='data'>{yieldSize}</div>
                 </div>
                 <div className='rating data-element'>
@@ -149,12 +175,13 @@ const SingleRecipe = () => {
                 </div>
               </div>
               <div className='actions'>
-                <SaveRecipeBtn recipeId={currRecipe._id} />
+                <SaveRecipeBtn recipeId={currRecipe._id} className='action' />
                 <AddRatingBtn
                   recipeId={currRecipe._id}
                   currUserReview={currUserReview}
+                  className='action'
                 />
-                <PrintRecipeBtn recipe={currRecipe} />
+                <PrintRecipeBtn recipe={currRecipe} className='action' />
               </div>
             </div>
           </div>
