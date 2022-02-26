@@ -58,7 +58,8 @@ const IngredientList = ({
       borderColor: '#9e9e9e',
       minHeight: '47px',
       height: '47px',
-      width: '160px',
+      width: '100%',
+      minWidth: '160px',
       boxShadow: state.isFocused ? null : null,
     }),
     singleValue: (provided, state) => ({
@@ -207,7 +208,7 @@ const IngredientList = ({
       )}
       <div className='inputs'>
         <input
-          type='text'
+          type='number'
           className='ingredient-quantity'
           value={quantity}
           onChange={e => {
