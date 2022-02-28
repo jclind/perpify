@@ -18,6 +18,7 @@ import SingleRecipe from './Components/SingleRecipe/SingleRecipe'
 import AddRecipe from './Components/AddRecipe/AddRecipe'
 import SearchRecipesPage from './Components/SearchRecipesPage/SearchRecipesPage'
 import Layout from './Components/Layout/Layout'
+import NotFound from './Components/404/404'
 
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import {
@@ -54,6 +55,14 @@ function App() {
       <RecipeProvider>
         <AlertProvider template={AlertTemplate} {...alertOptions}>
           <Routes>
+            <Route
+              path='*'
+              element={
+                <Layout darkNavLinks={true}>
+                  <NotFound />
+                </Layout>
+              }
+            />
             <Route
               exact
               path='/'
