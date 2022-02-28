@@ -115,3 +115,33 @@
     }
   }
 }
+.recipe-created-modal {
+  .heading {
+    font-size: toRem(26) !important;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+  }
+  .text {
+    font-size: toRem(18);
+    margin-bottom: 1.5rem;
+  }
+  .options {
+    display: flex;
+    gap: 1.5rem;
+
+    button {
+      font-size: toRem(18);
+      font-weight: 600;
+      border-radius: $border-radius;
+      padding: 0.5rem 1rem;
+    }
+  }
+  .home-btn {
+    color: $secondary-text;
+    border: 1px solid $secondary-text;
+  }
+  .view-recipe-btn {
+    background: $primary;
+    color: $white;
+  }
+}
