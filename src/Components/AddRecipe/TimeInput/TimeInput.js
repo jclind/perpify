@@ -12,6 +12,10 @@ const TimeInput = ({ label, val, setVal }) => {
       setMinutes(Number(val) % 60)
       setHours(Math.floor(Number(val) / 60))
     }
+    if (!val) {
+      setMinutes(0)
+      setHours(0)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [val])
 
