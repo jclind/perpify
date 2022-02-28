@@ -1,0 +1,34 @@
+@import '../../helpers.scss';
+
+.help-page {
+  .form-container {
+    max-width: 350px;
+    width: 90%;
+    background: $white;
+    padding: 1rem 2rem;
+
+    // background: red;
+    .report-form {
+      .select-container {
+        display: flex;
+        align-items: center;
+        gap: 1ch;
+      }
+      .select-container {
+        display: flex;
+        .text {
+          width: 5ch;
+        }
+        .select {
+          width: 100%;
+        }
+      }
+      .title {
+        height: 40px;
+
+        outline: none;
+        border: none;
+      }
+    }
+  }
+}

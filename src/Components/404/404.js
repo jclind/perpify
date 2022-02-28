@@ -1,8 +1,10 @@
 import React from 'react'
 import './404.scss'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const NotFound = () => {
+  const navigate = useNavigate()
+
   return (
     <div className='not-found-page page'>
       <div className='header'>
@@ -16,13 +18,15 @@ const NotFound = () => {
         <h1>Something went wrong!</h1>
         <p className='text'>
           It seems like we can't find the page you are looking for, if you think
-          this is a mistake please{' '}
+          this is a mistake, please{' '}
           <Link to='/' className='contact-link'>
             contact our support team
           </Link>
           .
         </p>
-        <button className='home-btn btn'>Return Home</button>
+        <button className='home-btn btn' onClick={() => navigate('/')}>
+          Return Home
+        </button>
       </div>
     </div>
   )

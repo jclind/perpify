@@ -18,6 +18,7 @@ import SingleRecipe from './Components/SingleRecipe/SingleRecipe'
 import AddRecipe from './Components/AddRecipe/AddRecipe'
 import SearchRecipesPage from './Components/SearchRecipesPage/SearchRecipesPage'
 import Layout from './Components/Layout/Layout'
+import Help from './Components/Help/Help'
 import NotFound from './Components/404/404'
 
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
@@ -126,6 +127,15 @@ function App() {
             <Route exact path='/signup' element={<Signup />} />
             <Route exact path='/create-username' element={<CreateUsername />} />
             <Route exact path='/forgot-password' element={<ForgotPassword />} />
+            <Route
+              exact
+              path='/help'
+              element={
+                <Layout darkNavLinks={true}>
+                  <Help />
+                </Layout>
+              }
+            />
           </Routes>
         </AlertProvider>
       </RecipeProvider>
