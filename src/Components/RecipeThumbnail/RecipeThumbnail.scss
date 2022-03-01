@@ -13,7 +13,7 @@
   .img-container {
     width: 300px;
     overflow: hidden;
-    img {
+    .img {
       border-radius: $border-radius;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -23,10 +23,12 @@
     }
   }
   .title {
+    margin: 0 auto;
     margin-top: 1rem;
     margin-bottom: 0.75rem;
     height: 3ch;
     text-transform: capitalize;
+    max-width: 90%;
   }
   .info {
     display: flex;
@@ -38,6 +40,10 @@
       align-items: center;
       gap: toRem(5);
       font-weight: 600;
+      height: toRem(22);
+      .skeleton {
+        height: toRem(22);
+      }
       .icon {
         height: toRem(22);
         width: toRem(22);
