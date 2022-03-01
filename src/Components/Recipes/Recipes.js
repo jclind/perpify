@@ -65,7 +65,12 @@ const Recipes = () => {
             })}
           </div>
         ) : (
-          <div>Loading Recipes...</div>
+          <div className='recipes-list'>
+            <RecipeThumbnail recipe={null} loading={true} />
+            <RecipeThumbnail recipe={null} loading={true} />
+            <RecipeThumbnail recipe={null} loading={true} />
+            <RecipeThumbnail recipe={null} loading={true} />
+          </div>
         )}
         {totalResults && totalResults > recipeList.length ? (
           <button

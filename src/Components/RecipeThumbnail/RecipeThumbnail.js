@@ -26,7 +26,7 @@ const RecipeThumbnail = ({ recipe, loading }) => {
     <>
       <div onClick={handleOnClick} className='recipe-thumbnail'>
         <div className='img-container'>
-          {loading && recipeImage ? (
+          {loading || !recipeImage ? (
             <Skeleton className='img' baseColor={skeletonColor} />
           ) : (
             <img className='img' src={recipeImage} alt={title} />
