@@ -131,7 +131,7 @@ const SingleRecipe = () => {
               </h1>
               <p className='description'>
                 {loading ? (
-                  <Skeleton baseColor={skeletonColor} count={5} />
+                  <Skeleton baseColor={skeletonColor} count={4} />
                 ) : (
                   currRecipe.description
                 )}
