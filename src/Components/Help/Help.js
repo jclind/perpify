@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
-import { useForm, ValidationError } from '@formspree/react'
+import { useForm } from '@formspree/react'
 import './Help.scss'
 
 const options = [

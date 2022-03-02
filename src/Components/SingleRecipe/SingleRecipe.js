@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import './SingleRecipe.scss'
 import { useParams } from 'react-router-dom'
 import { useRecipe } from '../../context/RecipeContext'
-import { TailSpin } from 'react-loader-spinner'
 
 import Ingredients from './Ingredients/Ingredients'
 import Directions from './Directions/Directions'

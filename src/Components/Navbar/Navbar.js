@@ -5,8 +5,6 @@ import { useAuth } from '../../context/AuthContext'
 import PrepifyLogo from './PrepifyLogo'
 import Hamburger from 'hamburger-react'
 
-import { BiMenu } from 'react-icons/bi'
-
 const Navbar = ({ darkNavLinks }) => {
   const [navOpen, setNavOpen] = useState(false)
 
