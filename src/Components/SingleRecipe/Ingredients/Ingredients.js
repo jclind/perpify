@@ -74,14 +74,14 @@ const Ingredients = ({ ingredients, yieldSize, setYieldSize, loading }) => {
       <div className='header'>
         <h3 className='title'>
           {loading ? (
-            <Skeleton baseColor={skeletonColor} width={163} height={32} />
+            <Skeleton baseColor={skeletonColor} className='skeleton' />
           ) : (
             'Ingredients:'
           )}
         </h3>
         <div className='servings'>
           {loading ? (
-            <Skeleton baseColor={skeletonColor} width={190} height={32} />
+            <Skeleton baseColor={skeletonColor} className='skeleton' />
           ) : (
             <>
               <div className='content'>
