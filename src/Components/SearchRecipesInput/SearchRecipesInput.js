@@ -44,15 +44,12 @@ const SearchRecipesInput = ({ autoComplete }) => {
     e.preventDefault()
 
     navigate('/recipes')
-
-    console.log('yo Im here now')
   }
 
   const getAutoCompleteResult = title => {
     if (title.length > 2) {
       searchAutoCompleteRecipes(title)
         .then(res => {
-          console.log(res.data)
           setAutoCompleteResponse(res.data)
         })
         .catch(e => {

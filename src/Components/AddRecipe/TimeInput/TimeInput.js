@@ -8,7 +8,6 @@ const TimeInput = ({ label, val, setVal }) => {
 
   useEffect(() => {
     if (Number(val) !== 0 && !minutes && !hours) {
-      console.log(Number(val))
       setMinutes(Number(val) % 60)
       setHours(Math.floor(Number(val) / 60))
     }
@@ -21,8 +20,7 @@ const TimeInput = ({ label, val, setVal }) => {
 
   useEffect(() => {
     if (minutes || hours)
-      console.log((Number(minutes) + Number(hours) * 60).toString())
-    setVal((Number(minutes) + Number(hours) * 60).toString())
+      setVal((Number(minutes) + Number(hours) * 60).toString())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minutes, hours])
 

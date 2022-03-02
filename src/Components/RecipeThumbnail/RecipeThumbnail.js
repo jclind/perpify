@@ -19,9 +19,6 @@ const RecipeThumbnail = ({ recipe, loading }) => {
     }
   }
 
-  useEffect(() => {
-    console.log('here', recipeImage)
-  }, [recipeImage])
   return (
     <>
       <div onClick={handleOnClick} className='recipe-thumbnail'>

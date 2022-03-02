@@ -11,8 +11,8 @@ import { useRecipe } from '../../context/RecipeContext'
 import { TailSpin } from 'react-loader-spinner'
 import LoadingBar from 'react-top-loading-bar'
 import RecipeTags from './RecipeTags/RecipeTags'
-import Modal from 'react-modal'
 import { Navigate, useNavigate } from 'react-router-dom'
+import Modal from 'react-modal'
 Modal.setAppElement('#root')
 
 const RecipeCreatedModal = ({
@@ -121,7 +121,6 @@ const AddRecipe = () => {
     const addRecipeFormData = JSON.parse(
       localStorage.getItem('addRecipeFormData')
     )
-    console.log(addRecipeFormData)
 
     const title = addRecipeFormData?.recipeTitle
       ? addRecipeFormData.recipeTitle

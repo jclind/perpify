@@ -176,7 +176,6 @@ const IngredientList = ({
 
   const updateInstructionListName = e => {
     const val = e.target.value
-    console.log(val)
     setListTitle(val)
     updateListName(val, index)
   }

@@ -87,7 +87,6 @@ const SingleRecipe = () => {
     })
 
     function handleResize() {
-      console.log(windowWidth)
       setWindowWidth(getWindowWidth())
     }
 
@@ -98,8 +97,6 @@ const SingleRecipe = () => {
 
   useEffect(() => {
     if (currRecipe) {
-      console.log(currRecipe)
-
       const recipeServings = JSON.parse(localStorage.getItem('recipeServings'))
       if (recipeServings) {
         const idx = recipeServings.findIndex(
@@ -109,7 +106,6 @@ const SingleRecipe = () => {
           const newServingSize = recipeServings[idx].servingSize
           setYieldSize(newServingSize)
         } else {
-          console.log(currRecipe.yield.value)
           setYieldSize(Number(currRecipe.yield.value))
         }
       }
