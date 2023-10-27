@@ -6,6 +6,11 @@ import { MdAddCircleOutline } from 'react-icons/md'
 import { AiOutlineClose } from 'react-icons/ai'
 import { BiWrench } from 'react-icons/bi'
 import Modal from 'react-modal'
+
+import packageJSON from '../../../package.json'
+
+const version = packageJSON.version
+
 Modal.setAppElement('#root')
 
 const customStyles = {
@@ -29,7 +34,7 @@ const customStyles = {
 }
 
 const RELEASE_DATE = '3/31/2023'
-const version = '2.4.0-beta'
+const isBeta = true
 const description =
   "The latest website release includes improvements to make the website more accessible for all users, such as improved keyboard navigation. We've also integrated Cypress for end-to-end testing to ensure the website is running smoothly."
 
@@ -78,7 +83,10 @@ const ReleaseNotes: FC<ReleaseNotesProps> = ({
       </button>
       <div className='release-notes-content-container'>
         <h1 className='heading'>Prepify Release Notes • {RELEASE_DATE}</h1>
-        <div className='release-tag'>v{version}</div>
+        <div className='release-tag'>
+          v{version}
+          {isBeta ? '-beta' : ''}
+        </div>
         <p className='release-description'>{description}</p>
         <div className='content'>
           {additions.length > 0 && (
